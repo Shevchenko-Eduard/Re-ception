@@ -1,10 +1,10 @@
 using System.Text.RegularExpressions;
 
-namespace Domain;
+namespace Domain.Entity;
 /// <summary>
 /// Объект номера телефона.
 /// </summary>
-public partial class Phone
+public sealed partial class Phone
 {
     /// <summary>
     /// Регулярное выражение для проверки допустимости номера телефона.

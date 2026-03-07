@@ -1,10 +1,10 @@
 using System.Text.RegularExpressions;
 
-namespace Domain;
+namespace Domain.Entity;
 /// <summary>
 /// Объект почты.
 /// </summary>
-public partial class Email
+public sealed partial class Email
 {
     /// <summary>
     /// Регулярное выражение для проверки допустимости почты.

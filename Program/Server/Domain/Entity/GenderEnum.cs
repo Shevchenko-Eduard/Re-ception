@@ -1,4 +1,4 @@
-namespace Domain;
+namespace Domain.Entity;
 /// <summary>
 /// Список гендеров.
 /// </summary>

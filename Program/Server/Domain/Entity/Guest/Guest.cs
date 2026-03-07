@@ -1,16 +1,20 @@
-namespace Domain;
+namespace Domain.Entity.Guest;
 
 public sealed class Guest
 {
-    public ulong? GuestId { get; init; }
+    private const ushort _maxFirstName = 50;
+    private const ushort _maxLastName = 50;
+    private const ushort _maxPatronymicName = 50;
+    private const ushort _maxNickname = 50;
+    public ulong? Id { get; init; }
     public string FirstName
     {
         get; private set
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(value);
-            if (value.Length > 50)
+            if (value.Length > _maxFirstName)
             {
-                throw new ArgumentException(message: "The line must not be longer than 50 characters.");
+                throw new ArgumentException(message: $"The line must not be longer than {_maxFirstName} characters.");
             }
             field = value;
         }
@@ -20,9 +24,9 @@ public sealed class Guest
         get; private set
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(value);
-            if (value.Length > 50)
+            if (value.Length > _maxLastName)
             {
-                throw new ArgumentException(message: "The line must not be longer than 50 characters.");
+                throw new ArgumentException(message: $"The line must not be longer than {_maxLastName} characters.");
             }
             field = value;
         }
@@ -32,9 +36,9 @@ public sealed class Guest
         get; private set
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(value);
-            if (value.Length > 50)
+            if (value.Length > _maxPatronymicName)
             {
-                throw new ArgumentException(message: "The line must not be longer than 50 characters.");
+                throw new ArgumentException(message: $"The line must not be longer than {_maxPatronymicName} characters.");
             }
             field = value;
         }
@@ -44,60 +48,69 @@ public sealed class Guest
         get; private set
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(value);
-            if (value.Length > 50)
+            if (value.Length > _maxNickname)
             {
-                throw new ArgumentException(message: "The line must not be longer than 50 characters.");
+                throw new ArgumentException(message: $"The line must not be longer than {_maxNickname} characters.");
             }
             field = value;
         }
     }
     public Phone? Phone { get; private set; }
     public Email? Email { get; private set; }
-    public DateTime DateOfBirth
+    public DateTimeOffset DateOfBirth
     {
-        get => field.ToLocalTime();
-        private set
+        get; private set
         {
             if (value > DateTime.Now)
             {
                 throw new ArgumentException(message: "The time of birth cannot be later than the current time.");
             }
-            field = value.ToUniversalTime();
+            field = value;
         }
     }
-    public DateTime CreateAt
+    public DateTimeOffset CreateAt
     {
-        get => field.ToLocalTime();
-        init
+        get; init
         {
             if (value > DateTime.Now)
             {
                 throw new ArgumentException(message: "The creation date cannot be in the future.");
             }
-            field = value.ToUniversalTime();
+            field = value;
         }
     }
     public GenderEnum Gender { get; private set; } = GenderEnum.Indeterminate;
+    public string PasswordHash
+    {
+        get; private set
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(value);
+            field = value;
+        }
+    }
 #pragma warning disable CS9264
     private Guest() { }
 #pragma warning restore CS9264
-    public Guest(string firstName, DateTime dateOfBirth)
+    public Guest(string firstName, DateTime dateOfBirth, string passwordHash)
     {
         FirstName = firstName;
         DateOfBirth = dateOfBirth;
-        CreateAt = DateTime.Now;
+        CreateAt = DateTimeOffset.Now;
+        PasswordHash = passwordHash;
     }
     public Guest(
         string firstName,
+        string passwordHash,
         DateTime dateOfBirth,
         string? lastName = null,
         string? patronymic = null,
         string? nickname = null,
-        string? phone = null,
-        string? email = null,
+        Phone? phone = null,
+        Email? email = null,
         GenderEnum gender = GenderEnum.Indeterminate) : this(
             firstName: firstName,
-            dateOfBirth: dateOfBirth)
+            dateOfBirth: dateOfBirth,
+            passwordHash: passwordHash)
     {
         if (lastName is not null)
         {
@@ -113,11 +126,11 @@ public sealed class Guest
         }
         if (phone is not null)
         {
-            Phone = new(phone);
+            Phone = phone;
         }
         if (email is not null)
         {
-            Email = new(email);
+            Email = email;
         }
         Gender = gender;
     }
