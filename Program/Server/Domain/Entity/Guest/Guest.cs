@@ -6,7 +6,7 @@ public sealed class Guest
     private const ushort _maxLastName = 50;
     private const ushort _maxPatronymicName = 50;
     private const ushort _maxNickname = 50;
-    public ulong? Id { get; init; }
+    public ulong Id { get; init; }
     public string FirstName
     {
         get; private set
@@ -79,7 +79,8 @@ public sealed class Guest
             field = value;
         }
     }
-    public GenderEnum Gender { get; private set; } = GenderEnum.Indeterminate;
+    public ushort GenderId { get; private set; } = 0;
+    public Gender? Gender { get; private set; }
     public string PasswordHash
     {
         get; private set
@@ -107,7 +108,7 @@ public sealed class Guest
         string? nickname = null,
         Phone? phone = null,
         Email? email = null,
-        GenderEnum gender = GenderEnum.Indeterminate) : this(
+        int? genderId = null) : this(
             firstName: firstName,
             dateOfBirth: dateOfBirth,
             passwordHash: passwordHash)
@@ -132,6 +133,9 @@ public sealed class Guest
         {
             Email = email;
         }
-        Gender = gender;
+        if (genderId is not null)
+        {
+            GenderId = (ushort)genderId;
+        }
     }
 }

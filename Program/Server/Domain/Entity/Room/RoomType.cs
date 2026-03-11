@@ -40,7 +40,7 @@ public sealed class RoomType
             field = value;
         }
     }
-    public ushort MaxGuest { get; private set; }
+    public ushort MaxCountGuest { get; private set; }
 #pragma warning disable CS9264
     private RoomType() { }
 #pragma warning restore CS9264
@@ -51,6 +51,6 @@ public sealed class RoomType
         Name = name;
         Description = description;
         BasePrice = basePrice;
-        checked { MaxGuest = (ushort)maxGuest; }
+        checked { MaxCountGuest = (ushort)maxGuest; }
     }
 }

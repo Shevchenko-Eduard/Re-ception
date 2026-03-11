@@ -5,7 +5,7 @@ public sealed class Employee
     private const ushort _maxFirstName = 50;
     private const ushort _maxLastName = 50;
     private const ushort _maxPatronymicName = 50;
-    public ulong? Id { get; init; }
+    public ulong Id { get; init; }
     public ushort HotelId { get; private set; }
     public IEnumerable<Role>? Roles { get; private set; }
     public string FirstName
@@ -92,10 +92,7 @@ public sealed class Employee
         DateTime dateOfBirth,
         DateTime hireDate)
     {
-        checked
-        {
-            HotelId = (ushort)hotelId;
-        }
+        HotelId = (ushort)hotelId;
         FirstName = firstName;
         LastName = lastName;
         Patronymic = patronymic;
