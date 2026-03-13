@@ -1,10 +1,9 @@
 # System
 ## ReservationAndPayment
-- [ ] ReservationPayment
 ### Payment
-- [ ] PaymentMethod
-- [ ] PaymentStatus
-- [ ] Payment
+- [x] PaymentMethod
+- [x] PaymentStatus
+- [x] Payment
 ### Reservation
 - [x] ReservationStatus
 - [x] Reservation
@@ -13,14 +12,12 @@
 - [x] GuestGender
 ## Room
 - [x] RoomTag
-- [ ] RoomRoomTag
 - [x] RoomType
 - [x] Room
 - [x] RoomStatus
 ## Hotel
 - [x] Hotel
-- [ ] HotelHotelTag
-- [ ] HotelTag
+- [x] HotelTag
 ## EmployeeRolePermission
 - [x] EmployeeEmployeePermission
 - [x] EmployeeEmployeeRole
