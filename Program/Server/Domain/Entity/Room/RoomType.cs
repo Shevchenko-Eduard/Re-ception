@@ -2,8 +2,11 @@ namespace Domain.Entity.Room;
 
 public sealed class RoomType
 {
+    #region Constants
     private const ushort _maxName = 50;
     private const ushort _maxDescription = 250;
+    #endregion
+    #region Fields
     public ushort Id { get; private set; }
     public string Name
     {
@@ -16,7 +19,7 @@ public sealed class RoomType
             }
             field = value;
         }
-    }
+    } = null!;
     public string Description
     {
         get; private set
@@ -28,7 +31,7 @@ public sealed class RoomType
             }
             field = value;
         }
-    }
+    } = null!;
     public decimal BasePrice
     {
         get; private set
@@ -41,9 +44,12 @@ public sealed class RoomType
         }
     }
     public ushort MaxCountGuest { get; private set; }
-#pragma warning disable CS9264
+    #endregion
+    #region Navigation properties
+    public List<Room>? Rooms { get; private set; }
+    #endregion
+    #region Constructors
     private RoomType() { }
-#pragma warning restore CS9264
     public RoomType(
         string name, string description,
         decimal basePrice, int maxGuest)
@@ -53,4 +59,5 @@ public sealed class RoomType
         BasePrice = basePrice;
         checked { MaxCountGuest = (ushort)maxGuest; }
     }
+    #endregion
 }

@@ -1,11 +1,13 @@
-namespace Domain.Entity.Employee;
+namespace Domain.Entity.Employee.Role;
 
-public sealed class Role
+public sealed class EmployeeRole
 {
+    #region Constants
     private const ushort _maxDescription = 100;
     private const ushort _maxName = 50;
+    #endregion
+    #region Fields
     public ushort Id { get; init; }
-    public IEnumerable<Employee>? Employees { get; private set; }
     public string Name
     {
         get; private set
@@ -30,18 +32,25 @@ public sealed class Role
             field = value;
         }
     }
+    #endregion
+    #region Navigation properties
+    public IEnumerable<Employee>? Employees { get; private set; }
+    #endregion
+    #region Constructors
 #pragma warning disable CS9264
-    private Role() { }
+    private EmployeeRole() { }
 #pragma warning restore CS9264
-    public Role(string name) => Name = name;
-    public Role(string name, string? description) : this(name)
+    public EmployeeRole(string name) => Name = name;
+    public EmployeeRole(string name, string? description) : this(name)
     {
         if (description is not null)
         {
             Description = description;
         }
     }
-
+    #endregion
+    #region Methods
     public void UpdateName(string name) => Name = name;
     public void UpdateDescription(string description) => Description = description;
+    #endregion
 }

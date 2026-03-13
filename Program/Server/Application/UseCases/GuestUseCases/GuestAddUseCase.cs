@@ -1,7 +1,7 @@
 using Application.Dto.GuestDto;
 using Application.Interfaces;
-using Domain.Interfaces;
 using Domain.Entity.Guest;
+using Domain.Interfaces.Repositories;
 
 namespace Application.UseCases.GuestUseCases;
 

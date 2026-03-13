@@ -1,4 +1,4 @@
-using Domain.Entity.Employee;
+using Domain.Entity.Employee.Role;
 
 namespace UnitTests.Domain
 {
@@ -15,7 +15,7 @@ namespace UnitTests.Domain
         {
             string name = StringTests.Length(nameLength);
             string? description = StringTests.Length(descriptionLength);
-            Assert.Throws<ArgumentException>(() => new Role(name, description));
+            Assert.Throws<ArgumentException>(() => new EmployeeRole(name, description));
         }
         [Theory]
         [InlineData(10)]
@@ -24,7 +24,7 @@ namespace UnitTests.Domain
         {
             string name = StringTests.Length(nameLength);
             string? description = StringTests.Length(descriptionLength);
-            Role role = new(name, description);
+            EmployeeRole role = new(name, description);
             bool isTrueValue = true;
             if (name != role.Name)
             {

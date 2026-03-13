@@ -2,8 +2,11 @@ namespace Domain.Entity.Room
 {
     public sealed class RoomTag
     {
+        #region Constants
         private const ushort _maxName = 50;
         private const ushort _maxDescription = 250;
+        #endregion
+        #region Fields
         public ushort Id { get; init; }
         public string Name
         {
@@ -16,7 +19,7 @@ namespace Domain.Entity.Room
                 }
                 field = value;
             }
-        }
+        } = null!;
         public string Description
         {
             get; private set
@@ -28,14 +31,18 @@ namespace Domain.Entity.Room
                 }
                 field = value;
             }
-        }
-#pragma warning disable CS9264
+        } = null!;
+        #endregion
+        #region Navigation properties
+        public List<Room>? Rooms { get; private set; }
+        #endregion
+        #region Constructors
         private RoomTag() { }
-#pragma warning restore CS9264
         public RoomTag(string name, string description)
         {
             Name = name;
             Description = description;
         }
+        #endregion
     }
 }

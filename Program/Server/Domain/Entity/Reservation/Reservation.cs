@@ -1,19 +1,29 @@
+using Domain.Entity.Guest;
+using Domain.Entity.Room;
+
 namespace Domain.Entity.Reservation;
 
 public class Reservation
 {
-    public ulong Id { get; private set; }
-    public ulong GuestId { get; private set; }
-    public uint RoomId { get; private set; }
+    #region Fields
+    public ulong Id { get; init; }
+    public Guid GuestId { get; init; }
+    public uint RoomId { get; init; }
     public DateTimeOffset CheckIn { get; private set; }
     public DateTimeOffset CheckOut { get; private set; }
-    public ushort ReservationStatusId { get; private set; }
+    public byte ReservationStatusId { get; private set; }
+    public DateTimeOffset CreateAt { get; init; }
+    public decimal TotalPrice { get; init; }
+    #endregion
+    #region Navigation properties
+    public Guest.Guest? Guest { get; private set; }
+    public Room.Room? Room { get; private set; }
     public ReservationStatus? ReservationStatus { get; private set; }
-    public DateTimeOffset CreateAt { get; private set; }
-    public decimal TotalPrice { get; private set; }
+    #endregion
+    #region Constructors
     public Reservation() { }
     public Reservation(
-        ulong guestId, uint roomId,
+        Guid guestId, uint roomId,
         DateTime checkIn, DateTime checkOut,
         int reservationStatusId,
         decimal totalPrice)
@@ -22,7 +32,8 @@ public class Reservation
         RoomId = roomId;
         CheckIn = checkIn;
         CheckOut = checkOut;
-        ReservationStatusId = (ushort)reservationStatusId;
+        ReservationStatusId = (byte)reservationStatusId;
         TotalPrice = totalPrice;
     }
+    #endregion
 }

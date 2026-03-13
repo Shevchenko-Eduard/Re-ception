@@ -1,13 +1,17 @@
+using Domain.Entity.Employee.Role;
+
 namespace Domain.Entity.Employee;
 
 public sealed class Employee
 {
+    #region Constants
     private const ushort _maxFirstName = 50;
     private const ushort _maxLastName = 50;
     private const ushort _maxPatronymicName = 50;
-    public ulong Id { get; init; }
+    #endregion
+    #region Fields
+    public Guid Id { get; init; }
     public ushort HotelId { get; private set; }
-    public IEnumerable<Role>? Roles { get; private set; }
     public string FirstName
     {
         get; private set
@@ -78,6 +82,14 @@ public sealed class Employee
         }
     }
     public DateTimeOffset HireDate { get; init; }
+    public byte GenderId { get; private set; } = 0;
+    #endregion
+    #region Navigation properties
+    public Hotel.Hotel? Hotel { get; private set; }
+    public IEnumerable<EmployeeRole>? Roles { get; private set; }
+    public EmployeeGender? Gender { get; private set; }
+    #endregion
+    #region Constructors
 #pragma warning disable CS9264, CS8618
     private Employee() { }
 #pragma warning restore CS9264, CS8618
@@ -90,7 +102,8 @@ public sealed class Employee
         Email email,
         string passwordHash,
         DateTime dateOfBirth,
-        DateTime hireDate)
+        DateTime hireDate,
+        int genderId)
     {
         HotelId = (ushort)hotelId;
         FirstName = firstName;
@@ -102,5 +115,7 @@ public sealed class Employee
         DateOfBirth = dateOfBirth;
         HireDate = hireDate;
         CreateAt = DateTimeOffset.Now;
+        GenderId = (byte)genderId;
     }
+    #endregion
 }

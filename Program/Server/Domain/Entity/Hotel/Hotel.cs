@@ -2,12 +2,14 @@ namespace Domain.Entity.Hotel;
 
 public class Hotel
 {
+    #region Constants
     private const ushort _maxName = 50;
     private const ushort _maxCountry = 50;
     private const ushort _maxCity = 50;
     private const ushort _maxAddress = 100;
-
-    public ushort Id { get; private set; }
+    #endregion
+    #region Fields
+    public byte Id { get; private set; }
     public string Name
     {
         get; private set
@@ -58,6 +60,11 @@ public class Hotel
     }
     public Email Email { get; private set; }
     public Phone Phone { get; private set; }
+    #endregion
+    #region Navigation properties
+    public IEnumerable<Employee.Employee>? Employees { get; private set; }
+    #endregion
+    #region Constructors
 #pragma warning disable CS9264, CS8618
     private Hotel() { }
 #pragma warning restore CS9264, CS8618
@@ -73,4 +80,5 @@ public class Hotel
         Email = email;
         Phone = phone;
     }
+    #endregion
 }
