@@ -5,6 +5,7 @@ namespace Domain.Entity.Employee;
 public sealed class EmployeeEmployeeRole
 {
     #region Fields
+    public ulong Id { get; init; }
     public Guid EmployeeId { get; init; }
     public Guid? AuthorId { get; init; }
     public ushort RoleId { get; init; }

@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "b0895dcfde1b44c1",
+        "id": "acc92892b471d753",
         "type": "tabs",
         "children": [
           {
-            "id": "48757d321c04fbb6",
+            "id": "2e5be78617567e52",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "1-stage/Check-list-entities.md",
+                "file": "Program/Server/Documentation/Check-list-entities.md",
                 "mode": "source",
                 "source": false
               },
@@ -94,7 +94,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "1-stage/Check-list-entities.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +103,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Обратные ссылки для Check-list-entities"
+              "title": "Обратные ссылки"
             }
           },
           {
@@ -113,12 +112,11 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "1-stage/Check-list-entities.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Исходящие ссылки из Check-list-entities"
+              "title": "Исходящие ссылки"
             }
           },
           {
@@ -156,13 +154,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "1-stage/Check-list-entities.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Структура Check-list-entities"
+              "title": "Структура"
             }
           }
         ]
@@ -183,8 +180,10 @@
       "bases:Создать новую базу": false
     }
   },
-  "active": "339364c1858077b4",
+  "active": "2e5be78617567e52",
   "lastOpenFiles": [
+    "Program/Server/Documentation/Use-Case.png",
+    "Program/Server/Documentation/ER-Database.png",
     "1-stage/Check-list-entities.md"
   ]
 }

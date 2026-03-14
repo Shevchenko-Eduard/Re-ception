@@ -2,7 +2,7 @@ using Domain.Abstract;
 
 namespace Domain.Entity.Payment;
 
-public sealed class PaymentStatus : StatusObjectAbstract<PaymentMethod>
+public sealed class PaymentStatus : StatusObjectAbstract<PaymentStatus>
 {
     #region Constructor
     private PaymentStatus(int id, string name) : base(id, name) { }

@@ -10,7 +10,7 @@ public sealed class GuestAddDto
     public string? LastName { get; init; }
     public string? PhoneValue { get; init; }
     public string EmailValue { get; init; } = null!;
-    public DateTime DateOfBirth { get; init; }
+    public DateOnly DateOfBirth { get; init; }
     public string Password { get; init; } = null!;
     public int? GenderId { get; init; }
     public Guest ToEntity(IHasher hasher)

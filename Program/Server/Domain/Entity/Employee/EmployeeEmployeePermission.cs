@@ -2,9 +2,10 @@ using Domain.Entity.Employee.Permission;
 
 namespace Domain.Entity.Employee;
 
-public sealed class EmployeePermissionPermission
+public sealed class EmployeeEmployeePermission
 {
     #region Fields
+    public ulong Id { get; init; }
     public Guid EmployeeId { get; init; }
     public Guid? AuthorId { get; init; }
     public ushort PermissionId { get; init; }
@@ -62,7 +63,7 @@ public sealed class EmployeePermissionPermission
     }
     #endregion
     #region Constructors
-    public EmployeePermissionPermission(
+    public EmployeeEmployeePermission(
         Guid employeeId,
         int roleId)
     {
@@ -70,7 +71,7 @@ public sealed class EmployeePermissionPermission
         PermissionId = (ushort)roleId;
         CreateAt = DateTimeOffset.Now;
     }
-    public EmployeePermissionPermission(
+    public EmployeeEmployeePermission(
         Guid employeeId,
         Guid whoAppointedId,
         int roleId) : this(

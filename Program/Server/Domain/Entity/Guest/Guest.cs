@@ -34,11 +34,11 @@ public sealed class Guest
     }
     public Phone? Phone { get; private set; }
     public Email Email { get; private set; }
-    public DateTimeOffset DateOfBirth
+    public DateOnly DateOfBirth
     {
         get; private set
         {
-            if (value > DateTime.Now)
+            if (value > DateOnly.FromDateTime(DateTime.Now))
             {
                 throw new ArgumentException(message: "The time of birth cannot be later than the current time.");
             }
@@ -77,7 +77,7 @@ public sealed class Guest
     public Guest(
         string firstName,
         Email email,
-        DateTime dateOfBirth,
+        DateOnly dateOfBirth,
         string passwordHash)
     {
         FirstName = firstName;
@@ -90,7 +90,7 @@ public sealed class Guest
         string firstName,
         Email email,
         string passwordHash,
-        DateTime dateOfBirth,
+        DateOnly dateOfBirth,
         string? lastName = null,
         Phone? phone = null,
         int? genderId = null) : this(

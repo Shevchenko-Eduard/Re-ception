@@ -24,7 +24,7 @@ public class Reservation
     public Reservation() { }
     public Reservation(
         Guid guestId, uint roomId,
-        DateTime checkIn, DateTime checkOut,
+        DateTimeOffset checkIn, DateTimeOffset checkOut,
         int reservationStatusId,
         decimal totalPrice)
     {

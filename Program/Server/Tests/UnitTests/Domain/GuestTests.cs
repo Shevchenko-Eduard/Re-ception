@@ -19,14 +19,14 @@ public class GuestTests
             firstName: StringTests.Length(firstNameLength),
             email: new ("name@email.domen"),
             lastName: StringTests.Length(lastNameLength),
-            dateOfBirth: DateTime.Now.AddDays(daysAddFromToday),
+            dateOfBirth: DateOnly.FromDateTime(DateTime.Now.AddDays(daysAddFromToday)),
             passwordHash: GetHashCode().ToString()));
     }
     [Fact]
     public void Guest_New_ReturnTrueDate()
     {
         string firstName = "x";
-        DateTime dateOfBirth = new (2000, 1, 1);
+        DateOnly dateOfBirth = new (2000, 1, 1);
         Guest guest = new(
             firstName: firstName,
             email: new ("name@email.domen"),

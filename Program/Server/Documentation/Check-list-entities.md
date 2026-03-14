@@ -25,7 +25,6 @@
 - [x] Employee
 - [x] EmployeeGender
 ### RolePermission
-- [ ] EmployeeRoleEmployeePermission
 #### Role
 - [x] EmployeeRole
 #### Permission

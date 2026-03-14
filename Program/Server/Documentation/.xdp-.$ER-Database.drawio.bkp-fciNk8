@@ -1228,7 +1228,7 @@
             <mxRectangle height="30" width="150" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="RSZRsijpibi2p-p4i9rA-249" parent="B2FBHYyLS91VnvaZRFhN-279" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;rounded=1;fillColor=#b0e3e6;strokeColor=#0e8088;" value="&lt;span style=&quot;text-align: left; text-wrap-mode: wrap;&quot;&gt;Reservation&lt;/span&gt;" vertex="1">
+        <mxCell id="RSZRsijpibi2p-p4i9rA-249" parent="B2FBHYyLS91VnvaZRFhN-279" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;rounded=1;fillColor=#b0e3e6;strokeColor=#0e8088;" value="&lt;span style=&quot;font-weight: 400; text-align: left; text-wrap-mode: wrap;&quot;&gt;Reservation&lt;/span&gt;" vertex="1">
           <mxGeometry height="270" width="180" x="240" y="20" as="geometry" />
         </mxCell>
         <mxCell id="RSZRsijpibi2p-p4i9rA-250" parent="RSZRsijpibi2p-p4i9rA-249" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" value="" vertex="1">
@@ -1446,7 +1446,7 @@
             <mxRectangle height="30" width="150" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="B2FBHYyLS91VnvaZRFhN-298" parent="B2FBHYyLS91VnvaZRFhN-294" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;rounded=1;fillColor=#d0cee2;strokeColor=#56517e;" value="&lt;span style=&quot;text-align: left; text-wrap-mode: wrap;&quot;&gt;PaymentMethod&lt;/span&gt;" vertex="1">
+        <mxCell id="B2FBHYyLS91VnvaZRFhN-298" parent="B2FBHYyLS91VnvaZRFhN-294" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;rounded=1;fillColor=#d0cee2;strokeColor=#56517e;" value="&lt;span style=&quot;font-weight: 400; text-align: left; text-wrap-mode: wrap;&quot;&gt;PaymentMethod&lt;/span&gt;" vertex="1">
           <mxGeometry height="90" width="180" x="50" y="75" as="geometry" />
         </mxCell>
         <mxCell id="B2FBHYyLS91VnvaZRFhN-299" parent="B2FBHYyLS91VnvaZRFhN-298" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" value="" vertex="1">

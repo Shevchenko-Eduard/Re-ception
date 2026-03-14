@@ -58,12 +58,12 @@ public sealed class Employee
             field = value;
         }
     }
-    public DateTimeOffset DateOfBirth
+    public DateOnly DateOfBirth
     {
         get;
         private set
         {
-            if (value > DateTime.Now)
+            if (value > DateOnly.FromDateTime(DateTime.Now))
             {
                 throw new ArgumentException(message: "The time of birth cannot be later than the current time.");
             }
@@ -101,8 +101,8 @@ public sealed class Employee
         Phone phone,
         Email email,
         string passwordHash,
-        DateTime dateOfBirth,
-        DateTime hireDate,
+        DateOnly dateOfBirth,
+        DateTimeOffset hireDate,
         int genderId)
     {
         HotelId = (ushort)hotelId;
