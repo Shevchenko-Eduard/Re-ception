@@ -1,4 +1,3 @@
-using Domain;
 using Domain.Entity;
 
 namespace UnitTests.Domain;

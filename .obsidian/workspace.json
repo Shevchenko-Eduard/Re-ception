@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Program/Server/Documentation/Check-list-entities.md",
+                "file": "Program/Server/Documentation/Listof-role-capabilities.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Check-list-entities"
+              "title": "Listof-role-capabilities"
             }
           }
         ]
@@ -182,7 +182,10 @@
   },
   "active": "2e5be78617567e52",
   "lastOpenFiles": [
+    "Program/Server/Documentation/To-do-list.md",
+    "Program/Server/Documentation/Listof-role-capabilities.md",
     "Program/Server/Documentation/Use-Case.png",
+    "Program/Server/Documentation/Check-list-entities.md",
     "Program/Server/Documentation/ER-Database.png",
     "1-stage/Check-list-entities.md"
   ]

@@ -50,4 +50,5 @@ public sealed partial class Email
     /// Вернуть в строковом представлении.
     /// </summary>
     public override string ToString() => Value;
+    public override int GetHashCode() => Value.GetHashCode();
 }

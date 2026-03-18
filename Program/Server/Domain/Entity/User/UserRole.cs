@@ -1,18 +1,19 @@
-using Domain.Entity.Employee.Permission;
+using Domain.Interfaces;
 
-namespace Domain.Entity.Employee;
+namespace Domain.Entity.User;
 
-public sealed class EmployeeEmployeePermission
+public sealed class UserRole
 {
+    private readonly IClock _clock;
     #region Fields
     public ulong Id { get; init; }
-    public Guid EmployeeId { get; init; }
+    public Guid UserId { get; init; }
     public Guid? AuthorId { get; init; }
-    public ushort PermissionId { get; init; }
+    public ushort RoleId { get; init; }
     public DateTimeOffset CreateAt { get; init; }
     #endregion
     #region Navigation properties
-    public Employee? Employee
+    public User? User
     {
         get; private set
         {
@@ -20,14 +21,14 @@ public sealed class EmployeeEmployeePermission
             {
                 throw new ArgumentException(message: "Employee must not be equal to null.");
             }
-            if (value.Id != EmployeeId)
+            if (value.Id != UserId)
             {
                 throw new ArgumentException(message: "The employee ID does not match the ID within the relationship.");
             }
             field = value;
         }
     }
-    public Employee? Author
+    public User? Author
     {
         get; private set
         {
@@ -46,37 +47,41 @@ public sealed class EmployeeEmployeePermission
             field = value;
         }
     }
-    public EmployeePermission? Permission
+    public Role.Role? Role
     {
         get; private set
         {
             if (value is null)
             {
-                throw new ArgumentException(message: "Permission must not be equal to null.");
+                throw new ArgumentException(message: "Role must not be equal to null.");
             }
-            if (value.Id != PermissionId)
+            if (value.Id != RoleId)
             {
-                throw new ArgumentException(message: "The permission ID does not match the ID within the relationship.");
+                throw new ArgumentException(message: "The role ID does not match the ID within the relationship.");
             }
             field = value;
         }
     }
     #endregion
     #region Constructors
-    public EmployeeEmployeePermission(
-        Guid employeeId,
-        int roleId)
+    public UserRole(
+        Guid userId,
+        int roleId,
+        IClock clock)
     {
-        EmployeeId = employeeId;
-        PermissionId = (ushort)roleId;
-        CreateAt = DateTimeOffset.Now;
+        _clock = clock;
+        UserId = userId;
+        RoleId = (ushort)roleId;
+        CreateAt = _clock.Now;
     }
-    public EmployeeEmployeePermission(
-        Guid employeeId,
+    public UserRole(
+        Guid userId,
         Guid whoAppointedId,
-        int roleId) : this(
-            employeeId: employeeId,
-            roleId: roleId)
+        int roleId,
+        IClock clock) : this(
+            userId: userId,
+            roleId: roleId,
+            clock: clock)
     {
         AuthorId = whoAppointedId;
     }

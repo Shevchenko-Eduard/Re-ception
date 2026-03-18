@@ -1,6 +1,3 @@
-using Domain.Entity.Guest;
-using Domain.Entity.Room;
-
 namespace Domain.Entity.Reservation;
 
 public class Reservation

@@ -1,5 +1,4 @@
 using Domain.Abstract;
-using Domain.Entity.Employee;
 
 namespace UnitTests.Domain;
 

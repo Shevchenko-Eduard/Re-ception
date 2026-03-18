@@ -1,4 +1,6 @@
-using Domain.Entity.Employee.Role;
+using Domain.Entity.User;
+using Domain.Entity.User.Role;
+using Domain.Interfaces;
 
 namespace Domain.Entity.Employee;
 
@@ -9,8 +11,12 @@ public sealed class Employee
     private const ushort _maxLastName = 50;
     private const ushort _maxPatronymicName = 50;
     #endregion
+    #region Interfaces
+    private readonly IClock _clock;
+    #endregion
     #region Fields
     public Guid Id { get; init; }
+    public Guid UserId { get; init; }
     public ushort HotelId { get; private set; }
     public string FirstName
     {
@@ -48,33 +54,11 @@ public sealed class Employee
             field = value;
         }
     }
-    public Phone Phone { get; private set; }
-    public Email Email { get; private set; }
-    public string PasswordHash
-    {
-        get; private set
-        {
-            ArgumentException.ThrowIfNullOrWhiteSpace(value);
-            field = value;
-        }
-    }
-    public DateOnly DateOfBirth
-    {
-        get;
-        private set
-        {
-            if (value > DateOnly.FromDateTime(DateTime.Now))
-            {
-                throw new ArgumentException(message: "The time of birth cannot be later than the current time.");
-            }
-            field = value;
-        }
-    }
     public DateTimeOffset CreateAt
     {
         get; init
         {
-            if (value > DateTime.Now)
+            if (value > _clock.Now)
             {
                 throw new ArgumentException(message: "The creation date cannot be in the future.");
             }
@@ -82,12 +66,11 @@ public sealed class Employee
         }
     }
     public DateTimeOffset HireDate { get; init; }
-    public byte GenderId { get; private set; } = 0;
     #endregion
     #region Navigation properties
     public Hotel.Hotel? Hotel { get; private set; }
-    public IEnumerable<EmployeeRole>? Roles { get; private set; }
-    public EmployeeGender? Gender { get; private set; }
+    public IEnumerable<Role>? Roles { get; private set; }
+    public UserGender? Gender { get; private set; }
     #endregion
     #region Constructors
 #pragma warning disable CS9264, CS8618
@@ -95,27 +78,37 @@ public sealed class Employee
 #pragma warning restore CS9264, CS8618
     public Employee(
         int hotelId,
+        Guid userId,
         string firstName,
         string lastName,
-        string patronymic,
-        Phone phone,
-        Email email,
-        string passwordHash,
-        DateOnly dateOfBirth,
         DateTimeOffset hireDate,
-        int genderId)
+        IClock clock)
     {
+        UserId = userId;
+        _clock = clock;
         HotelId = (ushort)hotelId;
         FirstName = firstName;
         LastName = lastName;
-        Patronymic = patronymic;
-        Phone = phone;
-        Email = email;
-        PasswordHash = passwordHash;
-        DateOfBirth = dateOfBirth;
         HireDate = hireDate;
-        CreateAt = DateTimeOffset.Now;
-        GenderId = (byte)genderId;
+        CreateAt = _clock.Now;
+    }
+    public Employee(
+        int hotelId,
+        Guid userId,
+        string firstName,
+        string lastName,
+        string patronymic,
+        DateTimeOffset hireDate,
+        IClock clock) : this(
+            hotelId: hotelId,
+            userId: userId,
+            firstName: firstName,
+            lastName: lastName,
+            hireDate: hireDate,
+            clock: clock
+        )
+    {
+        Patronymic = patronymic;
     }
     #endregion
 }

@@ -1,4 +1,3 @@
-using Domain.Interfaces.Repositories.BaseRepository;
 using Domain.Entity.Payment;
 using Domain.Interfaces.Repositories.BaseRepository.Crud;
 
