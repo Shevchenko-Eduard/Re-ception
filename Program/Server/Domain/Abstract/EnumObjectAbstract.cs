@@ -18,4 +18,16 @@ public abstract class EnumObjectAbstract<T> where T : EnumObjectAbstract<T>
         return All.FirstOrDefault(g => g.Id == id)
             ?? throw new ArgumentException($"Invalid gender id: {id}");
     }
+    #region Methods
+    public override bool Equals(object? obj)
+    {
+        if (obj is EnumObjectAbstract<T> enumObject) { return Equals(enumObject: enumObject); }
+        throw new TypeAccessException();
+    }
+    public bool Equals(EnumObjectAbstract<T> enumObject)
+    {
+        return enumObject.GetHashCode() == GetHashCode();
+    }
+    public override int GetHashCode() => Id;
+    #endregion
 }

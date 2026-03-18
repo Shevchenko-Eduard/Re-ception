@@ -2,7 +2,7 @@ using Domain.Abstract;
 
 namespace Domain.Entity.User.Permission;
 
-public sealed class PermissionEntity : StatusObjectAbstract<PermissionEntity>
+public sealed class PermissionEntity : StatusWithParentsObjectsAbstract<PermissionEntity>
 {
     #region Constructors
     private PermissionEntity(byte id, string name) : base(id, name) { }
