@@ -9,8 +9,8 @@ public sealed class PermissionFlag: StatusWithParentsObjectsAbstract<PermissionF
     private PermissionFlag(byte id, string name, params IEnumerable<PermissionFlag> parents) : base(id, name) { Parents = parents; }
     #endregion
     #region Default objects
-    public static readonly PermissionFlag Self = new(0, nameof(Self));
-    public static readonly PermissionFlag Own = new(1, nameof(Own), Self);
-    public static readonly PermissionFlag Any = new(2, nameof(Any), Own, Self);
+    public static readonly PermissionFlag Super = new(0, nameof(Super), All);
+    public static readonly PermissionFlag Self = new(1, nameof(Self));
+    public static readonly PermissionFlag Any = new(2, nameof(Any), Self);
     #endregion
 }

@@ -42,10 +42,15 @@ public sealed partial class Phone
     {
         Value = value;
     }
+    public Phone(string value, bool isVerified) : this(value)
+    {
+        IsVerified = isVerified;
+    }
     /// <summary>
     /// Утверждает что номер телефона верифицирован.
     /// </summary>
     public void Verified() => IsVerified = true;
+    public void Unverified() => IsVerified = false;
     /// <summary>
     /// Вернуть в строковом представлении.
     /// </summary>

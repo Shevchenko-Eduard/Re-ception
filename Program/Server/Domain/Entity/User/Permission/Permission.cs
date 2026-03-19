@@ -25,6 +25,7 @@ public sealed class Permission : EnumObjectAbstract<Permission>
     }
     #endregion
     #region Default objects
+    public readonly static Permission Super = new(0, 0, 0, 0);
     #endregion
     #region Methods
     public override bool Equals(object? obj)
@@ -41,11 +42,11 @@ public sealed class Permission : EnumObjectAbstract<Permission>
         {
             return Action!.Equals(permission.Action!) &&
                 Entity!.Equals(permission.Entity!) &&
-                Flag!.Equals(permission.Flag!);
+                (Flag?.Equals(permission.Flag!) == true);
         }
         throw new ArgumentException(message: "First, you need to load the navigation properties.");
     }
     public override int GetHashCode() => Id;
-    private bool IsNavigationProperties() => Action is not null && Entity is not null && Flag is not null;
+    private bool IsNavigationProperties() => Action is not null && Entity is not null;
     #endregion
 }

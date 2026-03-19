@@ -42,10 +42,15 @@ public sealed partial class Email
     {
         Value = value;
     }
+    public Email(string value, bool isVerified) : this(value)
+    {
+        IsVerified = isVerified;
+    }
     /// <summary>
     /// Утверждает что почта верифицирована.
     /// </summary>
     public void Verified() => IsVerified = true;
+    public void Unverified() => IsVerified = false;
     /// <summary>
     /// Вернуть в строковом представлении.
     /// </summary>
