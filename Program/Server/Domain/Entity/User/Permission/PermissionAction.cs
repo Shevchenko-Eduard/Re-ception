@@ -39,4 +39,7 @@ public sealed class PermissionAction : StatusWithParentsObjectsAbstract<Permissi
     /// </summary>
     public static readonly PermissionAction Import = new(7, nameof(Import), Create);
     #endregion
+    #region Navigation properties
+    public ICollection<Permission>? Permissions { get; private set; }
+    #endregion
 }

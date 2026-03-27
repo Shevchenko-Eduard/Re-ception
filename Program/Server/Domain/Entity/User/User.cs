@@ -48,7 +48,7 @@ public class User
             field = value;
         }
     }
-    public byte GenderId { get; private set; } = 0;
+    public byte GenderId { get; private set; }
     public string PasswordHash
     {
         get; private set
@@ -59,7 +59,13 @@ public class User
     }
     #endregion
     #region Navigation properties
-    public UserGender? Gender { get; private set; }
+    public UserGender? UserGender { get; private set; }
+    public ICollection<UserRole>? UserRoles { get; private set; }
+    public ICollection<UserPermission>? UserPermissions { get; private set; }
+    public ICollection<UserRole>? UserRolesAuthor { get; private set; }
+    public ICollection<UserPermission>? UserPermissionsAuthor { get; private set; }
+    public Employee.Employee? Employee { get; private set; }
+    public Guest.Guest? Guest { get; private set; }
     #endregion
     #region Constructors
 #pragma warning disable CS9264, CS8618
@@ -70,9 +76,12 @@ public class User
         Email email,
         DateOnly dateOfBirth,
         string passwordHash,
-        IClock clock)
+        IClock clock,
+        byte genderId)
     {
+        Id = Guid.NewGuid();
         _clock = clock;
+        GenderId = genderId;
         UserName = userName;
         DateOfBirth = dateOfBirth;
         Email = email;
@@ -85,13 +94,21 @@ public class User
         DateOnly dateOfBirth,
         string passwordHash,
         IClock clock,
+        byte genderId,
         Phone phone) : this(
             userName: userName,
             email: email,
             dateOfBirth: dateOfBirth,
             passwordHash: passwordHash,
             clock: clock
-        )
+,
+            genderId: genderId)
+    {
+        Phone = phone;
+    }
+    #endregion
+    #region Methods
+    public void AddPhone(Phone phone)
     {
         Phone = phone;
     }

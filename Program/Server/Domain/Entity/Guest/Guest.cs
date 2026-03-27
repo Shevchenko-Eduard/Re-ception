@@ -27,7 +27,8 @@ public sealed class Guest
     }
     #endregion
     #region Navigation properties
-    public IEnumerable<Reservation.Reservation>? Reservations { get; private set; }
+    public ICollection<Reservation.Reservation>? Reservations { get; private set; }
+    public User.User? User { get; private set; }
     #endregion
     #region Constructors
 #pragma warning disable CS9264, CS8618
@@ -37,9 +38,12 @@ public sealed class Guest
         Guid userId,
         IClock clock)
     {
+        Id = Guid.NewGuid();
         UserId = userId;
         _clock = clock;
         CreateAt = clock.Now;
     }
+    #endregion
+    #region Methods
     #endregion
 }

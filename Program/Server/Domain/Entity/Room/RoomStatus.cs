@@ -14,4 +14,7 @@ public sealed class RoomStatus : StatusObjectAbstract<RoomStatus>
     public static readonly RoomStatus Occupied = new(3, "Occupied");
     public static readonly RoomStatus Reserved = new(4, "Reserved");
     #endregion
+    #region Navigation properties
+    public ICollection<Room>? Rooms { get; private set; }
+    #endregion
 }

@@ -28,7 +28,7 @@ public sealed class UserRole
             field = value;
         }
     }
-    public User? Author
+    public User? UserAuthor
     {
         get; private set
         {

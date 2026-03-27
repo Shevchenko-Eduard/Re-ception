@@ -34,7 +34,7 @@ public sealed class HotelTag
     } = null!;
     #endregion
     #region Navigation properties
-    public List<Hotel>? Hotels { get; private set; }
+    public ICollection<Hotel>? Hotels { get; private set; }
     #endregion
     #region Constructors
     private HotelTag() { }

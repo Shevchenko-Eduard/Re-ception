@@ -34,7 +34,7 @@ public sealed class RoomTag
     } = null!;
     #endregion
     #region Navigation properties
-    public List<Room>? Rooms { get; private set; }
+    public ICollection<Room>? Rooms { get; private set; }
     #endregion
     #region Constructors
     private RoomTag() { }

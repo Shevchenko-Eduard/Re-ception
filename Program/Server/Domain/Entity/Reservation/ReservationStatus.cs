@@ -15,4 +15,7 @@ public sealed class ReservationStatus : StatusObjectAbstract<ReservationStatus>
     public static readonly ReservationStatus CheckedIn = new(4, "CheckedIn");
     public static readonly ReservationStatus Rejected = new(5, "Rejected");
     #endregion
+    #region Navigation properties
+    public ICollection<Reservation>? Reservations { get; private set; }
+    #endregion
 }

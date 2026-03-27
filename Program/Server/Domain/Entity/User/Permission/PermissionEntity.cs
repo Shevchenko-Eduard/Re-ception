@@ -22,4 +22,7 @@ public sealed class PermissionEntity : StatusWithParentsObjectsAbstract<Permissi
     public static readonly PermissionEntity EmployeeRole = new(10, nameof(EmployeeRole));
     public static readonly PermissionEntity EmployeePermission = new(11, nameof(EmployeePermission));
     #endregion
+    #region Navigation properties
+    public ICollection<Permission>? Permissions { get; private set; }
+    #endregion
 }

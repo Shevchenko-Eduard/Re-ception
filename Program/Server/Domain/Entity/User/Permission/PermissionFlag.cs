@@ -13,4 +13,7 @@ public sealed class PermissionFlag: StatusWithParentsObjectsAbstract<PermissionF
     public static readonly PermissionFlag Self = new(1, nameof(Self));
     public static readonly PermissionFlag Any = new(2, nameof(Any), Self);
     #endregion
+    #region Navigation properties
+    public ICollection<Permission>? Permissions { get; private set; }
+    #endregion
 }

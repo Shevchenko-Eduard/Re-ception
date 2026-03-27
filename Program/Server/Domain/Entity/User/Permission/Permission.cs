@@ -10,11 +10,11 @@ public sealed class Permission : EnumObjectAbstract<Permission>
     public byte FlagId { get; init; }
     #endregion
     #region Navigation properties
-    public PermissionFlag? Action { get; private set; }
-    public PermissionEntity? Entity { get; private set; }
-    public PermissionFlag? Flag { get; private set; }
-    public IEnumerable<User>? Users { get; private set; }
-    public IEnumerable<Role.Role>? Roles { get; private set; }
+    public ICollection<UserRole>? UserRoles { get; private set; }
+    public ICollection<UserPermission>? UserPermissions { get; private set; }
+    public PermissionAction? PermissionAction { get; private set; }
+    public PermissionEntity? PermissionEntity { get; private set; }
+    public PermissionFlag? PermissionFlag { get; private set; }
     #endregion
     #region Constructors
     private Permission(byte id, byte actionId, byte entityId, byte flagId) : base(id)
@@ -40,13 +40,13 @@ public sealed class Permission : EnumObjectAbstract<Permission>
     {
         if (permission.IsNavigationProperties() && IsNavigationProperties())
         {
-            return Action!.Equals(permission.Action!) &&
-                Entity!.Equals(permission.Entity!) &&
-                (Flag?.Equals(permission.Flag!) == true);
+            return PermissionAction!.Equals(permission.PermissionAction!) &&
+                PermissionEntity!.Equals(permission.PermissionEntity!) &&
+                (PermissionFlag?.Equals(permission.PermissionFlag!) == true);
         }
         throw new ArgumentException(message: "First, you need to load the navigation properties.");
     }
     public override int GetHashCode() => Id;
-    private bool IsNavigationProperties() => Action is not null && Entity is not null;
+    private bool IsNavigationProperties() => PermissionAction is not null && PermissionEntity is not null;
     #endregion
 }

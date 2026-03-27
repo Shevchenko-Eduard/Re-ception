@@ -34,7 +34,8 @@ public sealed class Role
     }
     #endregion
     #region Navigation properties
-    public IEnumerable<Employee.Employee>? Employees { get; private set; }
+    public ICollection<Permission.Permission>? Permissions { get; private set; }
+    public ICollection<UserRole>? UserRoles { get; private set; }
     #endregion
     #region Constructors
 #pragma warning disable CS9264

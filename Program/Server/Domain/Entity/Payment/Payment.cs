@@ -9,37 +9,10 @@ public class Payment
     public decimal Amount { get; init; }
     public DateTimeOffset PaymentDate { get; init; }
     #endregion
-    #region Navigation Properties
-    public PaymentStatus? Status
-    {
-        get; private set
-        {
-            if (value is null)
-            {
-                throw new ArgumentException(message: "Payment status must not be equal to null.");
-            }
-            if (value.Id != StatusId)
-            {
-                throw new ArgumentException(message: "The payment status ID does not match the ID within the relationship.");
-            }
-            field = value;
-        }
-    }
-    public PaymentMethod? Method
-    {
-        get; private set
-        {
-            if (value is null)
-            {
-                throw new ArgumentException(message: "Payment method must not be equal to null.");
-            }
-            if (value.Id != MethodId)
-            {
-                throw new ArgumentException(message: "The payment method ID does not match the ID within the relationship.");
-            }
-            field = value;
-        }
-    }
+    #region Navigation properties
+    public ICollection<Reservation.Reservation>? Reservations { get; private set; }
+    public PaymentMethod? PaymentMethod { get; private set; }
+    public PaymentStatus? PaymentStatus { get; private set; }
     #endregion
     #region Constructors
     public Payment(

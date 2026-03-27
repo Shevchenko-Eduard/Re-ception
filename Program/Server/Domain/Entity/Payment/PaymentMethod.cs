@@ -12,4 +12,7 @@ public sealed class PaymentMethod : StatusObjectAbstract<PaymentMethod>
     public static readonly PaymentMethod Cash = new(1, nameof(Cash));
     public static readonly PaymentMethod Sbp = new(2, nameof(Sbp));
     #endregion
+    #region Navigation properties
+    public ICollection<Payment>? Payments { get; private set; }
+    #endregion
 }

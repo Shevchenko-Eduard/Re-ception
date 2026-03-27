@@ -62,7 +62,9 @@ public class Hotel
     public Phone Phone { get; private set; }
     #endregion
     #region Navigation properties
-    public IEnumerable<Employee.Employee>? Employees { get; private set; }
+    public ICollection<Employee.Employee>? Employees { get; private set; }
+    public ICollection<Room.Room>? Rooms { get; private set; }
+    public ICollection<HotelTag>? HotelTags { get; private set; }
     #endregion
     #region Constructors
 #pragma warning disable CS9264, CS8618

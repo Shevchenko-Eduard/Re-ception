@@ -69,8 +69,7 @@ public sealed class Employee
     #endregion
     #region Navigation properties
     public Hotel.Hotel? Hotel { get; private set; }
-    public IEnumerable<Role>? Roles { get; private set; }
-    public UserGender? Gender { get; private set; }
+    public User.User? User { get; private set; }
     #endregion
     #region Constructors
 #pragma warning disable CS9264, CS8618
@@ -84,6 +83,7 @@ public sealed class Employee
         DateTimeOffset hireDate,
         IClock clock)
     {
+        Id = Guid.NewGuid();
         UserId = userId;
         _clock = clock;
         HotelId = (ushort)hotelId;
@@ -107,6 +107,12 @@ public sealed class Employee
             hireDate: hireDate,
             clock: clock
         )
+    {
+        Patronymic = patronymic;
+    }
+    #endregion
+    #region Methods
+    public void AddPatronymic(string patronymic)
     {
         Patronymic = patronymic;
     }

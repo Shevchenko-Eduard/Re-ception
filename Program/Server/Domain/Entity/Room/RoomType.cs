@@ -46,7 +46,7 @@ public sealed class RoomType
     public ushort MaxCountGuest { get; private set; }
     #endregion
     #region Navigation properties
-    public List<Room>? Rooms { get; private set; }
+    public ICollection<Room>? Rooms { get; private set; }
     #endregion
     #region Constructors
     private RoomType() { }

@@ -14,7 +14,8 @@ public sealed class Room
     // Подгружаемые данные
     public Hotel.Hotel? Hotel { get; private set; }
     public RoomType? RoomType { get; private set; }
-    public List<RoomTag>? RoomTags { get; private set; }
+    public ICollection<RoomTag>? RoomTags { get; private set; }
+    public ICollection<Reservation.Reservation>? Reservations { get; private set; }
     public RoomStatus? RoomStatus { get; private set; }
     #endregion
     #region Constructors

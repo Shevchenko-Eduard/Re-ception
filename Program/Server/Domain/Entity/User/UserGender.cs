@@ -12,4 +12,7 @@ public sealed class UserGender : StatusObjectAbstract<UserGender>
     public static readonly UserGender Female = new(1, "Female");
     public static readonly UserGender Male = new(2, "Male");
     #endregion
+    #region Navigation properties
+    public ICollection<User>? Users { get; private set; }
+    #endregion
 }

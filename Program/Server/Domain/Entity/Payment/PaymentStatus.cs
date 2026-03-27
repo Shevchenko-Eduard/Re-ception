@@ -13,4 +13,7 @@ public sealed class PaymentStatus : StatusObjectAbstract<PaymentStatus>
     public static readonly PaymentStatus Deleted = new(2, nameof(Deleted));
     public static readonly PaymentStatus Terminated = new(3, nameof(Terminated));
     #endregion
+    #region Navigation properties
+    public ICollection<Payment>? Payments { get; private set; }
+    #endregion
 }
