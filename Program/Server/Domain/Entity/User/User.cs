@@ -24,8 +24,6 @@ public class User
             field = value;
         }
     }
-    public Phone? Phone { get; private set; }
-    public Email Email { get; private set; }
     public DateOnly DateOfBirth
     {
         get; private set
@@ -49,14 +47,6 @@ public class User
         }
     }
     public byte GenderId { get; private set; }
-    public string PasswordHash
-    {
-        get; private set
-        {
-            ArgumentException.ThrowIfNullOrWhiteSpace(value);
-            field = value;
-        }
-    }
     #endregion
     #region Navigation properties
     public UserGender? UserGender { get; private set; }
@@ -73,9 +63,7 @@ public class User
 #pragma warning restore CS9264, CS8618
     public User(
         string userName,
-        Email email,
         DateOnly dateOfBirth,
-        string passwordHash,
         IClock clock,
         byte genderId)
     {
@@ -84,33 +72,9 @@ public class User
         GenderId = genderId;
         UserName = userName;
         DateOfBirth = dateOfBirth;
-        Email = email;
         CreateAt = clock.Now;
-        PasswordHash = passwordHash;
-    }
-    public User(
-        string userName,
-        Email email,
-        DateOnly dateOfBirth,
-        string passwordHash,
-        IClock clock,
-        byte genderId,
-        Phone phone) : this(
-            userName: userName,
-            email: email,
-            dateOfBirth: dateOfBirth,
-            passwordHash: passwordHash,
-            clock: clock
-,
-            genderId: genderId)
-    {
-        Phone = phone;
     }
     #endregion
     #region Methods
-    public void AddPhone(Phone phone)
-    {
-        Phone = phone;
-    }
     #endregion
 }

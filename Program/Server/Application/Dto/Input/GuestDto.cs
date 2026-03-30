@@ -1,4 +1,4 @@
-namespace Application.Dto.Internal;
+namespace Application.Dto.Input;
 
 public static class GuestDto
 {

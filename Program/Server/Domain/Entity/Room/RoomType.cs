@@ -32,7 +32,7 @@ public sealed class RoomType
             field = value;
         }
     } = null!;
-    public decimal BasePrice
+    public decimal BasePricePerDay
     {
         get; private set
         {
@@ -56,7 +56,7 @@ public sealed class RoomType
     {
         Name = name;
         Description = description;
-        BasePrice = basePrice;
+        BasePricePerDay = basePrice;
         checked { MaxCountGuest = (ushort)maxGuest; }
     }
     #endregion

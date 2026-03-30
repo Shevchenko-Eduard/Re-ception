@@ -1,5 +1,3 @@
-using Domain.Entity.User;
-using Domain.Entity.User.Role;
 using Domain.Interfaces;
 
 namespace Domain.Entity.Employee;

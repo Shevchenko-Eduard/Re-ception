@@ -7,10 +7,6 @@ namespace Infrastructure.Database;
 public class AppContext : DbContext
 {
     private readonly IConnectionStrategy _connectionStrategy;
-    public DbSet<TodoTask> Tasks { get; set; }
-    public DbSet<Profile> Profiles { get; set; }
-    public DbSet<TaskPriority> TaskPriorities { get; set; }
-    public DbSet<TaskState> TaskStates { get; set; }
     public AppContext(IConnectionStrategy connectionStrategy)
     {
         _connectionStrategy = connectionStrategy;

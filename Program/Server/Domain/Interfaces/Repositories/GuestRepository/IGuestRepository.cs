@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Domain.Entity.Guest;
 using Domain.Interfaces.Repositories.BaseRepository;
 
@@ -5,5 +6,5 @@ namespace Domain.Interfaces.Repositories.GuestRepository;
 
 public interface IGuestRepository : IBaseCrudRepository<Guest, Guid>
 {
-
+    Task<Guest> FirstAsync(Expression<Func<Guest, bool>> specification);
 }
