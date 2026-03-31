@@ -1,6 +1,6 @@
 using Application.Dto.Input;
 using Application.Interfaces;
-using Domain.Entity.Guest;
+using Domain.Interfaces;
 using Domain.Interfaces.Repositories.GuestRepository;
 using Domain.Interfaces.Repositories.ReservationRepository;
 using Domain.Interfaces.Repositories.RoomRepository;
@@ -11,20 +11,17 @@ public class CreateReservationUseCase(
     IReservationRepository reservationRepository,
     IUnitOfWork unitOfWork,
     IGuestRepository guestRepository,
-    IRoomRepository roomRepository,
-    IRoomTypeRepository roomTypeRepository)
+    ICalculatorReservationPrice calculatorReservationPrice) : IUseCase<ReservationDto.Create>
 {
     private readonly IGuestRepository _guestRepository = guestRepository;
     private readonly IReservationRepository _reservationRepository = reservationRepository;
-    private readonly IRoomRepository _roomRepository = roomRepository;
-    private readonly IRoomTypeRepository _roomTypeRepository = roomTypeRepository;
+    private readonly ICalculatorReservationPrice _calculatorReservationPrice = calculatorReservationPrice;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    public async Task Execute(ReservationDto.Create create)
+    public async Task Execute(ReservationDto.Create input)
     {
-        _ = await _guestRepository.GetByIdAsync(create.GuestId)
+        _ = await _guestRepository.GetByIdAsync(input.GuestId)
             ?? throw new ArgumentException();
-        var reservation = await create.GetReservation(
-            _roomRepository, _roomTypeRepository);
+        var reservation = await input.GetReservation(_calculatorReservationPrice);
         await _reservationRepository.AddAsync(reservation);
         await _unitOfWork.SaveChangesAsync();
     }

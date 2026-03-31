@@ -2,9 +2,8 @@ using Application.Interfaces;
 
 namespace Application.UseCases.UserUseCases;
 
-public class Logout(
-    IAuthService authService
-)
+public class LogoutUseCase(
+    IAuthService authService) : IUseCase
 {
     private readonly IAuthService _authService = authService;
     public async Task Execute()

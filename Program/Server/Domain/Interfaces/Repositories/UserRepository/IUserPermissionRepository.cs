@@ -8,5 +8,5 @@ public interface IUserPermissionRepository :
     IBaseReadRepository<UserPermission, ulong>,
     IBaseDeleteRepository<UserPermission, ulong>
 {
-
+    Task<IEnumerable<Entity.User.Permission.Permission>> GetPermissionsByUserAsync(Guid userId);
 }

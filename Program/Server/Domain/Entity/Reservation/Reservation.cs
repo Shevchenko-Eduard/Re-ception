@@ -1,9 +1,13 @@
+using Domain.Interfaces;
 using Domain.Interfaces.Repositories.RoomRepository;
 
 namespace Domain.Entity.Reservation;
 
 public class Reservation
 {
+    #region Interfaces
+    private readonly ICalculatorReservationPrice _calculatorPrice;
+    #endregion
     #region Fields
     public ulong Id { get; init; }
     public Guid GuestId { get; init; }
@@ -17,17 +21,31 @@ public class Reservation
     #endregion
     #region Navigation properties
     public Guest.Guest? Guest { get; private set; }
-    public Room.Room? Room { get; private set; }
+    public Room.Room? Room
+    {
+        get; private set
+        {
+            if (value?.Id != RoomId)
+            {
+                throw new ArgumentException();
+            }
+            field = value;
+        }
+    }
     public ReservationStatus? ReservationStatus { get; private set; }
     #endregion
     #region Constructors
+#pragma warning disable CS9264, CS8618
     private Reservation() { }
+#pragma warning restore CS9264, CS8618
     public Reservation(
+        ICalculatorReservationPrice calculatorPrice,
         Guid guestId, uint roomId,
         DateTimeOffset checkIn, DateTimeOffset checkOut,
         int reservationStatusId = 0,
         decimal? discount = null)
     {
+        _calculatorPrice = calculatorPrice;
         GuestId = guestId;
         RoomId = (ushort)roomId;
         CheckIn = checkIn;
@@ -49,42 +67,17 @@ public class Reservation
     {
         ReservationStatusId = reservationStatusId;
     }
-    public async Task UpdateTotalPrice(
-        IRoomRepository roomRepository,
-        IRoomTypeRepository roomTypeRepository)
+    public async Task UpdateTotalPrice()
     {
-        TotalPrice = await CalculateTotalPrice(
-            roomRepository, roomTypeRepository);
+        TotalPrice = await _calculatorPrice.Calculator(this);
     }
     public void UpdateDiscount(decimal discount)
     {
         Discount = discount;
     }
-    #region private
-    private async Task<decimal> CalculateTotalPrice(
-        IRoomRepository roomRepository,
-        IRoomTypeRepository roomTypeRepository)
+    public void SetRoom(Room.Room room)
     {
-        Room ??= await roomRepository.GetByIdAsync(RoomId)
-            ?? throw new SystemException();
-        if (Room.PricePerDay is null && Room.RoomType is null)
-        {
-            Room.SetRoomType(await roomTypeRepository.GetByIdAsync(Room.RoomTypeId)
-                ?? throw new SystemException());
-        }
-        var pricePerDay = Room.PricePerDay is null
-            ? Room.RoomType!.BasePricePerDay
-            : Room.PricePerDay
-            ?? throw new SystemException();
-        var reservationTimeSpan = CheckOut - CheckIn;
-        var reservationDays = (decimal)reservationTimeSpan.TotalDays;
-        var totalPrice = reservationDays * pricePerDay;
-        if (Discount is not null)
-        {
-            totalPrice *= (decimal)(1 - Discount);
-        }
-        return totalPrice;
+        Room = room;
     }
-    #endregion  
     #endregion
 }

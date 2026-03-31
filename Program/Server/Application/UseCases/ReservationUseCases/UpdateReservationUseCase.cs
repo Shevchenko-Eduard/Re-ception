@@ -7,42 +7,37 @@ namespace Application.UseCases.ReservationUseCases;
 
 public class UpdateReservationUseCase(
     IReservationRepository reservationRepository,
-    IUnitOfWork unitOfWork,
-    IRoomTypeRepository roomTypeRepository,
-    IRoomRepository roomRepository)
+    IUnitOfWork unitOfWork) : IUseCase<Dto.Input.ReservationDto.Update>
 {
     private readonly IReservationRepository _reservationRepository = reservationRepository;
-    private readonly IRoomRepository _roomRepository = roomRepository;
-    private readonly IRoomTypeRepository _roomTypeRepository = roomTypeRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    public async Task Execute(Dto.Input.ReservationDto.Update update)
+    public async Task Execute(Dto.Input.ReservationDto.Update input)
     {
-        Reservation reservation = await _reservationRepository.GetByIdAsync(update.Id)
+        Reservation reservation = await _reservationRepository.GetByIdAsync(input.Id)
             ?? throw new ArgumentException();
         bool isUpdateTotalPrice = false;
-        if (update.CheckIn is not null)
+        if (input.CheckIn is not null)
         {
-            reservation.UpdateCheckIn((DateTimeOffset)update.CheckIn);
+            reservation.UpdateCheckIn((DateTimeOffset)input.CheckIn);
             isUpdateTotalPrice = true;
         }
-        if (update.CheckOut is not null)
+        if (input.CheckOut is not null)
         {
-            reservation.UpdateCheckOut((DateTimeOffset)update.CheckOut);
+            reservation.UpdateCheckOut((DateTimeOffset)input.CheckOut);
             isUpdateTotalPrice = true;
         }
-        if (update.Discount is not null)
+        if (input.Discount is not null)
         {
-            reservation.UpdateDiscount((decimal)update.Discount);
+            reservation.UpdateDiscount((decimal)input.Discount);
             isUpdateTotalPrice = true;
         }
-        if (update.Discount is not null)
+        if (input.Discount is not null)
         {
-            reservation.UpdateDiscount((decimal)update.Discount);
+            reservation.UpdateDiscount((decimal)input.Discount);
         }
         if (isUpdateTotalPrice)
         {
-            await reservation.UpdateTotalPrice(
-                _roomRepository, _roomTypeRepository);
+            await reservation.UpdateTotalPrice();
         }
         await _reservationRepository.UpdateAsync(reservation);
         await _unitOfWork.SaveChangesAsync();

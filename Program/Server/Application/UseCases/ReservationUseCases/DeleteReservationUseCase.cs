@@ -8,16 +8,16 @@ namespace Application.UseCases.ReservationUseCases;
 public class DeleteReservationUseCase(
     IReservationRepository reservationRepository,
     IUnitOfWork unitOfWork,
-    ICurrentUser currentUser)
+    ICurrentUser currentUser) : IUseCase<Dto.Input.ReservationDto.Delete>
 {
     private readonly IReservationRepository _reservationRepository = reservationRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly ICurrentUser _currentUser = currentUser;
-    public async Task Execute(Dto.Input.ReservationDto.Delete delete)
+    public async Task Execute(Dto.Input.ReservationDto.Delete input)
     {
         Guest currentGuest = await _currentUser.GetGuestAsync()
             ?? throw new ArgumentException();
-        Reservation reservation = await _reservationRepository.GetByIdAsync(delete.Id)
+        Reservation reservation = await _reservationRepository.GetByIdAsync(input.Id)
             ?? throw new ArgumentException();
         if (reservation.GuestId != currentGuest.Id)
         {

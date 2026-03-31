@@ -10,39 +10,53 @@ public sealed class Permission : EnumObjectAbstract<Permission>
     public byte FlagId { get; init; }
     #endregion
     #region Navigation properties
-    public ICollection<UserRole>? UserRoles { get; private set; }
+    public ICollection<Role.Role>? Roles { get; private set; }
     public ICollection<UserPermission>? UserPermissions { get; private set; }
     public PermissionAction? PermissionAction { get; private set; }
     public PermissionEntity? PermissionEntity { get; private set; }
     public PermissionFlag? PermissionFlag { get; private set; }
     #endregion
     #region Constructors
-    private Permission(byte id, byte actionId, byte entityId, byte flagId) : base(id)
+    public Permission(byte id, byte actionId, byte entityId, byte flagId) : base(id)
     {
         ActionId = actionId;
         EntityId = entityId;
         FlagId = flagId;
     }
+    public Permission(
+        byte id,
+        PermissionAction permissionAction,
+        PermissionEntity permissionEntity,
+        PermissionFlag permissionFlag) : this(
+            id: id,
+            actionId: permissionAction.Id,
+            entityId: permissionEntity.Id,
+            flagId: permissionFlag.Id)
+    {
+        PermissionAction = permissionAction;
+        PermissionEntity = permissionEntity;
+        PermissionFlag = permissionFlag;
+    }
     #endregion
     #region Default objects
-    public readonly static Permission Super = new(0, 0, 0, 0);
+    public readonly static Permission Super = new(0, PermissionAction.Super, PermissionEntity.Super, PermissionFlag.Super);
     #endregion
     #region Methods
     public override bool Equals(object? obj)
     {
-        if (obj is Permission permission) { return Equals(permission: permission); }
+        if (obj is Permission permission) { return Equals(statementPermission: permission); }
         throw new TypeAccessException();
     }
     /// <summary>
     /// Текущий Permission проверяется на соответствие входящему аргументу Permission.
     /// </summary>
-    public bool Equals(Permission permission)
+    public bool Equals(Permission statementPermission)
     {
-        if (permission.IsNavigationProperties() && IsNavigationProperties())
+        if (statementPermission.IsNavigationProperties() && IsNavigationProperties())
         {
-            return PermissionAction!.Equals(permission.PermissionAction!) &&
-                PermissionEntity!.Equals(permission.PermissionEntity!) &&
-                (PermissionFlag?.Equals(permission.PermissionFlag!) == true);
+            return PermissionAction!.Equals(statementPermission.PermissionAction!) &&
+                PermissionEntity!.Equals(statementPermission.PermissionEntity!) &&
+                (PermissionFlag?.Equals(statementPermission.PermissionFlag!) == true);
         }
         throw new ArgumentException(message: "First, you need to load the navigation properties.");
     }

@@ -8,5 +8,5 @@ public interface IUserRoleRepository :
     IBaseReadRepository<UserRole, ulong>,
     IBaseDeleteRepository<UserRole, ulong>
 {
-
+    Task<IEnumerable<ushort>> GetRolesIdByUserAsync(Guid userId);
 }

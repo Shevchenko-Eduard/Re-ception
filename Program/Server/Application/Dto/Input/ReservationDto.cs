@@ -1,5 +1,5 @@
-using Application.Interfaces;
 using Domain.Entity.Reservation;
+using Domain.Interfaces;
 using Domain.Interfaces.Repositories.RoomRepository;
 
 namespace Application.Dto.Input;
@@ -13,15 +13,15 @@ public static class ReservationDto
         DateTimeOffset CheckOut)
     {
         public async Task<Reservation> GetReservation(
-            IRoomRepository roomRepository,
-            IRoomTypeRepository roomTypeRepository)
+            ICalculatorReservationPrice calculatorReservationPrice)
         {
             Reservation reservation = new(
+                calculatorPrice: calculatorReservationPrice,
                 guestId: GuestId,
                 roomId: RoomId,
                 checkIn: CheckIn,
                 checkOut: CheckOut);
-            await reservation.UpdateTotalPrice(roomRepository, roomTypeRepository);
+            await reservation.UpdateTotalPrice();
             return reservation;
         }
     }

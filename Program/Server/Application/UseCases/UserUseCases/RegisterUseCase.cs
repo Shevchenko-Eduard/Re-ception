@@ -7,14 +7,14 @@ using Domain.Interfaces.Repositories.EmployeeRepository;
 using Domain.Interfaces.Repositories.GuestRepository;
 using Domain.Interfaces.Repositories.UserRepository;
 
-namespace Application.UseCases.AuthUseCases;
+namespace Application.UseCases.UserUseCases;
 
-public class Register(
+public class RegisterUseCase(
     IUnitOfWork unitOfWorld,
     IUserRepository userRepository,
     IEmployeeRepository employeeRepository,
     IGuestRepository guestRepository,
-    IAuthService authService)
+    IAuthService authService) : IUseCase<UserDto.RegisterDto>
 {
     private readonly IUnitOfWork _unitOfWorld = unitOfWorld;
     private readonly IUserRepository _userRepository = userRepository;
@@ -22,26 +22,26 @@ public class Register(
     private readonly IGuestRepository _guestRepository = guestRepository;
     private readonly IAuthService _authService = authService;
 
-    public async Task Execute(UserDto.RegisterDto registerDto)
+    public async Task Execute(UserDto.RegisterDto input)
     {
         await _unitOfWorld.BeginTransactionAsync();
         try
         {
-            UserDto.RegisterModel registerModel = registerDto.GetRegisterModel();
+            UserDto.RegisterModel registerModel = input.GetRegisterModel();
             await _authService.RegisterAsync(registerModel);
 
-            User user = registerDto.GetUser();
+            User user = input.GetUser();
             await _userRepository.AddAsync(user);
 
-            if (registerDto.Guest is not null)
+            if (input.Guest is not null)
             {
-                Guest guest = registerDto.GetGuest(user.Id);
+                Guest guest = input.GetGuest(user.Id);
                 await _guestRepository.AddAsync(guest);
             }
 
-            if (registerDto.Employee is not null)
+            if (input.Employee is not null)
             {
-                Employee employee = registerDto.GetEmployee(user.Id);
+                Employee employee = input.GetEmployee(user.Id);
                 await _employeeRepository.AddAsync(employee);
             }
 
