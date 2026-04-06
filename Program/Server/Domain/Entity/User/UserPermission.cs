@@ -8,7 +8,7 @@ public sealed class UserPermission
     #region Fields
     public ulong Id { get; init; }
     public Guid UserId { get; init; }
-    public Guid? AuthorId { get; init; }
+    public Guid? AuthorId { get; private set; }
     public ushort PermissionId { get; init; }
     public DateTimeOffset CreateAt { get; init; }
     #endregion
@@ -67,22 +67,23 @@ public sealed class UserPermission
     public UserPermission(
         Guid userId,
         int roleId,
-        IClock clock)
+        IClock clock,
+        Guid? whoAppointedId = null)
     {
         _clock = clock;
         UserId = userId;
         PermissionId = (ushort)roleId;
         CreateAt = _clock.Now;
+        AuthorId = whoAppointedId;
     }
-    public UserPermission(
-        Guid userId,
-        Guid whoAppointedId,
-        int roleId,
-        IClock clock) : this(
-            userId: userId,
-            roleId: roleId,
-            clock: clock)
+    #endregion
+    #region Methods
+    public void AddAuthor(Guid whoAppointedId)
     {
+        if (AuthorId is not null)
+        {
+            throw new ArgumentException(message: "This permission already has an author.");
+        }
         AuthorId = whoAppointedId;
     }
     #endregion
