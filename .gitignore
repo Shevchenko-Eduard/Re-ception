@@ -420,3 +420,7 @@ FodyWeavers.xsd
 bin/
 .obsidian/
 .xdp-*
+
+.obsidian/
+.vscode/
+bash/

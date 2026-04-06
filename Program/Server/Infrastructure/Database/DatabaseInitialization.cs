@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Database;
 
 public class DatabaseInitialization(
-    AppContext context,
+    ProgramContext context,
     ILogger<DatabaseInitialization>? logger,
     IHostEnvironment hostEnvironment)
 {
-	private readonly AppContext _context = context;
+	private readonly ProgramContext _context = context;
 	private readonly ILogger<DatabaseInitialization>? _logger = logger;
 	private readonly IHostEnvironment _hostEnvironment = hostEnvironment;
 

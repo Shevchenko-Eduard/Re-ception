@@ -4,13 +4,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Database;
 
-public class AppContext : DbContext
+public class ProgramContext(IConnectionStrategy connectionStrategy) : DbContext
 {
-    private readonly IConnectionStrategy _connectionStrategy;
-    public AppContext(IConnectionStrategy connectionStrategy)
-    {
-        _connectionStrategy = connectionStrategy;
-    }
+    private readonly IConnectionStrategy _connectionStrategy = connectionStrategy;
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         _connectionStrategy.Configure(optionsBuilder);
@@ -31,7 +28,7 @@ public class AppContext : DbContext
             }
         }
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProgramContext).Assembly);
 
         base.OnModelCreating(modelBuilder);
     }
