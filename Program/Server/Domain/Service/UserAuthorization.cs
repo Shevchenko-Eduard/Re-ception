@@ -1,9 +1,7 @@
 using Domain.Entity.User.Permission;
-using Domain.Entity.User.Role;
 using Domain.Interfaces;
 using Domain.Interfaces.Repositories.UserRepository;
 using Domain.Interfaces.Repositories.UserRepository.Permission;
-using Domain.Interfaces.Repositories.UserRepository.Role;
 
 namespace Domain.Service;
 

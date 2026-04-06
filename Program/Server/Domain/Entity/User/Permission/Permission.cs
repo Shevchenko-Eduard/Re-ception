@@ -17,18 +17,16 @@ public sealed class Permission : EnumObjectAbstract<Permission>
     public PermissionFlag? PermissionFlag { get; private set; }
     #endregion
     #region Constructors
-    public Permission(byte id, byte actionId, byte entityId, byte flagId) : base(id)
+    public Permission(byte actionId, byte entityId, byte flagId) : base()
     {
         ActionId = actionId;
         EntityId = entityId;
         FlagId = flagId;
     }
     public Permission(
-        byte id,
         PermissionAction permissionAction,
         PermissionEntity permissionEntity,
         PermissionFlag permissionFlag) : this(
-            id: id,
             actionId: permissionAction.Id,
             entityId: permissionEntity.Id,
             flagId: permissionFlag.Id)
@@ -39,7 +37,7 @@ public sealed class Permission : EnumObjectAbstract<Permission>
     }
     #endregion
     #region Default objects
-    public readonly static Permission Super = new(0, PermissionAction.Super, PermissionEntity.Super, PermissionFlag.Super);
+    public readonly static Permission Super = new(PermissionAction.Super, PermissionEntity.Super, PermissionFlag.Super);
     #endregion
     #region Methods
     public override bool Equals(object? obj)

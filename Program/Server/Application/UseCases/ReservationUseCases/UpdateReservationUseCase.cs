@@ -1,7 +1,7 @@
 using Application.Interfaces;
 using Domain.Entity.Reservation;
+using Domain.Entity.User.Permission;
 using Domain.Interfaces.Repositories.ReservationRepository;
-using Domain.Interfaces.Repositories.RoomRepository;
 
 namespace Application.UseCases.ReservationUseCases;
 
@@ -11,6 +11,9 @@ public class UpdateReservationUseCase(
 {
     private readonly IReservationRepository _reservationRepository = reservationRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+
+    public Permission RequiredPermission => new(PermissionAction.Update, PermissionEntity.Reservation, PermissionFlag.Self);
+
     public async Task Execute(Dto.Input.ReservationDto.Update input)
     {
         Reservation reservation = await _reservationRepository.GetByIdAsync(input.Id)

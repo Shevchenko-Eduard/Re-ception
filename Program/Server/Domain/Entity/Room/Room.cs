@@ -32,13 +32,13 @@ public sealed class Room
     #region Constructors
     private Room() { }
     public Room(
-        int hotelId, int typeRomeId,
+        int hotelId, int roomTypeId,
         int roomNumber, int floor,
         int roomStatusId,
         decimal? pricePerDay = null)
     {
         HotelId = (byte)hotelId;
-        RoomTypeId = (ushort)typeRomeId;
+        RoomTypeId = (ushort)roomTypeId;
         RoomNumber = (ushort)roomNumber;
         Floor = (byte)floor;
         RoomStatusId = (ushort)roomStatusId;
@@ -49,6 +49,26 @@ public sealed class Room
     public void SetRoomType(RoomType roomType)
     {
         RoomType = roomType;
+    }
+    public void UpdateRoomTypeId(ushort roomTypeId)
+    {
+        RoomTypeId = roomTypeId;
+    }
+    public void UpdateRoomNumber(ushort roomNumber)
+    {
+        RoomNumber = roomNumber;
+    }
+    public void UpdateFloor(byte floor)
+    {
+        Floor = floor;
+    }
+    public void UpdateRoomStatusId(ushort roomStatusId)
+    {
+        RoomStatusId = roomStatusId;
+    }
+    public void UpdatePricePerDay(decimal? pricePerDay)
+    {
+        PricePerDay = pricePerDay;
     }
     #endregion
 }

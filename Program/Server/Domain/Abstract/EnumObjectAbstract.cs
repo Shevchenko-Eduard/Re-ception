@@ -1,24 +1,47 @@
+using System.Collections.ObjectModel;
 using System.Reflection;
 
 namespace Domain.Abstract;
 
 public abstract class EnumObjectAbstract<T> where T : EnumObjectAbstract<T>
 {
-    public byte Id {get; init;}
-    public static readonly HashSet<T> All = typeof(T)
-        .GetFields(BindingFlags.Public | BindingFlags.Static)
-        .Select(f => (T)f?.GetValue(null)! ?? throw new SystemException())
-        ?.ToHashSet() ?? throw new SystemException();
-    protected EnumObjectAbstract(int id)
+    #region Fields
+    public byte Id { get; init; }
+    public static ReadOnlyCollection<T> All { get { return new(_all.Value.ToList()); } }
+    private static Lazy<HashSet<T>> _all = UpdateAll();
+    private static int _nextId = -1;
+    #endregion
+    #region Constructors
+    protected EnumObjectAbstract()
     {
-        Id = (byte)id;
+        UpdateAll();
+        Id = GetNextId();
     }
+    protected EnumObjectAbstract(byte id)
+    {
+        UpdateAll();
+        Id = id;
+    }
+    #endregion
+    #region Methods
+    private static Lazy<HashSet<T>> UpdateAll()
+    {
+        _all = new(() =>
+        {
+            return typeof(T)
+                .GetFields(BindingFlags.Public | BindingFlags.Static)
+                .Where(f => f.FieldType == typeof(T))
+                .Select(f => (T)(f.GetValue(null) ?? throw new SystemException($"Field {f.Name} returned null")))
+                .ToHashSet();
+        });
+        return _all;
+    }
+    private static byte GetNextId() => (byte)Interlocked.Increment(ref _nextId);
     public static EnumObjectAbstract<T> FromId(ushort id)
     {
         return All.FirstOrDefault(g => g.Id == id)
             ?? throw new ArgumentException($"Invalid gender id: {id}");
     }
-    #region Methods
     public override bool Equals(object? obj)
     {
         if (obj is EnumObjectAbstract<T> enumObject) { return Equals(enumObject: enumObject); }

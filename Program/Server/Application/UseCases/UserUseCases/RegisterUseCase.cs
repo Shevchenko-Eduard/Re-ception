@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Domain.Entity.Employee;
 using Domain.Entity.Guest;
 using Domain.Entity.User;
+using Domain.Entity.User.Permission;
 using Domain.Interfaces.Repositories.EmployeeRepository;
 using Domain.Interfaces.Repositories.GuestRepository;
 using Domain.Interfaces.Repositories.UserRepository;
@@ -21,6 +22,8 @@ public class RegisterUseCase(
     private readonly IEmployeeRepository _employeeRepository = employeeRepository;
     private readonly IGuestRepository _guestRepository = guestRepository;
     private readonly IAuthService _authService = authService;
+
+    public Permission RequiredPermission => throw new NotImplementedException();
 
     public async Task Execute(UserDto.RegisterDto input)
     {

@@ -5,13 +5,22 @@ namespace Domain.Entity.User.Permission;
 public sealed class PermissionFlag: StatusWithParentsObjectsAbstract<PermissionFlag>
 {
     #region Constructors
-    private PermissionFlag(byte id, string name) : base(id, name) { }
-    private PermissionFlag(byte id, string name, params IEnumerable<PermissionFlag> parents) : base(id, name) { Parents = parents; }
+    private PermissionFlag(string name) : base(name) { }
+    private PermissionFlag(string name, params IEnumerable<PermissionFlag> parents) : base(name) { Parents = parents; }
     #endregion
     #region Default objects
-    public static readonly PermissionFlag Super = new(0, nameof(Super), All);
-    public static readonly PermissionFlag Self = new(1, nameof(Self));
-    public static readonly PermissionFlag Any = new(2, nameof(Any), Self);
+    /// <summary>
+    /// Только свои объекты
+    /// </summary>
+    public static readonly PermissionFlag Self = new(nameof(Self));
+    /// <summary>
+    /// Все объекты не только свои
+    /// </summary>
+    public static readonly PermissionFlag Any = new(nameof(Any), Self);
+    /// <summary>
+    /// Абсолютно любой объект
+    /// </summary>
+    public static readonly PermissionFlag Super = new(nameof(Super), All);
     #endregion
     #region Navigation properties
     public ICollection<Permission>? Permissions { get; private set; }

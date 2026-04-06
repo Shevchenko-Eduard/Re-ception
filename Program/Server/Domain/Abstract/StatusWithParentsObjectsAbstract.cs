@@ -6,7 +6,9 @@ public abstract class StatusWithParentsObjectsAbstract<T> : StatusObjectAbstract
     public IEnumerable<T>? Parents { get; init; } = null;
     #endregion
     #region Constructors
+    protected StatusWithParentsObjectsAbstract(string name) : base(name) { }
     protected StatusWithParentsObjectsAbstract(byte id, string name) : base(id, name) { }
+    protected StatusWithParentsObjectsAbstract(string name, params IEnumerable<T> parents) : base(name) { Parents = parents; }
     protected StatusWithParentsObjectsAbstract(byte id, string name, params IEnumerable<T> parents) : base(id, name) { Parents = parents; }
     #endregion
     #region Methods

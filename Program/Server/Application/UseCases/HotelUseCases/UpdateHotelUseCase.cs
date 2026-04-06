@@ -1,27 +1,37 @@
 using Application.Dto.Input;
 using Application.Interfaces;
+using Domain.Entity.Hotel;
 using Domain.Entity.User.Permission;
 using Domain.Interfaces;
 using Domain.Interfaces.Repositories.HotelRepository;
 
 namespace Application.UseCases.HotelUseCases;
 
-public class CreateHotelUseCase(
+public class UpdateHotelUseCase(
     IHotelRepository hotelRepository,
     IUnitOfWork unitOfWork,
-    IAuthorization authorization) : IUseCase<HotelDto.Create>
+    IAuthorization authorization) : IUseCase<HotelDto.Update>
 {
     private readonly IHotelRepository _hotelRepository = hotelRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IAuthorization _authorization = authorization;
-    public Permission RequiredPermission => new(PermissionAction.Create, PermissionEntity.Hotel, PermissionFlag.Any);
-    public async Task Execute(HotelDto.Create input)
+
+    public Permission RequiredPermission => new(PermissionAction.Update, PermissionEntity.Hotel, PermissionFlag.Self);
+
+    public async Task Execute(HotelDto.Update input)
     {
         if (!await _authorization.Verify(RequiredPermission))
         {
             throw new ArgumentException();
         }
-        await _hotelRepository.AddAsync(input.GetHotel());
+        Hotel hotel = await _hotelRepository.GetByIdAsync(input.Id)
+            ?? throw new ArgumentException();
+        if (hotel.Id != input.Id)
+        {
+            throw new ArgumentException();
+        }
+        Hotel newHotel = input.GetHotel(hotel);
+        await _hotelRepository.UpdateAsync(newHotel);
         await _unitOfWork.SaveChangesAsync();
     }
 }

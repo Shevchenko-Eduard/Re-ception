@@ -1,4 +1,3 @@
-using System.Runtime.Serialization;
 using Domain.Entity.Reservation;
 using Domain.Interfaces;
 using Domain.Interfaces.Repositories.RoomRepository;

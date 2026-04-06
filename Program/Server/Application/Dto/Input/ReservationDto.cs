@@ -1,6 +1,5 @@
 using Domain.Entity.Reservation;
 using Domain.Interfaces;
-using Domain.Interfaces.Repositories.RoomRepository;
 
 namespace Application.Dto.Input;
 

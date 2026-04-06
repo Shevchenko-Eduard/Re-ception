@@ -1,5 +1,4 @@
 using Domain.Interfaces;
-using Domain.Interfaces.Repositories.RoomRepository;
 
 namespace Domain.Entity.Reservation;
 
