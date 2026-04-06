@@ -110,9 +110,21 @@ public sealed class Employee
     }
     #endregion
     #region Methods
-    public void AddPatronymic(string patronymic)
+    public void UpdatePatronymic(string? patronymic)
     {
         Patronymic = patronymic;
+    }
+    public void UpdateFirstName(string firstName)
+    {
+        FirstName = firstName;
+    }
+    public void UpdateLastName(string lastName)
+    {
+        LastName = lastName;
+    }
+    public void UpdateHotelId(ushort hotelId)
+    {
+        HotelId = hotelId;
     }
     #endregion
 }
