@@ -11,12 +11,27 @@ public abstract class UserRoleRepository : IUserRoleRepository
         throw new NotImplementedException();
     }
 
+    public Task<int> CountAsync(Expression<Func<UserRole, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task DeleteAsync(ulong id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<UserRole>> FindAsync(Expression<Func<UserRole, bool>> specification)
+    public Task<bool> ExistsAsync(Expression<Func<UserRole, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<UserRole>?> FindAsync(Expression<Func<UserRole, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UserRole?> FirstAsync(Expression<Func<UserRole, bool>> predicate)
     {
         throw new NotImplementedException();
     }

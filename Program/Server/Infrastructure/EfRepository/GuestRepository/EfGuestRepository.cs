@@ -11,17 +11,27 @@ public class EfGuestRepository : IGuestRepository
         throw new NotImplementedException();
     }
 
+    public Task<int> CountAsync(Expression<Func<Guest, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task DeleteAsync(Guid id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Guest>> FindAsync(Expression<Func<Guest, bool>> specification)
+    public Task<bool> ExistsAsync(Expression<Func<Guest, bool>> predicate)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Guest> FirstAsync(Expression<Func<Guest, bool>> specification)
+    public Task<IEnumerable<Guest>?> FindAsync(Expression<Func<Guest, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Guest?> FirstAsync(Expression<Func<Guest, bool>> specification)
     {
         throw new NotImplementedException();
     }

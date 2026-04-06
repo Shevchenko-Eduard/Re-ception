@@ -11,12 +11,27 @@ public class EfReservationRepository : IReservationRepository
         throw new NotImplementedException();
     }
 
+    public Task<int> CountAsync(Expression<Func<Reservation, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task DeleteAsync(ulong id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Reservation>> FindAsync(Expression<Func<Reservation, bool>> specification)
+    public Task<bool> ExistsAsync(Expression<Func<Reservation, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Reservation>?> FindAsync(Expression<Func<Reservation, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Reservation?> FirstAsync(Expression<Func<Reservation, bool>> predicate)
     {
         throw new NotImplementedException();
     }

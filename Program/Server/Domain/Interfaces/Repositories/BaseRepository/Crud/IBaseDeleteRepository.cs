@@ -1,6 +1,6 @@
 namespace Domain.Interfaces.Repositories.BaseRepository.Crud;
 
-public interface IBaseDeleteRepository<T, TId>
+public interface IBaseDeleteRepository<TValue, TValueId>
 {
-	Task DeleteAsync(TId id);
+	Task DeleteAsync(TValueId id);
 }

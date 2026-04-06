@@ -11,12 +11,27 @@ public class EfPaymentRepository : IPaymentRepository
         throw new NotImplementedException();
     }
 
+    public Task<int> CountAsync(Expression<Func<Payment, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task DeleteAsync(uint id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Payment>> FindAsync(Expression<Func<Payment, bool>> specification)
+    public Task<bool> ExistsAsync(Expression<Func<Payment, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Payment>?> FindAsync(Expression<Func<Payment, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Payment?> FirstAsync(Expression<Func<Payment, bool>> predicate)
     {
         throw new NotImplementedException();
     }

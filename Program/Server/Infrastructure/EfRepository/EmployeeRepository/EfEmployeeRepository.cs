@@ -11,12 +11,27 @@ public class EfEmployeeRepository : IEmployeeRepository
         throw new NotImplementedException();
     }
 
+    public Task<int> CountAsync(Expression<Func<Employee, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task DeleteAsync(Guid id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Employee>> FindAsync(Expression<Func<Employee, bool>> specification)
+    public Task<bool> ExistsAsync(Expression<Func<Employee, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Employee>?> FindAsync(Expression<Func<Employee, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Employee?> FirstAsync(Expression<Func<Employee, bool>> predicate)
     {
         throw new NotImplementedException();
     }

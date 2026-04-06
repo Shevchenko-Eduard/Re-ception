@@ -6,7 +6,22 @@ namespace Infrastructure.EfRepository.UserRepository;
 
 public abstract class UserGenderRepository : IUserGenderRepository
 {
-    public Task<IEnumerable<UserGender>> FindAsync(Expression<Func<UserGender, bool>> specification)
+    public Task<int> CountAsync(Expression<Func<UserGender, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> ExistsAsync(Expression<Func<UserGender, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<UserGender>?> FindAsync(Expression<Func<UserGender, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UserGender?> FirstAsync(Expression<Func<UserGender, bool>> predicate)
     {
         throw new NotImplementedException();
     }

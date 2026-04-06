@@ -1,6 +1,6 @@
 namespace Domain.Interfaces.Repositories.BaseRepository.Crud;
 
-public interface IBaseCreateRepository<T>
+public interface IBaseCreateRepository<TValue>
 {
-    Task AddAsync(T entity);
+    Task AddAsync(TValue entity);
 }

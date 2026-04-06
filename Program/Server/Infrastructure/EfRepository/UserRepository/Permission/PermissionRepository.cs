@@ -10,12 +10,27 @@ public abstract class PermissionRepository : IPermissionRepository
         throw new NotImplementedException();
     }
 
+    public Task<int> CountAsync(Expression<Func<Domain.Entity.User.Permission.Permission, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task DeleteAsync(byte id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Domain.Entity.User.Permission.Permission>> FindAsync(Expression<Func<Domain.Entity.User.Permission.Permission, bool>> specification)
+    public Task<bool> ExistsAsync(Expression<Func<Domain.Entity.User.Permission.Permission, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Domain.Entity.User.Permission.Permission>?> FindAsync(Expression<Func<Domain.Entity.User.Permission.Permission, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Domain.Entity.User.Permission.Permission?> FirstAsync(Expression<Func<Domain.Entity.User.Permission.Permission, bool>> predicate)
     {
         throw new NotImplementedException();
     }

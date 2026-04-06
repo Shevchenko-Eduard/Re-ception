@@ -11,12 +11,27 @@ public abstract class UserPermissionRepository : IUserPermissionRepository
         throw new NotImplementedException();
     }
 
+    public Task<int> CountAsync(Expression<Func<UserPermission, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task DeleteAsync(ulong id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<UserPermission>> FindAsync(Expression<Func<UserPermission, bool>> specification)
+    public Task<bool> ExistsAsync(Expression<Func<UserPermission, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<UserPermission>?> FindAsync(Expression<Func<UserPermission, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UserPermission?> FirstAsync(Expression<Func<UserPermission, bool>> predicate)
     {
         throw new NotImplementedException();
     }

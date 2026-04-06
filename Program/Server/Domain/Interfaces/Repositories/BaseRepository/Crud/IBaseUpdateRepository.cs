@@ -1,6 +1,6 @@
 namespace Domain.Interfaces.Repositories.BaseRepository.Crud;
 
-public interface IBaseUpdateRepository<T>
+public interface IBaseUpdateRepository<TValue>
 {
-	Task UpdateAsync(T entity);
+	Task UpdateAsync(TValue entity);
 }

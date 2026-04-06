@@ -6,7 +6,22 @@ namespace Infrastructure.EfRepository.UserRepository.Permission;
 
 public abstract class PermissionActionRepository : IPermissionActionRepository
 {
-    public Task<IEnumerable<PermissionFlag>> FindAsync(Expression<Func<PermissionFlag, bool>> specification)
+    public Task<int> CountAsync(Expression<Func<PermissionFlag, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> ExistsAsync(Expression<Func<PermissionFlag, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<PermissionFlag>?> FindAsync(Expression<Func<PermissionFlag, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<PermissionFlag?> FirstAsync(Expression<Func<PermissionFlag, bool>> predicate)
     {
         throw new NotImplementedException();
     }

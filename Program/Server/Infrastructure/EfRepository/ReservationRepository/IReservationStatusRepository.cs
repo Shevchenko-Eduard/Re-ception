@@ -6,7 +6,22 @@ namespace Infrastructure.EfRepository.ReservationRepository;
 
 public class EfReservationStatusRepository : IReservationStatusRepository
 {
-    public Task<IEnumerable<ReservationStatus>> FindAsync(Expression<Func<ReservationStatus, bool>> specification)
+    public Task<int> CountAsync(Expression<Func<ReservationStatus, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> ExistsAsync(Expression<Func<ReservationStatus, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<ReservationStatus>?> FindAsync(Expression<Func<ReservationStatus, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<ReservationStatus?> FirstAsync(Expression<Func<ReservationStatus, bool>> predicate)
     {
         throw new NotImplementedException();
     }

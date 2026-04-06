@@ -6,7 +6,22 @@ namespace Infrastructure.EfRepository.RoomRepository;
 
 public class EfRoomStatusRepository : IRoomStatusRepository
 {
-    public Task<IEnumerable<RoomStatus>> FindAsync(Expression<Func<RoomStatus, bool>> specification)
+    public Task<int> CountAsync(Expression<Func<RoomStatus, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> ExistsAsync(Expression<Func<RoomStatus, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<RoomStatus>?> FindAsync(Expression<Func<RoomStatus, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<RoomStatus?> FirstAsync(Expression<Func<RoomStatus, bool>> predicate)
     {
         throw new NotImplementedException();
     }

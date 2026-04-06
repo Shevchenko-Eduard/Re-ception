@@ -11,6 +11,11 @@ public abstract class UserRepository : IUserRepository
         throw new NotImplementedException();
     }
 
+    public Task<int> CountAsync(Expression<Func<User, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task DeleteAsync(Guid id)
     {
         throw new NotImplementedException();
@@ -21,7 +26,17 @@ public abstract class UserRepository : IUserRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<User>> FindAsync(Expression<Func<User, bool>> specification)
+    public Task<bool> ExistsAsync(Expression<Func<User, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<User>?> FindAsync(Expression<Func<User, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<User?> FirstAsync(Expression<Func<User, bool>> predicate)
     {
         throw new NotImplementedException();
     }

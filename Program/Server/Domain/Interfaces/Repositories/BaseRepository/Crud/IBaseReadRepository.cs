@@ -2,9 +2,12 @@ using System.Linq.Expressions;
 
 namespace Domain.Interfaces.Repositories.BaseRepository.Crud;
 
-public interface IBaseReadRepository<T, TId>
+public interface IBaseReadRepository<TValue, TValueId>
 {
-    Task<T?> GetByIdAsync(TId id);
-    Task<IEnumerable<T>> GetAllAsync();
-    Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> specification);
+    Task<TValue?> GetByIdAsync(TValueId id);
+    Task<IEnumerable<TValue>> GetAllAsync();
+    Task<IEnumerable<TValue>?> FindAsync(Expression<Func<TValue, bool>> specification);
+    Task<TValue?> FirstAsync(Expression<Func<TValue, bool>> predicate);
+    Task<bool> ExistsAsync(Expression<Func<TValue, bool>> predicate);
+    Task<int> CountAsync(Expression<Func<TValue, bool>> predicate);
 }

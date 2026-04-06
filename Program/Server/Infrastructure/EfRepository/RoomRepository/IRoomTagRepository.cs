@@ -11,12 +11,27 @@ public class EfRoomTagRepository : IRoomTagRepository
         throw new NotImplementedException();
     }
 
+    public Task<int> CountAsync(Expression<Func<RoomTag, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task DeleteAsync(ushort id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<RoomTag>> FindAsync(Expression<Func<RoomTag, bool>> specification)
+    public Task<bool> ExistsAsync(Expression<Func<RoomTag, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<RoomTag>?> FindAsync(Expression<Func<RoomTag, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<RoomTag?> FirstAsync(Expression<Func<RoomTag, bool>> predicate)
     {
         throw new NotImplementedException();
     }

@@ -11,12 +11,27 @@ public class EfHotelTagRepository : IHotelTagRepository
         throw new NotImplementedException();
     }
 
+    public Task<int> CountAsync(Expression<Func<HotelTag, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task DeleteAsync(ushort id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<HotelTag>> FindAsync(Expression<Func<HotelTag, bool>> specification)
+    public Task<bool> ExistsAsync(Expression<Func<HotelTag, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<HotelTag>?> FindAsync(Expression<Func<HotelTag, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<HotelTag?> FirstAsync(Expression<Func<HotelTag, bool>> predicate)
     {
         throw new NotImplementedException();
     }

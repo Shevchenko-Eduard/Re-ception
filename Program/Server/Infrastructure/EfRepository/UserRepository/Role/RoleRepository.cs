@@ -11,12 +11,27 @@ public abstract class RoleRepository : IRoleRepository
         throw new NotImplementedException();
     }
 
+    public Task<int> CountAsync(Expression<Func<Domain.Entity.User.Role.Role, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task DeleteAsync(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Domain.Entity.User.Role.Role>> FindAsync(Expression<Func<Domain.Entity.User.Role.Role, bool>> specification)
+    public Task<bool> ExistsAsync(Expression<Func<Domain.Entity.User.Role.Role, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Domain.Entity.User.Role.Role>?> FindAsync(Expression<Func<Domain.Entity.User.Role.Role, bool>> specification)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Domain.Entity.User.Role.Role?> FirstAsync(Expression<Func<Domain.Entity.User.Role.Role, bool>> predicate)
     {
         throw new NotImplementedException();
     }
