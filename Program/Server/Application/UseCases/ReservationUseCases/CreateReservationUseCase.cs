@@ -1,6 +1,5 @@
 using Application.Dto.Input;
 using Application.Interfaces;
-using Domain.Entity.User;
 using Domain.Entity.User.Permission;
 using Domain.Interfaces;
 using Domain.Interfaces.Repositories.GuestRepository;

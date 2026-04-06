@@ -1,6 +1,5 @@
 using Application.Dto.Input;
 using Application.Interfaces;
-using Domain.Entity.Room;
 using Domain.Entity.User.Permission;
 using Domain.Interfaces.Repositories.RoomRepository;
 

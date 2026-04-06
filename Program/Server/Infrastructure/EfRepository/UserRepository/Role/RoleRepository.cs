@@ -1,5 +1,4 @@
 using System.Linq.Expressions;
-using Domain.Entity.User.Role;
 using Domain.Interfaces.Repositories.UserRepository.Role;
 
 namespace Infrastructure.EfRepository.UserRepository.Role;

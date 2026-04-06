@@ -1,4 +1,3 @@
-using System.Data.Common;
 using Application.Dto.Output;
 using Application.Interfaces;
 using Domain.Entity.User.Permission;
@@ -28,7 +27,7 @@ public class GetReservationHistory(
             ?? throw new SystemException("Failed to retrieve current guest information");
 
         return (await _reservationRepository
-            .FindAsync(r => r.GuestId == currentGuest.Id))
+            .FindAsync(r => r.GuestId == currentGuest.Id) ?? throw new SystemException("Failed to retrieve reservation history"))
             .Select(ReservationDto.Response.FromReservation);
     }
 }
