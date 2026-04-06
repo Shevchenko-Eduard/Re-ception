@@ -67,22 +67,13 @@ public sealed class UserRole
     public UserRole(
         Guid userId,
         int roleId,
-        IClock clock)
+        IClock clock,
+        Guid? whoAppointedId = null)
     {
         _clock = clock;
         UserId = userId;
         RoleId = (ushort)roleId;
         CreateAt = _clock.Now;
-    }
-    public UserRole(
-        Guid userId,
-        Guid whoAppointedId,
-        int roleId,
-        IClock clock) : this(
-            userId: userId,
-            roleId: roleId,
-            clock: clock)
-    {
         AuthorId = whoAppointedId;
     }
     #endregion

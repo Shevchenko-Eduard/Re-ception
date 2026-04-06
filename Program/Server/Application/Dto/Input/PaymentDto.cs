@@ -12,7 +12,6 @@ public static class PaymentDto
     )
     {
         public Payment GetPayment() => new(
-            id: 0,
             statusId: StatusId,
             methodId: MethodId,
             amount: Amount,

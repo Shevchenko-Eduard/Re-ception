@@ -16,13 +16,11 @@ public class Payment
     #endregion
     #region Constructors
     public Payment(
-        uint id,
         int statusId,
         int methodId,
         decimal amount,
         DateTimeOffset paymentDate)
     {
-        Id = id;
         StatusId = (byte)statusId;
         MethodId = (byte)methodId;
         Amount = amount;
