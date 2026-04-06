@@ -30,7 +30,7 @@ public abstract class EnumObjectAbstract<T> where T : EnumObjectAbstract<T>
         {
             return typeof(T)
                 .GetFields(BindingFlags.Public | BindingFlags.Static)
-                .Where(f => f.FieldType == typeof(T))
+                .Where(f => f.FieldType == typeof(T) && f.IsInitOnly)
                 .Select(f => (T)(f.GetValue(null) ?? throw new SystemException($"Field {f.Name} returned null")))
                 .ToHashSet();
         });

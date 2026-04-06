@@ -7,9 +7,9 @@ public class StatusObjectAbstractTests
     private class Test : StatusObjectAbstract<Test>
     {
         private Test(string name): base(name){}
-        public static Test Test1 = new(nameof(Test1));
-        public static Test Test2 = new(nameof(Test2));
-        public static Test Test3 = new(nameof(Test3));
+        public readonly static Test Test1 = new(nameof(Test1));
+        public readonly static Test Test2 = new(nameof(Test2));
+        public readonly static Test Test3 = new(nameof(Test3));
     }
     [Fact]
     public void StatusObjectAbstract_FromId_ReturnValue()

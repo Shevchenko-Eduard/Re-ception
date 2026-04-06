@@ -1,10 +1,13 @@
-﻿using Infrastructure.Database.Interfaces;
+﻿using Infrastructure.Database.IdentityEntity;
+using Infrastructure.Database.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Database;
 
-public class ProgramContext(IConnectionStrategy connectionStrategy) : DbContext
+public partial class ProgramContext(IConnectionStrategy connectionStrategy) : IdentityUserContext<ApplicationUser>
 {
     private readonly IConnectionStrategy _connectionStrategy = connectionStrategy;
 
