@@ -160,5 +160,14 @@ public class Hotel
     {
         Phone = phone;
     }
+    public void AddHotelTag(HotelTag hotelTag)
+    {
+        HotelTags ??= new HashSet<HotelTag>();
+        HotelTags.Add(hotelTag);
+    }
+    public void RemoveHotelTag(HotelTag hotelTag)
+    {
+        HotelTags?.Remove(hotelTag);
+    }
     #endregion
 }
