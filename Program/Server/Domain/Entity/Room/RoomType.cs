@@ -60,4 +60,22 @@ public sealed class RoomType
         checked { MaxCountGuest = (ushort)maxGuest; }
     }
     #endregion
+    #region Methods
+    public void UpdateName(string name)
+    {
+        Name = name;
+    }
+    public void UpdateDescription(string description)
+    {
+        Description = description;
+    }
+    public void UpdateBasePricePerDay(decimal basePricePerDay)
+    {
+        BasePricePerDay = basePricePerDay;
+    }
+    public void UpdateMaxCountGuest(int maxCountGuest)
+    {
+        checked { MaxCountGuest = (ushort)maxCountGuest; }
+    }
+    #endregion
 }
