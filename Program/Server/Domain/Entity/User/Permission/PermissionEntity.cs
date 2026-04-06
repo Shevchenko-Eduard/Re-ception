@@ -10,6 +10,7 @@ public sealed class PermissionEntity : StatusWithParentsObjectsAbstract<Permissi
     #endregion
     #region Default objects
     public static readonly PermissionEntity User = new(nameof(User));
+    public static readonly PermissionEntity Permission = new(nameof(Permission));
     public static readonly PermissionEntity Payment = new(nameof(Payment));
     public static readonly PermissionEntity Reservation = new(nameof(Reservation));
     public static readonly PermissionEntity Guest = new(nameof(Guest));
