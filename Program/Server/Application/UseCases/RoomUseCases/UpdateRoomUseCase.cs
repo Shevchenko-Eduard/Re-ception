@@ -20,9 +20,10 @@ public class UpdateRoomUseCase(
     {
         if(!await _authorization.Verify(RequiredPermission))
         {
-            throw new ArgumentException();
+            throw new ArgumentException("User does not have permission to update rooms");
         }
-        Room room = await _roomRepository.GetByIdAsync(input.Id) ?? throw new ArgumentException();
+        Room room = await _roomRepository.GetByIdAsync(input.Id)
+            ?? throw new ArgumentException("Room with the specified ID not found");
         Room newRoom = input.GetUpdateRoom(room);
         await _roomRepository.UpdateAsync(newRoom);
         await _unitOfWork.SaveChangesAsync();

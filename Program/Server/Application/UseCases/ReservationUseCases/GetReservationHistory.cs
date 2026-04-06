@@ -21,11 +21,11 @@ public class GetReservationHistory(
     {
         if (!await _authorization.Verify(RequiredPermission))
         {
-            throw new ArgumentException();
+            throw new ArgumentException("User does not have permission to view reservation history");
         }
 
         var currentGuest = await _currentUserService.GetCurrentGuestAsync()
-            ?? throw new SystemException();
+            ?? throw new SystemException("Failed to retrieve current guest information");
 
         return (await _reservationRepository
             .FindAsync(r => r.GuestId == currentGuest.Id))

@@ -21,10 +21,11 @@ public class UpdateRoomTypeUseCase(
     {
         if (!await _authorization.Verify(RequiredPermission))
         {
-            throw new ArgumentException();
+            throw new ArgumentException("User does not have permission to update room types");
         }
         
-        RoomType roomType = await _roomTypeRepository.GetByIdAsync(input.Id) ?? throw new ArgumentException();
+        RoomType roomType = await _roomTypeRepository.GetByIdAsync(input.Id)
+            ?? throw new ArgumentException("Room type with the specified ID not found");
         RoomType updatedRoomType = input.GetUpdateRoomType(roomType);
         await _roomTypeRepository.UpdateAsync(updatedRoomType);
         await _unitOfWork.SaveChangesAsync();

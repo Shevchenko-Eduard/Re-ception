@@ -17,7 +17,7 @@ public class UpdateReservationUseCase(
     public async Task Execute(Dto.Input.ReservationDto.Update input)
     {
         Reservation reservation = await _reservationRepository.GetByIdAsync(input.Id)
-            ?? throw new ArgumentException();
+            ?? throw new ArgumentException("Reservation with the specified ID not found");
         bool isUpdateTotalPrice = false;
         if (input.CheckIn is not null)
         {

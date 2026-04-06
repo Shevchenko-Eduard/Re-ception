@@ -20,7 +20,7 @@ public abstract class StatusWithParentsObjectsAbstract<T> : StatusObjectAbstract
         if (obj is StatusWithParentsObjectsAbstract<T> statusWithParents) { return Equals(statusWithParents: statusWithParents); }
         if (obj is StatusObjectAbstract<T> status) { return Equals(status: status); }
         if (obj is EnumObjectAbstract<T> enumObject) { return Equals(enumObject: enumObject); }
-        throw new TypeAccessException();
+        throw new TypeAccessException("Unsupported object type for comparison");
     }
     /// <summary>
     /// Текущий объект проверяют на соответствие входящему аргументу.

@@ -27,10 +27,10 @@ public class CreateReservationUseCase(
     {
         if (!await _authorization.Verify(RequiredPermission))
         {
-            throw new ArgumentException();
+            throw new ArgumentException("User does not have permission to create reservations");
         }
         _ = await _guestRepository.GetByIdAsync(input.GuestId)
-            ?? throw new ArgumentException();
+            ?? throw new ArgumentException("Guest with the specified ID not found");
         var reservation = await input.GetReservation(_calculatorReservationPrice);
         await _reservationRepository.AddAsync(reservation);
         await _unitOfWork.SaveChangesAsync();

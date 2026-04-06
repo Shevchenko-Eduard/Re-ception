@@ -8,7 +8,7 @@ public class LogoutUseCase(
 {
     private readonly IAuthService _authService = authService;
 
-    public Permission RequiredPermission => throw new NotImplementedException();
+    public Permission RequiredPermission => throw new NotImplementedException("Permission is not defined for LogoutUseCase");
 
     public async Task Execute()
     {

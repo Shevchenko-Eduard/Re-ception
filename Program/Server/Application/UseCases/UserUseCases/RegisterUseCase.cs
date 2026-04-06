@@ -23,7 +23,7 @@ public class RegisterUseCase(
     private readonly IGuestRepository _guestRepository = guestRepository;
     private readonly IAuthService _authService = authService;
 
-    public Permission RequiredPermission => throw new NotImplementedException();
+    public Permission RequiredPermission => throw new NotImplementedException("Permission is not defined for RegisterUseCase");
 
     public async Task Execute(UserDto.RegisterDto input)
     {

@@ -23,15 +23,15 @@ public class DeleteReservationUseCase(
     {
         if (!await _authorization.Verify(RequiredPermission))
         {
-            throw new ArgumentException();
+            throw new ArgumentException("User does not have permission to delete reservations");
         }
         Guest currentGuest = await _currentUserService.GetCurrentGuestAsync()
-            ?? throw new ArgumentException();
+            ?? throw new ArgumentException("Current user is not a guest");
         Reservation reservation = await _reservationRepository.GetByIdAsync(input.Id)
-            ?? throw new ArgumentException();
+            ?? throw new ArgumentException("Reservation with the specified ID not found");
         if (reservation.GuestId != currentGuest.Id)
         {
-            throw new ArgumentException();
+            throw new ArgumentException("You can only delete your own reservations");
         }
         await _reservationRepository.DeleteAsync(reservation.Id);
         await _unitOfWork.SaveChangesAsync();

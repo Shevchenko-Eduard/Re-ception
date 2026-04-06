@@ -15,7 +15,7 @@ public abstract class StatusObjectAbstract<T> : EnumObjectAbstract<T> where T : 
     {
         if (obj is StatusObjectAbstract<T> status) { return Equals(status: status); }
         if (obj is EnumObjectAbstract<T> enumObject) { return Equals(enumObject: enumObject); }
-        throw new TypeAccessException();
+        throw new TypeAccessException("Unsupported object type for comparison");
     }
     public bool Equals(StatusObjectAbstract<T> status)
     {

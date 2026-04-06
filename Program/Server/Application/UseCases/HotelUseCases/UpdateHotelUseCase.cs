@@ -22,13 +22,13 @@ public class UpdateHotelUseCase(
     {
         if (!await _authorization.Verify(RequiredPermission))
         {
-            throw new ArgumentException();
+            throw new ArgumentException("User does not have permission to update hotels");
         }
         Hotel hotel = await _hotelRepository.GetByIdAsync(input.Id)
-            ?? throw new ArgumentException();
+            ?? throw new ArgumentException("Hotel with the specified ID not found");
         if (hotel.Id != input.Id)
         {
-            throw new ArgumentException();
+            throw new ArgumentException("Hotel ID mismatch");
         }
         Hotel newHotel = input.GetHotel(hotel);
         await _hotelRepository.UpdateAsync(newHotel);

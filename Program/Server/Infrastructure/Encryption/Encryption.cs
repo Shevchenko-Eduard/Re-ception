@@ -31,7 +31,7 @@ internal static class Encryption
 		string? password,
 		DateTime? dateOfCreate)
 	{
-		DateTime date = dateOfCreate ?? throw new ArgumentNullException();
+		DateTime date = dateOfCreate ?? throw new ArgumentNullException(nameof(dateOfCreate), "Date of creation cannot be null");
 		return await CreatePasswordHash(password ?? string.Empty, date);
 	}
 }

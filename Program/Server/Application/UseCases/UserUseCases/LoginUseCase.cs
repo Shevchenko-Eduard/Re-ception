@@ -9,7 +9,7 @@ public class LoginUseCase(
 {
     private readonly IAuthService _authService = authService;
 
-    public Permission RequiredPermission => throw new NotImplementedException();
+    public Permission RequiredPermission => throw new NotImplementedException("Permission is not defined for LoginUseCase");
 
     public async Task Execute(UserDto.LoginModel input)
     {

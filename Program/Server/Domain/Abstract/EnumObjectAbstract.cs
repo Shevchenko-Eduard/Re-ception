@@ -45,7 +45,7 @@ public abstract class EnumObjectAbstract<T> where T : EnumObjectAbstract<T>
     public override bool Equals(object? obj)
     {
         if (obj is EnumObjectAbstract<T> enumObject) { return Equals(enumObject: enumObject); }
-        throw new TypeAccessException();
+        throw new TypeAccessException("Unsupported object type for comparison");
     }
     public bool Equals(EnumObjectAbstract<T> enumObject)
     {
