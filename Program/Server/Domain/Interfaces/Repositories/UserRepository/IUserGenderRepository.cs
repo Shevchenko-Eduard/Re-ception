@@ -3,7 +3,7 @@ using Domain.Interfaces.Repositories.BaseRepository;
 
 namespace Domain.Interfaces.Repositories.UserRepository;
 
-public interface IEmployeeGenderRepository : IBaseStatusObjectRepository<UserGender>
+public interface IUserGenderRepository : IBaseStatusObjectRepository<UserGender>
 {
     
 }
