@@ -70,5 +70,14 @@ public sealed class Room
     {
         PricePerDay = pricePerDay;
     }
+    public void AddRoomTag(RoomTag roomTag)
+    {
+        RoomTags ??= new List<RoomTag>();
+        RoomTags.Add(roomTag);
+    }
+    public void RemoveRoomTag(RoomTag roomTag)
+    {
+        RoomTags?.Remove(roomTag);
+    }
     #endregion
 }
