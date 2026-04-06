@@ -44,4 +44,14 @@ public sealed class RoomTag
         Description = description;
     }
     #endregion
+    #region Methods
+    public void UpdateName(string name)
+    {
+        Name = name;
+    }
+    public void UpdateDescription(string description)
+    {
+        Description = description;
+    }
+    #endregion
 }
