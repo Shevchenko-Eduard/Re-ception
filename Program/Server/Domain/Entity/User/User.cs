@@ -76,5 +76,17 @@ public class User
     }
     #endregion
     #region Methods
+    public void UpdateUserName(string userName)
+    {
+        UserName = userName;
+    }
+    public void UpdateDateOfBirth(DateOnly dateOfBirth)
+    {
+        DateOfBirth = dateOfBirth;
+    }
+    public void UpdateGenderId(byte genderId)
+    {
+        GenderId = genderId;
+    }
     #endregion
 }

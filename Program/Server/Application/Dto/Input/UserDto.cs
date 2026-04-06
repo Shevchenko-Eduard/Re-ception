@@ -67,4 +67,31 @@ public static class UserDto
         byte GenderId,
         string Password,
         string? Phone = null);
+
+    public record Update(
+        Guid Id,
+        string? UserName = null,
+        DateOnly? DateOfBirth = null,
+        byte? GenderId = null)
+    {
+        public Domain.Entity.User.User GetUpdateUser(Domain.Entity.User.User user)
+        {
+            if (UserName is not null)
+            {
+                user.UpdateUserName(UserName);
+            }
+            if (DateOfBirth is not null)
+            {
+                user.UpdateDateOfBirth((DateOnly)DateOfBirth);
+            }
+            if (GenderId is not null)
+            {
+                user.UpdateGenderId((byte)GenderId);
+            }
+            return user;
+        }
+    }
+
+    public record Delete(
+        Guid id);
 }
