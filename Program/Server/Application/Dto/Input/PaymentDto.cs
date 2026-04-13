@@ -5,6 +5,7 @@ namespace Application.Dto.Input;
 public static class PaymentDto
 {
     public record Create(
+        ulong ReservationId,
         int StatusId,
         int MethodId,
         decimal Amount,
@@ -12,6 +13,7 @@ public static class PaymentDto
     )
     {
         public Payment GetPayment() => new(
+            reservationId: ReservationId,
             statusId: StatusId,
             methodId: MethodId,
             amount: Amount,

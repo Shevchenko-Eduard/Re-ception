@@ -1,9 +1,12 @@
-﻿using Infrastructure.Database.IdentityEntity;
+﻿using Domain.Entity;
+using Infrastructure.Database.Converter;
+using Infrastructure.Database.IdentityEntity;
 using Infrastructure.Database.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using GuidToStringConverter = Infrastructure.Database.Converter.GuidToStringConverter;
 
 namespace Infrastructure.Database;
 
@@ -18,20 +21,11 @@ public partial class ProgramContext(IConnectionStrategy connectionStrategy) : Id
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Глобальный конвертер для всех Guid свойств
-        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-        {
-            foreach (var property in entityType.GetProperties())
-            {
-                if (property.ClrType == typeof(Guid))
-                {
-                    property.SetValueConverter(new GuidToStringConverter());
-                    property.SetMaxLength(36);
-                }
-            }
-        }
-
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProgramContext).Assembly);
+
+        // Глобальный конвертер
+        var entityTypes = modelBuilder.Model.GetEntityTypes();
+        FactoryConverter.UseConverter(entityTypes);
 
         base.OnModelCreating(modelBuilder);
     }

@@ -15,7 +15,7 @@ public sealed class Employee
     #region Fields
     public Guid Id { get; init; }
     public Guid UserId { get; init; }
-    public ushort HotelId { get; private set; }
+    public byte HotelId { get; private set; }
     public string FirstName
     {
         get; private set
@@ -84,7 +84,7 @@ public sealed class Employee
         Id = Guid.NewGuid();
         UserId = userId;
         _clock = clock;
-        HotelId = (ushort)hotelId;
+        HotelId = (byte)hotelId;
         FirstName = firstName;
         LastName = lastName;
         HireDate = hireDate;
@@ -122,7 +122,7 @@ public sealed class Employee
     {
         LastName = lastName;
     }
-    public void UpdateHotelId(ushort hotelId)
+    public void UpdateHotelId(byte hotelId)
     {
         HotelId = hotelId;
     }

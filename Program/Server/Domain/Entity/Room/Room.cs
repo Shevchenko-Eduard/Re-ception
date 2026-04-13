@@ -8,7 +8,7 @@ public sealed class Room
     public ushort RoomTypeId { get; private set; }
     public ushort RoomNumber { get; private set; }
     public byte Floor { get; private set; }
-    public ushort RoomStatusId { get; private set; }
+    public byte RoomStatusId { get; private set; }
     public decimal? PricePerDay { get; private set; }
     #endregion
     #region Navigation properties
@@ -41,7 +41,7 @@ public sealed class Room
         RoomTypeId = (ushort)roomTypeId;
         RoomNumber = (ushort)roomNumber;
         Floor = (byte)floor;
-        RoomStatusId = (ushort)roomStatusId;
+        RoomStatusId = (byte)roomStatusId;
         PricePerDay = pricePerDay;
     }
     #endregion
@@ -62,7 +62,7 @@ public sealed class Room
     {
         Floor = floor;
     }
-    public void UpdateRoomStatusId(ushort roomStatusId)
+    public void UpdateRoomStatusId(byte roomStatusId)
     {
         RoomStatusId = roomStatusId;
     }

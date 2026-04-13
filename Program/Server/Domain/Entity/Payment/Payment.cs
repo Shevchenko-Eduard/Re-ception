@@ -7,20 +7,24 @@ public class Payment
     public byte StatusId { get; init; }
     public byte MethodId { get; init; }
     public decimal Amount { get; init; }
+    public ulong? ReservationId { get; init; }
     public DateTimeOffset PaymentDate { get; init; }
     #endregion
     #region Navigation properties
-    public ICollection<Reservation.Reservation>? Reservations { get; private set; }
+    public Reservation.Reservation? Reservation { get; private set; }
     public PaymentMethod? PaymentMethod { get; private set; }
     public PaymentStatus? PaymentStatus { get; private set; }
     #endregion
     #region Constructors
+    public Payment() { }
     public Payment(
+        ulong reservationId,
         int statusId,
         int methodId,
         decimal amount,
         DateTimeOffset paymentDate)
     {
+        ReservationId = reservationId;
         StatusId = (byte)statusId;
         MethodId = (byte)methodId;
         Amount = amount;

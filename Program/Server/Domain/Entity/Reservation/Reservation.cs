@@ -32,6 +32,7 @@ public class Reservation
         }
     }
     public ReservationStatus? ReservationStatus { get; private set; }
+    public ICollection<Payment.Payment>? Payments { get; private set; }
     #endregion
     #region Constructors
 #pragma warning disable CS9264, CS8618

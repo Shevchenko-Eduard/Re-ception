@@ -47,7 +47,7 @@ public static class RoomDto
             }
             if (RoomStatusId is not null)
             {
-                room.UpdateRoomStatusId((ushort)RoomStatusId);
+                room.UpdateRoomStatusId((byte)RoomStatusId);
             }
             if (PricePerDay is not null)
             {
