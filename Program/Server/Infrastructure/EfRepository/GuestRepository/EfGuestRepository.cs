@@ -1,53 +1,57 @@
-using System.Linq.Expressions;
 using Domain.Entity.Guest;
+using System.Linq.Expressions;
 using Domain.Interfaces.Repositories.GuestRepository;
+using Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.EfRepository.GuestRepository;
 
-public class EfGuestRepository : IGuestRepository
+public class EfGuestRepository(ProgramContext context) : IGuestRepository
 {
-    public Task AddAsync(Guest entity)
+    private readonly ProgramContext _context = context;
+    
+    public async Task AddAsync(Guest entity)
     {
-        throw new NotImplementedException();
+        await _context.Guests.AddAsync(entity);
     }
 
-    public Task<int> CountAsync(Expression<Func<Guest, bool>> predicate)
+    public async Task<int> CountAsync(Expression<Func<Guest, bool>> predicate)
     {
-        throw new NotImplementedException();
+        return await _context.Guests.CountAsync(predicate);
     }
 
-    public Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
+        await _context.Guests.Where(g => g.Id == id).ExecuteDeleteAsync();
     }
 
-    public Task<bool> ExistsAsync(Expression<Func<Guest, bool>> predicate)
+    public async Task<bool> ExistsAsync(Expression<Func<Guest, bool>> predicate)
     {
-        throw new NotImplementedException();
+        return await _context.Guests.AnyAsync(predicate);
     }
 
-    public Task<IEnumerable<Guest>?> FindAsync(Expression<Func<Guest, bool>> specification)
+    public async Task<IEnumerable<Guest>?> FindAsync(Expression<Func<Guest, bool>> specification)
     {
-        throw new NotImplementedException();
+        return await _context.Guests.Where(specification).ToListAsync();
     }
 
-    public Task<Guest?> FirstAsync(Expression<Func<Guest, bool>> specification)
+    public async Task<Guest?> FirstAsync(Expression<Func<Guest, bool>> predicate)
     {
-        throw new NotImplementedException();
+        return await _context.Guests.FirstOrDefaultAsync(predicate);
     }
 
-    public Task<IEnumerable<Guest>> GetAllAsync()
+    public async Task<IEnumerable<Guest>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return await _context.Guests.ToListAsync();
     }
 
-    public Task<Guest?> GetByIdAsync(Guid id)
+    public async Task<Guest?> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _context.Guests.FirstOrDefaultAsync(g => g.Id == id);
     }
 
-    public Task UpdateAsync(Guest entity)
+    public async Task UpdateAsync(Guest entity)
     {
-        throw new NotImplementedException();
+        _context.Guests.Update(entity);
     }
 }

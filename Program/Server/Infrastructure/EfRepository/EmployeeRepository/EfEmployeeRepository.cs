@@ -1,53 +1,57 @@
-using System.Linq.Expressions;
 using Domain.Entity.Employee;
+using System.Linq.Expressions;
 using Domain.Interfaces.Repositories.EmployeeRepository;
+using Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.EfRepository.EmployeeRepository;
 
-public class EfEmployeeRepository : IEmployeeRepository
+public class EfEmployeeRepository(ProgramContext context) : IEmployeeRepository
 {
-    public Task AddAsync(Employee entity)
+    private readonly ProgramContext _context = context;
+    
+    public async Task AddAsync(Employee entity)
     {
-        throw new NotImplementedException();
+        await _context.Employees.AddAsync(entity);
     }
 
-    public Task<int> CountAsync(Expression<Func<Employee, bool>> predicate)
+    public async Task<int> CountAsync(Expression<Func<Employee, bool>> predicate)
     {
-        throw new NotImplementedException();
+        return await _context.Employees.CountAsync(predicate);
     }
 
-    public Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
+        await _context.Employees.Where(e => e.Id == id).ExecuteDeleteAsync();
     }
 
-    public Task<bool> ExistsAsync(Expression<Func<Employee, bool>> predicate)
+    public async Task<bool> ExistsAsync(Expression<Func<Employee, bool>> predicate)
     {
-        throw new NotImplementedException();
+        return await _context.Employees.AnyAsync(predicate);
     }
 
-    public Task<IEnumerable<Employee>?> FindAsync(Expression<Func<Employee, bool>> specification)
+    public async Task<IEnumerable<Employee>?> FindAsync(Expression<Func<Employee, bool>> specification)
     {
-        throw new NotImplementedException();
+        return await _context.Employees.Where(specification).ToListAsync();
     }
 
-    public Task<Employee?> FirstAsync(Expression<Func<Employee, bool>> predicate)
+    public async Task<Employee?> FirstAsync(Expression<Func<Employee, bool>> predicate)
     {
-        throw new NotImplementedException();
+        return await _context.Employees.FirstOrDefaultAsync(predicate);
     }
 
-    public Task<IEnumerable<Employee>> GetAllAsync()
+    public async Task<IEnumerable<Employee>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return await _context.Employees.ToListAsync();
     }
 
-    public Task<Employee?> GetByIdAsync(Guid id)
+    public async Task<Employee?> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _context.Employees.FirstOrDefaultAsync(e => e.Id == id);
     }
 
-    public Task UpdateAsync(Employee entity)
+    public async Task UpdateAsync(Employee entity)
     {
-        throw new NotImplementedException();
+        _context.Employees.Update(entity);
     }
 }

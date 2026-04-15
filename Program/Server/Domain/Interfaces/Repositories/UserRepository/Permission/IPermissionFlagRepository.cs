@@ -3,7 +3,7 @@ using Domain.Interfaces.Repositories.BaseRepository;
 
 namespace Domain.Interfaces.Repositories.UserRepository.Permission;
 
-public interface IPermissionFlagRepository : IBaseStatusObjectRepository<PermissionEntity>
+public interface IPermissionFlagRepository : IBaseStatusObjectRepository<PermissionFlag>
 {
     
 }
