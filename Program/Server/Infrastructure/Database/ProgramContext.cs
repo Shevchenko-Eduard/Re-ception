@@ -1,12 +1,8 @@
-﻿using Domain.Entity;
-using Infrastructure.Database.Converter;
+﻿using Infrastructure.Database.Converter;
 using Infrastructure.Database.IdentityEntity;
 using Infrastructure.Database.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using GuidToStringConverter = Infrastructure.Database.Converter.GuidToStringConverter;
 
 namespace Infrastructure.Database;
 

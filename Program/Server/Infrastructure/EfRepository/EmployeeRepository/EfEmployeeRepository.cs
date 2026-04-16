@@ -1,5 +1,5 @@
-using Domain.Entity.Employee;
 using System.Linq.Expressions;
+using Domain.Entity.Employee;
 using Domain.Interfaces.Repositories.EmployeeRepository;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;

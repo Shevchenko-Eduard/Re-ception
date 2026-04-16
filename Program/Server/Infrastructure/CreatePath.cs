@@ -73,10 +73,4 @@ internal static class CreatePath
 			directoryNames: directory, specialFolder: specialFolder);
 		return Path.Combine(directoryPath, fileName);
 	}
-	/// <summary>
-	/// Путь к базе данных приложения
-	/// </summary>
-	public static string PathToDb() => CreatePathToFileInSpecialFolder(
-		fileName: "ShevricTodo.db",
-		directory: ["ShevricTodo", "Database"]);
 }

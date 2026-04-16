@@ -1,10 +1,4 @@
-﻿var allTypes = AppDomain.CurrentDomain.GetAssemblies()
-    .SelectMany(s => s.GetTypes());
-foreach (Type type in allTypes)
+﻿if (args[0] == "webapi")
 {
-    Console.WriteLine(type.ToString());
-    foreach(var method in type.GetMethods())
-    {
-        Console.WriteLine($"  - {method.ToString()}");
-    }
+    WebApi.Program.Main(args);
 }

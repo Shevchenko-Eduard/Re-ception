@@ -2,6 +2,7 @@
   <Project Path="../Application/Application.csproj" />
   <Project Path="../Domain/Domain.csproj" />
   <Project Path="../Infrastructure/Infrastructure.csproj" />
+  <Project Path="../Presentations/WebApi/WebApi.csproj" />
   <Project Path="../Tests/UnitTests/UnitTests.csproj" />
   <Project Path="CompositionRoot.csproj" />
 </Solution>

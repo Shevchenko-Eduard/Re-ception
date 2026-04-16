@@ -1,5 +1,5 @@
-using Domain.Interfaces.Repositories.BaseRepository;
 using Domain.Entity.Hotel;
+using Domain.Interfaces.Repositories.BaseRepository;
 
 namespace Domain.Interfaces.Repositories.HotelRepository;
 

@@ -1,4 +1,3 @@
-using Domain.Entity.User.Permission;
 using System.Linq.Expressions;
 using Domain.Interfaces.Repositories.UserRepository.Permission;
 using Infrastructure.Database;
@@ -10,37 +9,37 @@ public class EfPermissionRepository(ProgramContext context) : IPermissionReposit
 {
     private readonly ProgramContext _context = context;
     
-    public async Task<Permission?> GetByIdAsync(int id)
+    public async Task<Domain.Entity.User.Permission.Permission?> GetByIdAsync(int id)
     {
         return await _context.Permissions.FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public async Task<IEnumerable<Permission>> GetAllAsync()
+    public async Task<IEnumerable<Domain.Entity.User.Permission.Permission>> GetAllAsync()
     {
         return await _context.Permissions.ToListAsync();
     }
 
-    public async Task<IEnumerable<Permission>?> FindAsync(Expression<Func<Permission, bool>> specification)
+    public async Task<IEnumerable<Domain.Entity.User.Permission.Permission>?> FindAsync(Expression<Func<Domain.Entity.User.Permission.Permission, bool>> specification)
     {
         return await _context.Permissions.Where(specification).ToListAsync();
     }
 
-    public async Task<Permission?> FirstAsync(Expression<Func<Permission, bool>> predicate)
+    public async Task<Domain.Entity.User.Permission.Permission?> FirstAsync(Expression<Func<Domain.Entity.User.Permission.Permission, bool>> predicate)
     {
         return await _context.Permissions.FirstOrDefaultAsync(predicate);
     }
 
-    public async Task<bool> ExistsAsync(Expression<Func<Permission, bool>> predicate)
+    public async Task<bool> ExistsAsync(Expression<Func<Domain.Entity.User.Permission.Permission, bool>> predicate)
     {
         return await _context.Permissions.AnyAsync(predicate);
     }
 
-    public async Task<int> CountAsync(Expression<Func<Permission, bool>> predicate)
+    public async Task<int> CountAsync(Expression<Func<Domain.Entity.User.Permission.Permission, bool>> predicate)
     {
         return await _context.Permissions.CountAsync(predicate);
     }
 
-    public async Task AddAsync(Permission entity)
+    public async Task AddAsync(Domain.Entity.User.Permission.Permission entity)
     {
         await _context.Permissions.AddAsync(entity);
     }
@@ -50,10 +49,11 @@ public class EfPermissionRepository(ProgramContext context) : IPermissionReposit
         await _context.Permissions.Where(p => p.Id == id).ExecuteDeleteAsync();
     }
 
-    public async Task<IEnumerable<Permission>> GetPermissionsByRolesAsync(IEnumerable<ushort> rolesId)
+    public async Task<IEnumerable<Domain.Entity.User.Permission.Permission>> GetPermissionsByRolesAsync(IEnumerable<ushort> rolesId)
     {
         return await _context.Permissions
-            .Where(p => rolesId.Contains(p.RoleId))
+            .Include(p => p.Roles)
+            .Where(p => p.Roles != null && p.Roles.Where(r =>rolesId.Contains(r.Id)) != null)
             .ToListAsync();
     }
 }

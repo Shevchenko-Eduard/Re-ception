@@ -1,4 +1,3 @@
-using Domain.Entity.User.Role;
 using System.Linq.Expressions;
 using Domain.Interfaces.Repositories.UserRepository.Role;
 using Infrastructure.Database;

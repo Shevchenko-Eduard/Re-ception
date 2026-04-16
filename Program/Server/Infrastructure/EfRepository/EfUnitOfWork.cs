@@ -2,7 +2,7 @@ using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace TodoList.Infrastructure;
+namespace Infrastructure.EfRepository;
 
 public class EfUnitOfWork : IUnitOfWork
 {

@@ -1,5 +1,5 @@
-using Domain.Entity.Hotel;
 using System.Linq.Expressions;
+using Domain.Entity.Hotel;
 using Domain.Interfaces.Repositories.HotelRepository;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;

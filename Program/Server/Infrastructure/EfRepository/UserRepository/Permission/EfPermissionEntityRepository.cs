@@ -1,5 +1,5 @@
-using Domain.Entity.User.Permission;
 using System.Linq.Expressions;
+using Domain.Entity.User.Permission;
 using Domain.Interfaces.Repositories.UserRepository.Permission;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;

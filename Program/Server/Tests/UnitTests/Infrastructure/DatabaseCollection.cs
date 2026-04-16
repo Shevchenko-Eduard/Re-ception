@@ -5,17 +5,17 @@ namespace UnitTests.Infrastructure;
 
 public class DatabaseCollection : IDisposable
 {
-    public ProgramContext TodoContext { get; }
+    public ProgramContext Context { get; }
     private readonly SqliteInMemoryStrategy _sqliteInMemoryStrategy;
     public DatabaseCollection()
     {
         _sqliteInMemoryStrategy = new();
-        TodoContext = new(_sqliteInMemoryStrategy);
-        TodoContext.Database.EnsureCreated();
+        Context = new(_sqliteInMemoryStrategy);
+        Context.Database.EnsureCreated();
     }
     public void Dispose()
     {
-        TodoContext.Dispose();
+        Context.Dispose();
         _sqliteInMemoryStrategy.Dispose();
     }
 }
