@@ -7,7 +7,7 @@ public class Image
     #region Fields
     public int Id { get; init; }
     public int HotelId { get; init; }
-    public string ImageKey { get; init; }
+    public Guid ImageKey { get; init; }
     public byte[]? Bytes { get; private set; } = null;
     #endregion
     #region Navigation properties
@@ -17,10 +17,11 @@ public class Image
 #pragma warning disable CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Рассмотрите возможность добавления модификатора "required" или объявления значения, допускающего значение NULL.
     private Image() { }
 #pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Рассмотрите возможность добавления модификатора "required" или объявления значения, допускающего значение NULL.
-    public Image(int hotelId, string imageKey)
+    public Image(int hotelId, Guid? imageKey = null, byte[]? bytes = null)
     {
+        Bytes = bytes;
         HotelId = hotelId;
-        ImageKey = imageKey;
+        ImageKey = imageKey ?? Guid.NewGuid();
     }
     #endregion
     #region Methods
