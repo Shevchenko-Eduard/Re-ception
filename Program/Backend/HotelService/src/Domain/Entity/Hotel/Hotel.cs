@@ -69,6 +69,6 @@ public class Hotel
     public void UpdateEmail(Email email) => Email = email;
     public void UpdatePhone(Phone phone) => Phone = phone;
     public void UpdateName(string name) => Name = name;
-    public void UpdateDescription(string description) => Description = description;
+    public void UpdateDescription(string? description) => Description = description;
     #endregion
 }
