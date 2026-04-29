@@ -1,0 +1,81 @@
+{
+  "version": "1.0.0",
+  "darkMode": true,
+  "gridEnabling": false,
+  "detailLevel": "Tables",
+  "tablePositions": [
+    {
+      "name": "hotel",
+      "schemaName": "public",
+      "x": 15.56307129907718,
+      "y": -25.946484232222133
+    },
+    {
+      "name": "hotel_tag",
+      "schemaName": "public",
+      "x": 569.9902867245316,
+      "y": -26.00296688803118
+    },
+    {
+      "name": "hotel_hotel_tag",
+      "schemaName": "public",
+      "x": 288.80324095085234,
+      "y": -26.002966888031153
+    },
+    {
+      "name": "hotel_image",
+      "schemaName": "public",
+      "x": -252.19870283947412,
+      "y": -25.946484232222133
+    }
+  ],
+  "tableGroupCollapseStates": [],
+  "stickyNoteLayouts": [],
+  "referencePaths": [
+    {
+      "firstFieldNames": [
+        ""
+      ],
+      "firstTableName": "hotel",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        ""
+      ],
+      "secondTableName": "hotel_hotel_tag",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        ""
+      ],
+      "firstTableName": "hotel_tag",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        ""
+      ],
+      "secondTableName": "hotel_hotel_tag",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        ""
+      ],
+      "firstTableName": "hotel",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        ""
+      ],
+      "secondTableName": "hotel_image",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    }
+  ]
+}

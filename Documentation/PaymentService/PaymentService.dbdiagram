@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "darkMode": true,
+  "gridEnabling": false,
+  "detailLevel": "All",
+  "tablePositions": [
+    {
+      "name": "payment",
+      "schemaName": "public",
+      "x": 442.359375,
+      "y": 12
+    },
+    {
+      "name": "payment_status",
+      "schemaName": "public",
+      "x": 6.848876953125,
+      "y": 174.30193209304946
+    },
+    {
+      "name": "payment_method",
+      "schemaName": "public",
+      "x": 4.625549459776106,
+      "y": 12
+    }
+  ],
+  "tableGroupCollapseStates": [],
+  "stickyNoteLayouts": [],
+  "referencePaths": []
+}

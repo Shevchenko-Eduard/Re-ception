@@ -1,0 +1,18 @@
+table reservation{
+    id int [pk]
+    guest_id string
+    room_id int
+    check_in date
+    check_out date
+    create_at date
+    total_price decimal
+    reservation_status_id int
+    discount decimal []
+}
+
+table reservation_status{
+    id int [pk]
+    name string
+}
+
+ref {reservation_status.id < reservation.reservation_status_id}

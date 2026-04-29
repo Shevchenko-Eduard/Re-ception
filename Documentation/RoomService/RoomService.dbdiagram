@@ -1,0 +1,123 @@
+{
+  "version": "1.0.0",
+  "darkMode": true,
+  "gridEnabling": false,
+  "detailLevel": "All",
+  "tablePositions": [
+    {
+      "name": "room",
+      "schemaName": "public",
+      "x": 668.5317215319812,
+      "y": 37.33969094476595
+    },
+    {
+      "name": "room_status",
+      "schemaName": "public",
+      "x": 84.4484822564925,
+      "y": 179.51407258376798
+    },
+    {
+      "name": "room_type",
+      "schemaName": "public",
+      "x": 9.433810967782714,
+      "y": -31.361506646746477
+    },
+    {
+      "name": "room_tag",
+      "schemaName": "public",
+      "x": 447.8095834259489,
+      "y": -357.3157786469333
+    },
+    {
+      "name": "room_room_tag",
+      "schemaName": "public",
+      "x": 676.3493238037472,
+      "y": -179.56636612412092
+    },
+    {
+      "name": "room_image",
+      "schemaName": "public",
+      "x": 64.0112263971175,
+      "y": -216.35071156620663
+    }
+  ],
+  "tableGroupCollapseStates": [],
+  "stickyNoteLayouts": [],
+  "referencePaths": [
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "room_status",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "room_status_id"
+      ],
+      "secondTableName": "room",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "room_type",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "room_type_id"
+      ],
+      "secondTableName": "room",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "room",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "room_id"
+      ],
+      "secondTableName": "room_room_tag",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "room_tag",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "room_tag_id"
+      ],
+      "secondTableName": "room_room_tag",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "room",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "room_id"
+      ],
+      "secondTableName": "room_image",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    }
+  ]
+}
