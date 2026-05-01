@@ -6,7 +6,8 @@ namespace Application.DTOs;
 public static class HotelImageDTOs
 {
     public record Create(
-        int HotelId
+        int HotelId,
+        Stream Stream
     )
     {
         public HotelImage GetImage() => new(hotelId: HotelId);

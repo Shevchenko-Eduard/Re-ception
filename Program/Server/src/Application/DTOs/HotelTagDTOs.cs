@@ -30,6 +30,6 @@ public static class HotelTagDTOs
     }
 
     public record Delete(
-        ushort Id
+        int Id
     );
 }

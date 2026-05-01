@@ -22,6 +22,6 @@ public static class PaymentDTOs
     }
 
     public record Delete(
-        uint Id
+        int Id
     );
 }

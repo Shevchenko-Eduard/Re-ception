@@ -7,7 +7,7 @@ public sealed class RoomTag
     private const ushort _maxDescription = 250;
     #endregion
     #region Fields
-    public ushort Id { get; init; }
+    public int Id { get; init; }
     public string Name
     {
         get; private set

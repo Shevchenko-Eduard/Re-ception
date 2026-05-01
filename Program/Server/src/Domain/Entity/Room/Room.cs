@@ -37,19 +37,19 @@ public sealed class Room
         int roomStatusId,
         decimal? pricePerDay = null)
     {
-        HotelId = (byte)hotelId;
-        RoomTypeId = (ushort)roomTypeId;
-        RoomNumber = (ushort)roomNumber;
-        Floor = (byte)floor;
+        HotelId = hotelId;
+        RoomTypeId = roomTypeId;
+        RoomNumber = roomNumber;
+        Floor = floor;
         RoomStatusId = (byte)roomStatusId;
         PricePerDay = pricePerDay;
     }
     #endregion
     #region Methods
     public void SetRoomType(RoomType roomType) => RoomType = roomType;
-    public void UpdateRoomTypeId(ushort roomTypeId) => RoomTypeId = roomTypeId;
-    public void UpdateRoomNumber(ushort roomNumber) => RoomNumber = roomNumber;
-    public void UpdateFloor(byte floor) => Floor = floor;
+    public void UpdateRoomTypeId(int roomTypeId) => RoomTypeId = roomTypeId;
+    public void UpdateRoomNumber(int roomNumber) => RoomNumber = roomNumber;
+    public void UpdateFloor(int floor) => Floor = floor;
     public void UpdateRoomStatusId(byte roomStatusId) => RoomStatusId = roomStatusId;
     public void UpdatePricePerDay(decimal? pricePerDay) => PricePerDay = pricePerDay;
     #endregion

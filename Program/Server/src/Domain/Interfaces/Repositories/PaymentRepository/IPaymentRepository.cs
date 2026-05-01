@@ -5,8 +5,8 @@ namespace Domain.Interfaces.Repositories.PaymentRepository;
 
 public interface IPaymentRepository :
     IBaseCreateRepository<Payment>,
-    IBaseReadRepository<Payment, uint>,
-    IBaseDeleteRepository<Payment>
+    IBaseReadRepository<Payment, int>,
+    IBaseDeleteRepository<int>
 {
 
 }

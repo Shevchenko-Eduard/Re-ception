@@ -25,12 +25,42 @@ public static class ReservationDTOs
         }
     }
     public record Delete(
-        ulong Id){}
+        int Id){}
     public record Update(
-        ulong Id,
+        int Id,
         DateTimeOffset? CheckIn = null,
         DateTimeOffset? CheckOut = null,
         decimal? Discount = null,
         byte? ReservationStatusId = null
-        ){}
+        )
+    {
+        public async Task<Reservation> GetReservation(Reservation reservation)
+        {
+            bool isUpdateTotalPrice = false;
+        if (CheckIn is not null)
+        {
+            reservation.UpdateCheckIn((DateTimeOffset)CheckIn);
+            isUpdateTotalPrice = true;
+        }
+        if (CheckOut is not null)
+        {
+            reservation.UpdateCheckOut((DateTimeOffset)CheckOut);
+            isUpdateTotalPrice = true;
+        }
+        if (Discount is not null)
+        {
+            reservation.UpdateDiscount((decimal)Discount);
+            isUpdateTotalPrice = true;
+        }
+        if (Discount is not null)
+        {
+            reservation.UpdateDiscount((decimal)Discount);
+        }
+        if (isUpdateTotalPrice)
+        {
+            await reservation.UpdateTotalPrice();
+        }
+        return reservation;
+        }
+    }
 }

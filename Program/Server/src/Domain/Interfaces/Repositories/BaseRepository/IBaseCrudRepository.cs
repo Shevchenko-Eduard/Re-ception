@@ -6,7 +6,7 @@ public interface IBaseCrudRepository<TValue, TValueId> :
     IBaseCreateRepository<TValue>,
     IBaseReadRepository<TValue, TValueId>,
     IBaseUpdateRepository<TValue>,
-    IBaseDeleteRepository<TValue>
+    IBaseDeleteRepository<TValueId>
 {
 
 }

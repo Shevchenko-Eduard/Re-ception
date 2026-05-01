@@ -3,7 +3,7 @@ using Domain.Interfaces.Repositories.BaseRepository;
 
 namespace Domain.Interfaces.Repositories.ReservationRepository;
 
-public interface IReservationRepository : IBaseCrudRepository<Reservation, ulong>
+public interface IReservationRepository : IBaseCrudRepository<Reservation, int>
 {
 
 }

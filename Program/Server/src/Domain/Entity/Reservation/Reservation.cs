@@ -8,9 +8,9 @@ public class Reservation
     private readonly ICalculatorReservationPrice _calculatorPrice;
     #endregion
     #region Fields
-    public ulong Id { get; init; }
+    public int Id { get; init; }
     public Guid GuestId { get; init; }
-    public ushort RoomId { get; init; }
+    public int RoomId { get; init; }
     public DateTimeOffset CheckIn { get; private set; }
     public DateTimeOffset CheckOut { get; private set; }
     public byte ReservationStatusId { get; private set; }
@@ -39,14 +39,14 @@ public class Reservation
 #pragma warning restore CS9264, CS8618
     public Reservation(
         ICalculatorReservationPrice calculatorPrice,
-        Guid guestId, uint roomId,
+        Guid guestId, int roomId,
         DateTimeOffset checkIn, DateTimeOffset checkOut,
         int reservationStatusId = 0,
         decimal? discount = null)
     {
         _calculatorPrice = calculatorPrice;
         GuestId = guestId;
-        RoomId = (ushort)roomId;
+        RoomId = roomId;
         CheckIn = checkIn;
         CheckOut = checkOut;
         ReservationStatusId = (byte)reservationStatusId;
