@@ -3,8 +3,6 @@ namespace Domain.Entity.Room;
 public sealed class RoomTag
 {
     #region Constants
-    private const ushort _maxName = 50;
-    private const ushort _maxDescription = 250;
     #endregion
     #region Fields
     public int Id { get; init; }
@@ -13,10 +11,6 @@ public sealed class RoomTag
         get; private set
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(value);
-            if (value.Length > _maxName)
-            {
-                throw new ArgumentException(message: $"The name must not exceed {_maxName} characters.");
-            }
             field = value;
         }
     } = null!;
@@ -25,10 +19,6 @@ public sealed class RoomTag
         get; private set
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(value);
-            if (value.Length > _maxDescription)
-            {
-                throw new ArgumentException(message: $"The description must not exceed {_maxDescription} characters.");
-            }
             field = value;
         }
     } = null!;

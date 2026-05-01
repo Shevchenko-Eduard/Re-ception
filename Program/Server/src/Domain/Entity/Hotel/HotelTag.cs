@@ -5,8 +5,6 @@ namespace Domain.Entity.Hotel;
 public sealed class HotelTag
 {
     #region Constants
-    private const ushort _maxName = 50;
-    private const ushort _maxDescription = 250;
     #endregion
     #region Fields
     public int Id { get; init; }
@@ -15,10 +13,6 @@ public sealed class HotelTag
         get; private set
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(value);
-            if (value.Length > _maxName)
-            {
-                throw new DomainExternalException(message: $"The name must not exceed {_maxName} characters.");
-            }
             field = value;
         }
     } = null!;
@@ -27,10 +21,6 @@ public sealed class HotelTag
         get; private set
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(value);
-            if (value.Length > _maxDescription)
-            {
-                throw new DomainExternalException(message: $"The description must not exceed {_maxDescription} characters.");
-            }
             field = value;
         }
     } = null!;
