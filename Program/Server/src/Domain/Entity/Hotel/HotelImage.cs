@@ -6,7 +6,7 @@ public class HotelImage
     #endregion
     #region Fields
     public int Id { get; init; }
-    public int HotelId { get; init; }
+    public int? HotelId { get; init; }
     public Guid ImageKey { get; init; }
     #endregion
     #region Navigation properties
