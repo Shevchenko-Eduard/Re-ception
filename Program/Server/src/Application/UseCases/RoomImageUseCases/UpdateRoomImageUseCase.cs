@@ -13,9 +13,7 @@ public class UpdateRoomImageUseCase(
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     public async Task Execute(RoomImageDTOs.Update input)
     {
-        RoomImage image = await _roomImageRepository.GetValueByIdAsync(input.Id)
-            ?? throw new Exception();
-        await _roomImageRepository.UpdateAsync(image, input.Stream);
+        await _roomImageRepository.UpdateAsync(input.Id, input.Stream);
         await _unitOfWork.SaveChangesAsync();
     }
 }
