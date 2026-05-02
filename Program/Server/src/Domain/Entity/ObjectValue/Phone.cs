@@ -24,12 +24,19 @@ public sealed partial class Phone
         get;
         init
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(value);
-            if (!PhoneRegex().IsMatch(value))
+            try
             {
-                throw new DomainExternalException(message: "Does not meet standards.");
+                ArgumentException.ThrowIfNullOrWhiteSpace(value);
+                if (!PhoneRegex().IsMatch(value))
+                {
+                    throw new DomainExternalException(message: "Does not meet standards.");
+                }
+                field = value;
             }
-            field = value;
+            catch (System.Exception ex)
+            {
+                throw new DomainExternalException(message: ex.Message, innerException: ex);
+            }
         }
     }
     /// <summary>

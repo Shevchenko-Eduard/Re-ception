@@ -26,7 +26,7 @@ public sealed class HotelTag
     } = null!;
     #endregion
     #region Navigation properties
-    public ICollection<HotelHotelTag>? HotelTags { get; private set; }
+    public ICollection<HotelHotelTag>? HotelHotelTags { get; private set; }
     #endregion
     #region Constructors
     private HotelTag() { }

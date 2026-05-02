@@ -24,12 +24,19 @@ public sealed partial class Email
         get;
         init
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(value);
-            if (!RegexEmail().IsMatch(value))
+            try
             {
-                throw new DomainExternalException(message: "The email does not meet the specified requirements.");
+                ArgumentException.ThrowIfNullOrWhiteSpace(value);
+                if (!RegexEmail().IsMatch(value))
+                {
+                    throw new DomainExternalException(message: "The email does not meet the specified requirements.");
+                }
+                field = value;
             }
-            field = value;
+            catch (System.Exception ex)
+            {
+                throw new DomainExternalException(message: ex.Message, innerException: ex);
+            }
         }
     }
     /// <summary>

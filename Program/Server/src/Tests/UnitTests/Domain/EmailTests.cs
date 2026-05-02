@@ -1,4 +1,5 @@
 using Domain.Entity;
+using Domain.Exception;
 
 namespace UnitTests.Domain;
 
@@ -18,7 +19,7 @@ public class EmailTests
     [InlineData("@#$5@#$%^&*(>>??><<MNM<>>..)")]
     public void Email_New_ThrowsException(string emailString)
     {
-        Assert.Throws<ArgumentException>(() => new Email(emailString));
+        Assert.Throws<DomainExternalException>(() => new Email(emailString));
     }
     [Theory]
     [InlineData("qwertyuiop@email.com")]

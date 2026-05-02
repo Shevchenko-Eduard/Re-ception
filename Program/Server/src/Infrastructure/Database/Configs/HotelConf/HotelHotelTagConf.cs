@@ -22,7 +22,7 @@ public class HotelHotelTagConf : IEntityTypeConfiguration<HotelHotelTag>
             .HasColumnName("hotel_id")
             .IsRequired();
 
-        builder.Property(hht => hht.Tag)
+        builder.Property(hht => hht.HotelTagId)
             .HasColumnName("Hotel_tag_id")
             .IsRequired();
         #endregion
@@ -33,9 +33,9 @@ public class HotelHotelTagConf : IEntityTypeConfiguration<HotelHotelTag>
             .HasForeignKey(hht => hht.HotelId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne(hht => hht.Tag)
-            .WithMany(t => t.HotelTags)
-            .HasForeignKey(hht => hht.TagId)
+        builder.HasOne(hht => hht.HotelTag)
+            .WithMany(t => t.HotelHotelTags)
+            .HasForeignKey(hht => hht.HotelTagId)
             .OnDelete(DeleteBehavior.Cascade);
         #endregion
 
@@ -43,7 +43,7 @@ public class HotelHotelTagConf : IEntityTypeConfiguration<HotelHotelTag>
         #endregion
 
         #region index
-        builder.HasIndex(hht => new{ hht.HotelId, hht.TagId})
+        builder.HasIndex(hht => new{ hht.HotelId, hht.HotelTagId})
             .IsUnique()
             .HasDatabaseName("uq_hotel_hotel_tags_hid_htid");
         #endregion

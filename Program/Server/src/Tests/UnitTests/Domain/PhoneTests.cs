@@ -1,5 +1,5 @@
 using Domain.Entity;
-
+using Domain.Exception;
 namespace UnitTests.Domain
 {
     public class PhoneTests
@@ -14,7 +14,7 @@ namespace UnitTests.Domain
         [InlineData("+7-1-2-3-4-5-6-7-8-9")]
         public void Phone_New_ThrowException(string phoneString)
         {
-            Assert.Throws<ArgumentException>(() => new Phone(phoneString));
+            Assert.Throws<DomainExternalException>(() => new Phone(phoneString));
         }
         [Theory]
         [InlineData("+71234567890")]
