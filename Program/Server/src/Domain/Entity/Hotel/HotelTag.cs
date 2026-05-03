@@ -1,5 +1,3 @@
-using Domain.Exception;
-
 namespace Domain.Entity.Hotel;
 
 public sealed class HotelTag

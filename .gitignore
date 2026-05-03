@@ -424,3 +424,16 @@ bin/
 .obsidian/
 .vscode/
 bash/
+
+*.sln
+
+.terraform/
+.terraform.d/
+*.tfstate
+*.tfstate*
+
+*.tfvars
+*.tfvars.json
+
+.terraformrc
+terraform.rc

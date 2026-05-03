@@ -6,7 +6,7 @@ namespace Application.DTOs;
 public static class ReservationDTOs
 {
     public record Create(
-        Guid GuestId,
+        string GuestId,
         int RoomId,
         DateTimeOffset CheckIn,
         DateTimeOffset CheckOut)

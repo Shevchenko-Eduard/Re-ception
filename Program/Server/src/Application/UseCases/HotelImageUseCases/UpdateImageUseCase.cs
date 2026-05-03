@@ -1,6 +1,5 @@
 using Application.DTOs;
 using Application.Interfaces;
-using Domain.Entity.Hotel;
 using Domain.Interfaces.Repositories.HotelRepository;
 
 namespace Application.UseCases.HotelImageUseCases;

@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using Domain.Entity.Payment;
 using Domain.Interfaces.Repositories.PaymentRepository;
 using Infrastructure.Database;

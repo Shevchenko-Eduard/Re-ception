@@ -1,6 +1,5 @@
 using Application.DTOs;
 using Application.Interfaces;
-using Domain.Entity.Room;
 using Domain.Interfaces.Repositories.RoomRepository;
 
 namespace Application.UseCases.RoomImageUseCases;
