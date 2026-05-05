@@ -1,7 +1,11 @@
 <Solution>
+  <Folder Name="/Presentations/">
+    <Project Path="Presentations/CustomerWeb/CustomerWeb.csproj" />
+    <Project Path="Presentations/EmployeeWeb/EmployeeWeb.csproj" />
+    <Project Path="Presentations/LibWeb/LibWeb.csproj" />
+  </Folder>
   <Project Path="./Application/Application.csproj" />
   <Project Path="./Domain/Domain.csproj" />
   <Project Path="./Infrastructure/Infrastructure.csproj" />
-  <Project Path="./Presentations/WebApi/WebApi.csproj" />
   <Project Path="./Tests/UnitTests/UnitTests.csproj" />
 </Solution>

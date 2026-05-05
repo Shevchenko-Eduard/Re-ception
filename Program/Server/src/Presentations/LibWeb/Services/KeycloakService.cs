@@ -17,13 +17,13 @@ namespace LibWeb.Services;
 /// </summary>
 public static class KeycloakService
 {
-    public static IServiceCollection AddKeycloak(this IServiceCollection services, ConfigurationManager configuration)
+    public static IServiceCollection AddKeycloak(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddKeycloakAuthentication(configuration);
         services.AddKeycloakAuthorization(configuration);
         return services;
     }
-    public static IServiceCollection AddKeycloakAuthentication(this IServiceCollection services, ConfigurationManager configuration)
+    public static IServiceCollection AddKeycloakAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
         var keycloakOptions = GetKeycloakInstallationOptions(configuration);
 
@@ -41,7 +41,7 @@ public static class KeycloakService
 
         return services;
     }
-    public static IServiceCollection AddKeycloakAuthorization(this IServiceCollection services, ConfigurationManager configuration)
+    public static IServiceCollection AddKeycloakAuthorization(this IServiceCollection services, IConfiguration configuration)
     {
         var keycloakOptions = GetKeycloakInstallationOptions(configuration);
 
@@ -60,21 +60,30 @@ public static class KeycloakService
 
         return services;
     }
-    private static KeycloakInstallationOptions GetKeycloakInstallationOptions(ConfigurationManager configuration)
+    private static KeycloakInstallationOptions GetKeycloakInstallationOptions(IConfiguration configuration)
     {
         var kcSettings = configuration.GetSection("Keycloak");
+
+        string authServerUrl = kcSettings["AuthServerUrl"] ?? throw new InvalidOperationException("Keycloak:AuthServerUrl is missing");
+        string realm = kcSettings["Realm"] ?? throw new InvalidOperationException("Keycloak:Realm is missing");
+        string resource = kcSettings["Resource"] ?? throw new InvalidOperationException("Keycloak:Resource is missing");
+        string secret = kcSettings["Secret"] ?? throw new InvalidOperationException("Keycloak:Secret is missing");
+        string sslRequired = kcSettings["SslRequired"] ?? "none";
+        bool verifyTokenAudience = bool.TryParse(kcSettings["VerifyTokenAudience"], out var verify) && verify;
+
         var keycloakOptions = new KeycloakInstallationOptions
         {
-            AuthServerUrl = kcSettings["AuthServerUrl"] ?? throw new InvalidOperationException("Keycloak:AuthServerUrl is missing"),
-            Realm = kcSettings["Realm"] ?? throw new InvalidOperationException("Keycloak:Realm is missing"),
-            Resource = kcSettings["Resource"] ?? throw new InvalidOperationException("Keycloak:Resource is missing"),
+            AuthServerUrl = authServerUrl,
+            Realm = realm,
+            Resource = resource,
             Credentials = new KeycloakClientInstallationCredentials
             {
-                Secret = kcSettings["Secret"] ?? throw new InvalidOperationException("Keycloak:Secret is missing")
+                Secret = secret
             },
-            SslRequired = kcSettings["SslRequired"] ?? "none",
-            VerifyTokenAudience = bool.TryParse(kcSettings["VerifyTokenAudience"], out var verify) ? verify : false,
-        };
+            SslRequired = sslRequired,
+            VerifyTokenAudience = verifyTokenAudience,
+        }; 
+
         return keycloakOptions;
     }
 }

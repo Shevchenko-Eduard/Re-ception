@@ -1,17 +1,19 @@
+using System.Data.Common;
 using Infrastructure.Database.Interfaces;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 
 namespace Infrastructure.Database;
 
 public class DatabaseInitialization(
     ProgramContext context,
-    ILogger? logger,
+    ILogger<DatabaseInitialization>? logger,
     IHostEnvironment hostEnvironment) : IDatabaseInitialization
 {
     private readonly ProgramContext _context = context;
-    private readonly ILogger? _logger = logger;
+    private readonly ILogger<DatabaseInitialization>? _logger = logger;
     private readonly IHostEnvironment _hostEnvironment = hostEnvironment;
 
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
@@ -26,10 +28,18 @@ public class DatabaseInitialization(
             else
             {
                 // Для Development можно использовать EnsureCreatedAsync для скорости
-                var created = await _context.Database.EnsureCreatedAsync(cancellationToken);
-                if (created && _context.Database.HasPendingModelChanges())
+                try
                 {
-                    _logger?.LogWarning("Database has pending model changes. Consider creating a migration.");
+                    var created = await _context.Database.EnsureCreatedAsync(cancellationToken);
+                    if (created && _context.Database.HasPendingModelChanges())
+                    {
+                        _logger?.LogWarning("Database has pending model changes. Consider creating a migration.");
+                    }
+                }
+                catch (DbException ex) when (ex.SqlState == "42P07") // 42P07 = relation already exists
+                {
+                    _logger?.LogWarning(ex, "Table already exists (race condition), continuing...");
+                    // Таблицы уже созданы другим экземпляром, продолжаем работу
                 }
             }
         }

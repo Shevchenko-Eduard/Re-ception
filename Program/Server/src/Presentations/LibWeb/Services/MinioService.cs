@@ -13,14 +13,19 @@ namespace LibWeb.Services;
 /// </summary>
 public static class MinioService
 {
-    public static IServiceCollection AddMinioClient(this IServiceCollection services, ConfigurationManager configuration)
+    public static IServiceCollection AddMinioClient(this IServiceCollection services, IConfiguration configuration)
     {
         var minioSettings = configuration.GetSection("Minio");
 
+        string endpoint = minioSettings["Endpoint"] ?? throw new InvalidOperationException("Minio:Endpoint is missing");
+        string username = minioSettings["Username"] ?? throw new InvalidOperationException("Minio:Username is missing");
+        string password = minioSettings["Password"] ?? throw new InvalidOperationException("Minio:Password is missing");
+        bool https = bool.TryParse(minioSettings["HTTPS"], out var result) && result;
+
         services.AddMinio(configureClient => configureClient
-            .WithEndpoint(minioSettings["Endpoint"])
-            .WithCredentials(minioSettings["Username"], minioSettings["Password"])
-            .WithSSL(bool.Parse(minioSettings["HTTPS"] ?? "false")));
+            .WithEndpoint(endpoint)
+            .WithCredentials(username, password)
+            .WithSSL(https));
 
         return services;
     }

@@ -1,10 +1,63 @@
+include:
+  - ../Keycloak/docker-compose.yaml
+    
 services:
 
-  server-app:
+  server-employee-api:
     build:
       context: .
-      dockerfile: app.dockerfile
-    container_name: server-app
+      dockerfile: employee-api.dockerfile
+    container_name: server-employee-api
+    depends_on:
+      server-db:
+        condition: service_healthy
+      server-s3:
+        condition: service_healthy
+      server-cache:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+    environment:
+      - Keycloak__AuthServerUrl=${KEYCLOAK_AUTH_SERVER_URL}
+      - Keycloak__Realm=${KEYCLOAK_EMPLOYEE_REALM}
+      - Keycloak__Resource=${KEYCLOAK_EMPLOYEE_RESOURCE}
+      - Keycloak__Secret=${KEYCLOAK_EMPLOYEE_SECRET}
+
+      - Minio__Endpoint=${S3_HOST}:${S3_PORT}
+      - Minio__Username=${MINIO_ROOT_USER}
+      - Minio__Password=${MINIO_ROOT_PASSWORD}
+      - Minio__HTTPS=false
+
+      - DB__Host=server-db
+      - DB__Port=5432
+      - DB__Database=${SERVER_POSTGRES_DB}
+      - DB__Username=${SERVER_POSTGRES_USER}
+      - DB__Password=${SERVER_POSTGRES_PASSWORD}
+
+      - Redis__Endpoint=server-cache:${CACHE_PORT}
+      - Redis__InstanceName=${REDIS_INSTANCE_NAME}
+      - Redis__Password=${CACHE_PASSWORD}
+
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ASPNETCORE_URLS=${ASPNETCORE_URLS}
+
+      - LOG_LEVEL=debug
+    ports:
+      - "${EMPLOYEE_API_PORT}:${ASPNETCORE_PORT}"
+    networks:
+      - server-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${EMPLOYEE_API_PORT}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  server-customer-api:
+    build:
+      context: .
+      dockerfile: customer-api.dockerfile
+    container_name: server-customer-api
     depends_on:
       server-db:
         condition: service_healthy
@@ -13,17 +66,36 @@ services:
       server-cache:
         condition: service_healthy
     environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@server-db:5432/${POSTGRES_DB}
+      - Keycloak__AuthServerUrl=${KEYCLOAK_AUTH_SERVER_URL}
+      - Keycloak__Realm=${KEYCLOAK_CUSTOMER_REALM}
+      - Keycloak__Resource=${KEYCLOAK_CUSTOMER_RESOURCE}
+      - Keycloak__Secret=${KEYCLOAK_CUSTOMER_SECRET}
+
+      - Minio__Endpoint=${S3_HOST}:${S3_PORT}
+      - Minio__Username=${MINIO_ROOT_USER}
+      - Minio__Password=${MINIO_ROOT_PASSWORD}
+      - Minio__HTTPS=false
+
+      - DB__Host=server-db
+      - DB__Port=5432
+      - DB__Database=${SERVER_POSTGRES_DB}
+      - DB__Username=${SERVER_POSTGRES_USER}
+      - DB__Password=${SERVER_POSTGRES_PASSWORD}
+
+      - Redis__Endpoint=server-cache:${CACHE_PORT}
+      - Redis__InstanceName=${REDIS_INSTANCE_NAME}
+      - Redis__Password=${CACHE_PASSWORD}
+
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
       - ASPNETCORE_URLS=${ASPNETCORE_URLS}
 
       - LOG_LEVEL=debug
     ports:
-      - "${APP_PORT}:${ASPNETCORE_PORT}"
+      - "${CUSTOMER_API_PORT}:${ASPNETCORE_PORT}"
     networks:
       - server-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:${APP_PORT}/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:${CUSTOMER_API_PORT}/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -33,17 +105,17 @@ services:
     image: postgres:18
     container_name: server-db
     ports:
-      - ${POSTGRES_PORT}:5432
+      - ${SERVER_POSTGRES_PORT}:5432
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${SERVER_POSTGRES_DB}
+      POSTGRES_USER: ${SERVER_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${SERVER_POSTGRES_PASSWORD}
     volumes:
       - server-db-data:/var/lib/postgresql
     networks:
       - server-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U ${SERVER_POSTGRES_USER} -d ${SERVER_POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5

@@ -2,5 +2,6 @@ namespace Application.Interfaces;
 
 public interface ICurrentUser
 {
-    string? Id {get;}
+    string? Id { get; }
+    bool IsAuthenticated { get; }
 }

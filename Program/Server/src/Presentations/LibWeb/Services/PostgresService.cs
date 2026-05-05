@@ -18,7 +18,7 @@ namespace LibWeb.Services;
 /// </summary>
 public static class PostgresService
 {
-    public static IServiceCollection AddPostgres(this IServiceCollection services, ConfigurationManager configuration)
+    public static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IConnectionStrategy>(provider =>
             new PostgresqlStrategy(connectionString: GetConnectionString(configuration)));
@@ -27,17 +27,25 @@ public static class PostgresService
         services.AddScoped<IDatabaseInitialization, DatabaseInitialization>();
         return services;
     }
-    private static string GetConnectionString(ConfigurationManager configuration)
+    private static string GetConnectionString(IConfiguration configuration)
     {
         var dbSettings = configuration.GetSection("DB");
+
+        string host = dbSettings["Host"] ?? throw new InvalidOperationException("Postgres:Host is missing");
+        int port = int.Parse(dbSettings["Port"] ?? throw new InvalidOperationException("Postgres:Port is missing"));
+        string database = dbSettings["Database"] ?? throw new InvalidOperationException("Postgres:Database is missing");
+        string username = dbSettings["Username"] ?? throw new InvalidOperationException("Postgres:Username is missing");
+        string password = dbSettings["Password"] ?? throw new InvalidOperationException("Postgres:Password is missing");
+
         var builder = new NpgsqlConnectionStringBuilder
         {
-            Host = dbSettings["Host"] ?? throw new SystemException(),
-            Port = int.Parse(dbSettings["Port"] ?? throw new SystemException()),
-            Database = dbSettings["Database"] ?? throw new SystemException(),
-            Username = dbSettings["Username"] ?? throw new SystemException(),
-            Password = dbSettings["Password"] ?? throw new SystemException()
+            Host = host,
+            Port = port,
+            Database = database,
+            Username = username,
+            Password = password
         };
+
         return builder.ToString();
     }
 }

@@ -4,7 +4,9 @@ WORKDIR /program
 
 COPY ./src/ ./src/
 
-RUN dotnet publish ./src/Presentations/WebApi/ -o ./output
+RUN dotnet restore ./src/Presentations/EmployeeWeb/
+
+RUN dotnet publish ./src/Presentations/EmployeeWeb/  -o ./output
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0.7-alpine3.23 AS runtime
 
@@ -33,4 +35,4 @@ RUN chown -R app-user:app-group /app
 
 USER app-user
 
-ENTRYPOINT ["dotnet", "./WebApi.dll", "--", "--environment", "Development"]
+ENTRYPOINT ["dotnet", "./EmployeeWeb.dll", "--", "--environment", "Development"]

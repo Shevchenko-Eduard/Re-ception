@@ -19,10 +19,10 @@
     <Company>Reception</Company>
     
     <!-- Публикация в один самостоятельный исполняемый файл -->
-    <PublishSingleFile>true</PublishSingleFile>
+    <PublishSingleFile>false</PublishSingleFile>
     
     <!-- Включение нативных библиотек в архив при самостоятельной распаковке -->
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <IncludeNativeLibrariesForSelfExtract>false</IncludeNativeLibrariesForSelfExtract>
     
     <!-- Отключение обрезки неиспользуемого кода для сохранения функциональности -->
     <PublishTrimmed>false</PublishTrimmed>
@@ -31,12 +31,12 @@
     <PublishAot>false</PublishAot>
     
     <!-- Самостоятельная публикация со встроенным .NET Runtime -->
-    <SelfContained>true</SelfContained>
+    <SelfContained>false</SelfContained>
     
     <!-- Целевая платформа: Linux x64 -->
     <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
     
     <!-- Отключение поддержки локализации для уменьшения размера приложения -->
-    <InvariantGlobalization>true</InvariantGlobalization>
+    <InvariantGlobalization>false</InvariantGlobalization>
   </PropertyGroup>
 </Project>

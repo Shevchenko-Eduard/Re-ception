@@ -3,17 +3,17 @@ services:
     image: postgres:18.3
     container_name: keycloak-db
     ports:
-      - ${POSTGRES_PORT}:5432
+      - ${KC_POSTGRES_PORT}:5432
     networks:
       - keycloak-network
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${KC_POSTGRES_DB}
+      POSTGRES_USER: ${KC_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${KC_POSTGRES_PASSWORD}
     volumes:
       - kc_data:/var/lib/postgresql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U ${KC_POSTGRES_USER} -d ${KC_POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -24,8 +24,8 @@ services:
     container_name: keycloak
     command: "start-dev"
     ports:
-      - ${HTTP_PORT}:8080
-      - ${HTTPS_PORT}:8443
+      - ${KEYCLOAK_HTTP_PORT}:8080
+      - ${KEYCLOAK_HTTPS_PORT}:8443
     networks:
       - keycloak-network
     environment:
@@ -37,9 +37,9 @@ services:
 
       - KC_DB_DEBUG_JPQL=true
       - KC_DB=postgres
-      - KC_DB_USERNAME=${POSTGRES_USER}
-      - KC_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - KC_DB_URL=jdbc:postgresql://keycloak-db:5432/${POSTGRES_DB}
+      - KC_DB_USERNAME=${KC_POSTGRES_USER}
+      - KC_DB_PASSWORD=${KC_POSTGRES_PASSWORD}
+      - KC_DB_URL=jdbc:postgresql://keycloak-db:5432/${KC_POSTGRES_DB}
     depends_on:
       keycloak-db:
         condition: service_healthy
@@ -48,6 +48,7 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
+      start_period: 30s
     restart: always
 
   terraform:
@@ -64,6 +65,14 @@ services:
     environment:
       - TF_IN_AUTOMATION=true
       - TF_PLUGIN_CACHE_DIR=/Terraform/.terraform.d/plugin-cache
+
+      - TF_VAR_employee_realm=${KEYCLOAK_EMPLOYEE_REALM}
+      - TF_VAR_employee_client_id=${KEYCLOAK_EMPLOYEE_RESOURCE}
+      - TF_VAR_employee_client_secret=${KEYCLOAK_EMPLOYEE_SECRET}
+
+      - TF_VAR_customer_realm=${KEYCLOAK_CUSTOMER_REALM}
+      - TF_VAR_customer_client_id=${KEYCLOAK_CUSTOMER_RESOURCE}
+      - TF_VAR_customer_client_secret=${KEYCLOAK_CUSTOMER_SECRET}
 
       - TF_VAR_admin_username=${ADMIN_NAME}
       - TF_VAR_admin_password=${ADMIN_PASSWORD}
