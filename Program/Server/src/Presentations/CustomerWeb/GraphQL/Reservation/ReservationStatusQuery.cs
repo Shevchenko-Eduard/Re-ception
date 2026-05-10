@@ -4,16 +4,18 @@ using HotChocolate.Types;
 using LibWeb.GraphQL;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
+using HotChocolate;
 
-namespace CustomerWeb.GraphQL.Reservation;
+namespace EmployeeWeb.GraphQL.Reservation;
 
 [ExtendObjectType(typeof(Query))]
-public class ReservationStatusQuery(IDbContextFactory<ProgramContext> factory) : IGraphQLQuery
+public class ReservationStatusQuery : IGraphQLQuery
 {
-    private readonly IDbContextFactory<ProgramContext> _factory = factory;
 
-    [UseProjection]
     [UseFiltering]
-    [UseSorting] 
-    public IQueryable<ReservationStatus> GetReservationStatuses() => _factory.CreateDbContext().ReservationStatuses;
+    [UseSorting]
+    public async Task<IEnumerable<ReservationStatus>> GetReservationStatuses([Service] ProgramContext context)
+    {
+        return await context.ReservationStatuses.ToArrayAsync();
+    }
 }

@@ -421,8 +421,8 @@ bin/
 .obsidian/
 .xdp-*
 
-.obsidian/
-.vscode/
+**/.obsidian/
+**/.vscode/
 bash/
 
 *.sln
@@ -437,3 +437,5 @@ bash/
 
 .terraformrc
 terraform.rc
+
+**/Frontend/

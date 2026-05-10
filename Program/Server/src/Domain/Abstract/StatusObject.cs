@@ -2,7 +2,7 @@ namespace Domain.Abstract;
 
 public abstract class StatusObjectAbstract<T> : EnumObjectAbstract<T> where T : StatusObjectAbstract<T>
 {
-    public string Name { get; init; }
+    public string Name { get; }
     protected StatusObjectAbstract(string name) : base() { Name = name; }
     protected StatusObjectAbstract(byte id, string name) : base(id) { Name = name; }
     public static StatusObjectAbstract<T> FromName(string name)

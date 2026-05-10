@@ -3,7 +3,7 @@ namespace Domain.Abstract;
 public abstract class StatusWithParentsObjectsAbstract<T> : StatusObjectAbstract<T> where T : StatusWithParentsObjectsAbstract<T>
 {
     #region Fields
-    public IEnumerable<T>? Parents { get; init; } = null;
+    public IEnumerable<T>? Parents { get; } = null;
     #endregion
     #region Constructors
     protected StatusWithParentsObjectsAbstract(string name) : base(name) { }

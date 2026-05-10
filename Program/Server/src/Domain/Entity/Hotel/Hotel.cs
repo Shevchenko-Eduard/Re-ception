@@ -38,8 +38,8 @@ public class Hotel
             field = value;
         }
     }
-    public Email Email { get; private set; }
-    public Phone Phone { get; private set; }
+    public string? Email { get; private set; }
+    public string? Phone { get; private set; }
     #endregion
     #region Navigation properties
     public ICollection<HotelHotelTag>? HotelHotelTags { get; private set; }
@@ -52,7 +52,7 @@ public class Hotel
 #pragma warning restore CS9264, CS8618
     public Hotel(
         string name,
-        Email email, Phone phone,
+        string? email, string? phone,
         double latitude, double longitude,
         string? description = null)
     {
@@ -67,8 +67,8 @@ public class Hotel
     #region Methods
     public void UpdateLatitude(double latitude) => Latitude = latitude;
     public void UpdateLongitude(double longitude) => Longitude = longitude;
-    public void UpdateEmail(Email email) => Email = email;
-    public void UpdatePhone(Phone phone) => Phone = phone;
+    public void UpdateEmail(string? email) => Email = email;
+    public void UpdatePhone(string? phone) => Phone = phone;
     public void UpdateName(string name) => Name = name;
     public void UpdateDescription(string? description) => Description = description;
     #endregion

@@ -2,17 +2,16 @@ using HotChocolate.Data;
 using HotChocolate.Types;
 using LibWeb.GraphQL;
 using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using HotChocolate;
 
-namespace CustomerWeb.GraphQL.Payment;
+namespace EmployeeWeb.GraphQL.Payment;
 
 [ExtendObjectType(typeof(Query))]
-public class PaymentQuery(IDbContextFactory<ProgramContext> factory) : IGraphQLQuery
+public class PaymentQuery : IGraphQLQuery
 {
-    private readonly IDbContextFactory<ProgramContext> _factory = factory;
-
+    [UsePaging]
     [UseProjection]
     [UseFiltering]
-    [UseSorting] 
-    public IQueryable<Domain.Entity.Payment.Payment> GetPayments() => _factory.CreateDbContext().Payments;
+    [UseSorting]
+    public IQueryable<Domain.Entity.Payment.Payment> GetPayments([Service] ProgramContext context) => context.Payments;
 }

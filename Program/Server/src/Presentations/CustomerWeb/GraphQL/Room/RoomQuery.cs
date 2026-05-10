@@ -2,17 +2,17 @@ using HotChocolate.Data;
 using HotChocolate.Types;
 using LibWeb.GraphQL;
 using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using HotChocolate;
 
-namespace CustomerWeb.GraphQL.Room;
+namespace EmployeeWeb.GraphQL.Room;
 
 [ExtendObjectType(typeof(Query))]
-public class RoomQuery(IDbContextFactory<ProgramContext> factory) : IGraphQLQuery
+public class RoomQuery : IGraphQLQuery
 {
-    private readonly IDbContextFactory<ProgramContext> _factory = factory;
 
+    [UsePaging]
     [UseProjection]
     [UseFiltering]
-    [UseSorting] 
-    public IQueryable<Domain.Entity.Room.Room> GetRooms() => _factory.CreateDbContext().Rooms;
+    [UseSorting]
+    public IQueryable<Domain.Entity.Room.Room> GetRooms([Service] ProgramContext context) => context.Rooms;
 }

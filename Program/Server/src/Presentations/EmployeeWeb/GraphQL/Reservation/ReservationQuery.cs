@@ -2,17 +2,17 @@ using HotChocolate.Data;
 using HotChocolate.Types;
 using LibWeb.GraphQL;
 using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using HotChocolate;
 
 namespace EmployeeWeb.GraphQL.Reservation;
 
 [ExtendObjectType(typeof(Query))]
-public class ReservationQuery(IDbContextFactory<ProgramContext> factory) : IGraphQLQuery
+public class ReservationQuery : IGraphQLQuery
 {
-    private readonly IDbContextFactory<ProgramContext> _factory = factory;
 
+    [UsePaging]
     [UseProjection]
     [UseFiltering]
-    [UseSorting] 
-    public IQueryable<Domain.Entity.Reservation.Reservation> GetReservations() => _factory.CreateDbContext().Reservations;
+    [UseSorting]
+    public IQueryable<Domain.Entity.Reservation.Reservation> GetReservations([Service] ProgramContext context) => context.Reservations;
 }

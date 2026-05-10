@@ -27,6 +27,10 @@ public class RoomStatusConf : IEntityTypeConfiguration<RoomStatus>
         #region fk
         #endregion
 
+        #region seed_data
+        builder.HasData(RoomStatus.All);
+        #endregion
+
         #region ignore
         #endregion
 

@@ -23,7 +23,9 @@ public static class GraphQLQuery
             Query.Version = version;
         }
 
-        request.AddQueryType(typeof(Query));
+        request.AddQueryType<Query>();
+        request.AddTypeExtension<EmailExtensions>();
+        request.AddTypeExtension<PhoneExtensions>();
 
         foreach (var type in queryTypesWithAttr)
         {

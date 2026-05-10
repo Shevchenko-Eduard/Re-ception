@@ -19,19 +19,18 @@ public sealed partial class Phone
     /// <summary>
     /// Поле для хранения номера телефона.
     /// </summary>
-    public string Value
+    public string? Value
     {
-        get;
-        init
+        get => _value;
+        private set
         {
             try
             {
-                ArgumentException.ThrowIfNullOrWhiteSpace(value);
-                if (!PhoneRegex().IsMatch(value))
+                if (value is not null && !PhoneRegex().IsMatch(value))
                 {
                     throw new DomainExternalException(message: "Does not meet standards.");
                 }
-                field = value;
+                _value = value;
             }
             catch (System.Exception ex)
             {
@@ -39,15 +38,16 @@ public sealed partial class Phone
             }
         }
     }
+    private string? _value;
     /// <summary>
     /// Конструктор для номера телефона.
     /// </summary>
-    public Phone(string value)
+    public Phone(string? value)
     {
         Value = value;
     }
     /// <summary>
     /// Вернуть в строковом представлении.
     /// </summary>
-    public override string ToString() => Value;
+    public override string ToString() => Value ?? string.Empty;
 }

@@ -3,17 +3,15 @@ using HotChocolate.Data;
 using HotChocolate.Types;
 using LibWeb.GraphQL;
 using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using HotChocolate;
 
-namespace CustomerWeb.GraphQL.Room;
+namespace EmployeeWeb.GraphQL.Room;
 
 [ExtendObjectType(typeof(Query))]
-public class RoomRoomTagQuery(IDbContextFactory<ProgramContext> factory) : IGraphQLQuery
+public class RoomRoomTagQuery : IGraphQLQuery
 {
-    private readonly IDbContextFactory<ProgramContext> _factory = factory;
 
     [UseProjection]
     [UseFiltering]
-    [UseSorting] 
-    public IQueryable<RoomRoomTag> GetRoomRoomTags() => _factory.CreateDbContext().RoomRoomTags;
+    public IQueryable<RoomRoomTag> GetRoomRoomTags([Service] ProgramContext context) => context.RoomRoomTags;
 }

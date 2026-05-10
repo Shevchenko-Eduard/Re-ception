@@ -19,19 +19,18 @@ public sealed partial class Email
     /// <summary>
     /// Поле для хранения почта.
     /// </summary>
-    public string Value
+    public string? Value
     {
-        get;
-        init
+        get => _value;
+        private set
         {
             try
             {
-                ArgumentException.ThrowIfNullOrWhiteSpace(value);
-                if (!RegexEmail().IsMatch(value))
+                if (value is not null && !RegexEmail().IsMatch(value))
                 {
                     throw new DomainExternalException(message: "The email does not meet the specified requirements.");
                 }
-                field = value;
+                _value = value;
             }
             catch (System.Exception ex)
             {
@@ -39,16 +38,17 @@ public sealed partial class Email
             }
         }
     }
+    private string? _value;
     /// <summary>
     /// Конструктор для почты.
     /// </summary>
-    public Email(string value)
+    public Email(string? value)
     {
         Value = value;
     }
     /// <summary>
     /// Вернуть в строковом представлении.
     /// </summary>
-    public override string ToString() => Value;
-    public override int GetHashCode() => Value.GetHashCode();
+    public override string ToString() => Value ?? string.Empty;
+    public override int GetHashCode() => Value?.GetHashCode() ?? 0;
 }

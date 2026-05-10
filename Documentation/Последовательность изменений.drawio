@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e" pages="3">
-    <diagram name="Общая схема" id="IFHtd58Tyzz9Qj5zDXkA">
-        <mxGraphModel dx="726" dy="526" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <diagram name="Последовательность по слоям" id="IFHtd58Tyzz9Qj5zDXkA">
+        <mxGraphModel dx="426" dy="787" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -31,8 +31,8 @@
             </root>
         </mxGraphModel>
     </diagram>
-    <diagram id="nzyLyBU76Hh5n2Avn4l0" name="Domain">
-        <mxGraphModel dx="726" dy="526" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <diagram id="nzyLyBU76Hh5n2Avn4l0" name="Общая последовательность">
+        <mxGraphModel dx="426" dy="787" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -77,14 +77,6 @@
                 <mxCell id="isFGSBaTcUsKPmCerh1--5" value="EfRepository" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="90" y="910" width="120" height="60" as="geometry"/>
                 </mxCell>
-            </root>
-        </mxGraphModel>
-    </diagram>
-    <diagram id="p7p_YebcsQHUm8JPI3yA" name="Application">
-        <mxGraphModel dx="1052" dy="868" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
-            <root>
-                <mxCell id="0"/>
-                <mxCell id="1" parent="0"/>
             </root>
         </mxGraphModel>
     </diagram>

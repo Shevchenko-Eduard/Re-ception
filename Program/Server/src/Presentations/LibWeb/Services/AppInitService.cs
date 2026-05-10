@@ -1,6 +1,7 @@
 using LibWeb.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace LibWeb.Services;
 
@@ -8,6 +9,8 @@ public static class AppInitService
 {
     public static WebApplicationBuilder AddAppInit(this WebApplicationBuilder builder)
     {
+        builder.Logging.AddConsole(); 
+
         builder.Services.AddHttpContextAccessor();
 
         builder.Services.AddPostgres(builder.Configuration);

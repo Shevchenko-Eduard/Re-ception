@@ -1,23 +1,39 @@
-# Список библиотек
+# Список используемых библиотек C\#
 
-RabbitMQ
+## Библиотеки для unit тестирования
 
-- MassTransit
+- coverlet.collector\
+- Microsoft.NET.Test.Sdk
+- Moq
+- xunit
+- xunit.runner.visualstudio
 
-Postgresql
+## Для анализа кода
 
+- Roslynator.Analyzers
+
+## Для слоя инфраструктуры
+
+- BCrypt.Net-Next
+- Mapster
+- Mapster.DependencyInjection
+- Microsoft.AspNetCore.Identity.EntityFrameworkCore
+- Microsoft.EntityFrameworkCore.Design
+- Microsoft.EntityFrameworkCore.Sqlite
+- Microsoft.EntityFrameworkCore.Tools
+- Minio
 - Npgsql.EntityFrameworkCore.PostgreSQL
 
-Redis
+## Для слоя представления
 
-- Microsoft.Extensions.Caching.StackExchangeRedis
-- StackExchange.Redis
-
-Keycloak
-
+- BananaCakePop.Middleware
+- HotChocolate
+- HotChocolate.AspNetCore
+- HotChocolate.Data.EntityFramework
+- HotChocolate.Types.Analyzers
 - Keycloak.AuthServices.Authentication
 - Keycloak.AuthServices.Authorization
-
-MinIO
-
-- minio
+- Microsoft.AspNetCore.OpenApi
+- Microsoft.AspNetCore.OutputCaching.StackExchangeRedis
+- Microsoft.Extensions.Caching.StackExchangeRedis
+- Swashbuckle.AspNetCore

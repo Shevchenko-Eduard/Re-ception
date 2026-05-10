@@ -3,17 +3,17 @@ using HotChocolate.Data;
 using HotChocolate.Types;
 using LibWeb.GraphQL;
 using Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
+using HotChocolate;
 
-namespace CustomerWeb.GraphQL.Hotel;
+namespace EmployeeWeb.GraphQL.Hotel;
 
 [ExtendObjectType(typeof(Query))]
-public class HotelTagQuery(IDbContextFactory<ProgramContext> factory) : IGraphQLQuery
+public class HotelTagQuery : IGraphQLQuery
 {
-    private readonly IDbContextFactory<ProgramContext> _factory = factory;
 
+    [UsePaging]
     [UseProjection]
     [UseFiltering]
-    [UseSorting] 
-    public IQueryable<HotelTag> GetHotelTags() => _factory.CreateDbContext().HotelTags;
+    [UseSorting]
+    public IQueryable<HotelTag> GetHotelTags([Service] ProgramContext context) => context.HotelTags;
 }

@@ -6,7 +6,7 @@ namespace Domain.Abstract;
 public abstract class EnumObjectAbstract<T> where T : EnumObjectAbstract<T>
 {
     #region Fields
-    public byte Id { get; init; }
+    public byte Id { get; }
     public static ReadOnlyCollection<T> All { get { return new(_all.Value.ToList()); } }
     private static Lazy<HashSet<T>> _all = UpdateAll();
     private static int _nextId = -1;

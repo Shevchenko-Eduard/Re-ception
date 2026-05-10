@@ -4,16 +4,18 @@ using HotChocolate.Types;
 using LibWeb.GraphQL;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
+using HotChocolate;
 
 namespace EmployeeWeb.GraphQL.Payment;
 
 [ExtendObjectType(typeof(Query))]
-public class PaymentStatusQuery(IDbContextFactory<ProgramContext> factory) : IGraphQLQuery
+public class PaymentStatusQuery : IGraphQLQuery
 {
-    private readonly IDbContextFactory<ProgramContext> _factory = factory;
 
-    [UseProjection]
     [UseFiltering]
     [UseSorting] 
-    public IQueryable<PaymentStatus> GetPaymentStatuses() => _factory.CreateDbContext().PaymentStatuses;
+    public async Task<IEnumerable<PaymentStatus>> GetPaymentStatuses([Service] ProgramContext context)
+    {
+        return await context.PaymentStatuses.ToArrayAsync();
+    }
 }

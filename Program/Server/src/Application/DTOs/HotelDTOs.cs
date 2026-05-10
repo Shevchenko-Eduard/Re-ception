@@ -35,8 +35,8 @@ public static class HotelDTOs
         {
             hotel.UpdateLatitude(Latitude ?? hotel.Latitude);
             hotel.UpdateLongitude(Longitude ?? hotel.Longitude);
-            hotel.UpdateEmail(Email is not null ? new(Email) : hotel.Email);
-            hotel.UpdatePhone(Phone is not null ? new(Phone) : hotel.Phone);
+            hotel.UpdateEmail(Email ?? hotel.Email);
+            hotel.UpdatePhone(Phone ?? hotel.Phone);
             hotel.UpdateName(Name ?? hotel.Name);
             hotel.UpdateDescription(Description ?? hotel.Description);
             return hotel;
