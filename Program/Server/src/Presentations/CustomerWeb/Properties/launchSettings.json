@@ -16,12 +16,12 @@
         "Minio__Username": "${MINIO_ROOT_USER}",
         "Minio__Password": "${MINIO_ROOT_PASSWORD}",
         "Minio__HTTPS": "false",
-        "DB__Host": "server-db",
+        "DB__Host": "backend-db",
         "DB__Port": "5432",
         "DB__Database": "${SERVER_POSTGRES_DB}",
         "DB__Username": "${SERVER_POSTGRES_USER}",
         "DB__Password": "${SERVER_POSTGRES_PASSWORD}",
-        "Redis__Endpoint": "server-cache:${CACHE_PORT}",
+        "Redis__Endpoint": "redis:${CACHE_PORT}",
         "Redis__InstanceName": "${REDIS_INSTANCE_NAME}",
         "Redis__Password": "${CACHE_PASSWORD}"
       }
@@ -41,12 +41,12 @@
         "Minio__Username": "${MINIO_ROOT_USER}",
         "Minio__Password": "${MINIO_ROOT_PASSWORD}",
         "Minio__HTTPS": "false",
-        "DB__Host": "server-db",
+        "DB__Host": "backend-db",
         "DB__Port": "5432",
         "DB__Database": "${SERVER_POSTGRES_DB}",
         "DB__Username": "${SERVER_POSTGRES_USER}",
         "DB__Password": "${SERVER_POSTGRES_PASSWORD}",
-        "Redis__Endpoint": "server-cache:${CACHE_PORT}",
+        "Redis__Endpoint": "redis:${CACHE_PORT}",
         "Redis__InstanceName": "${REDIS_INSTANCE_NAME}",
         "Redis__Password": "${CACHE_PASSWORD}"
       }

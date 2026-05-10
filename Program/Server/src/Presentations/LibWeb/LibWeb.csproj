@@ -5,6 +5,7 @@
     <PackageReference Include="HotChocolate" Version="16.0.0" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="16.0.0" />
     <PackageReference Include="HotChocolate.Data.EntityFramework" Version="16.0.0" />
+    <PackageReference Include="HotChocolate.Types.Analyzers" Version="16.0.0" />
     <PackageReference Include="Keycloak.AuthServices.Authentication" Version="3.0.0" />
     <PackageReference Include="Keycloak.AuthServices.Authorization" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.4" />

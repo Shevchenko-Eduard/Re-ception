@@ -8,15 +8,16 @@ namespace Application.UseCases.PaymentUseCases;
 public class CreatePaymentUseCase(
 
     IUnitOfWork unitOfWork,
-    IPaymentRepository paymentRepository) : IAction<PaymentDTOs.Create>
+    IPaymentRepository paymentRepository) : IAction<PaymentDTOs.Create, Payment>
 {
     private readonly IPaymentRepository _paymentRepository = paymentRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public async Task Execute(PaymentDTOs.Create input)
+    public async Task<Payment> Execute(PaymentDTOs.Create input)
     {
         Payment payment = input.GetPayment();
         await _paymentRepository.AddAsync(payment);
         await _unitOfWork.SaveChangesAsync();
+        return payment;
     }
 }

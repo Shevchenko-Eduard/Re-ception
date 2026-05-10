@@ -18,28 +18,28 @@ public partial class DependencyInjectionConfig
 {
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IS3Repository, MinioRepository>();
-        services.AddScoped<IS3HotelImageRepository, MinioHotelImageRepository>();
-        services.AddScoped<IS3RoomImageRepository, MinioRoomImageRepository>();
+        services.AddTransient<IS3Repository, MinioRepository>();
+        services.AddTransient<IS3HotelImageRepository, MinioHotelImageRepository>();
+        services.AddTransient<IS3RoomImageRepository, MinioRoomImageRepository>();
 
-        services.AddScoped<IHotelRepository, EfHotelRepository>();
-        services.AddScoped<IHotelTagRepository, EfHotelTagRepository>();
-        services.AddScoped<IHotelImageRepository, EfHotelImageRepository>();
-        services.AddScoped<IHotelHotelTagRepository, EfHotelHotelTagRepository>();
+        services.AddTransient<IHotelRepository, EfHotelRepository>();
+        services.AddTransient<IHotelTagRepository, EfHotelTagRepository>();
+        services.AddTransient<IHotelImageRepository, EfHotelImageRepository>();
+        services.AddTransient<IHotelHotelTagRepository, EfHotelHotelTagRepository>();
 
-        services.AddScoped<IPaymentRepository, EfPaymentRepository>();
-        services.AddScoped<IPaymentMethodRepository, EfPaymentMethodRepository>();
-        services.AddScoped<IPaymentStatusRepository, EfPaymentStatusRepository>();
+        services.AddTransient<IPaymentRepository, EfPaymentRepository>();
+        services.AddTransient<IPaymentMethodRepository, EfPaymentMethodRepository>();
+        services.AddTransient<IPaymentStatusRepository, EfPaymentStatusRepository>();
 
-        services.AddScoped<IReservationRepository, EfReservationRepository>();
-        services.AddScoped<IReservationStatusRepository, EfReservationStatusRepository>();
+        services.AddTransient<IReservationRepository, EfReservationRepository>();
+        services.AddTransient<IReservationStatusRepository, EfReservationStatusRepository>();
 
-        services.AddScoped<IRoomRepository, EfRoomRepository>();
-        services.AddScoped<IRoomImageRepository, EfRoomImageRepository>();
-        services.AddScoped<IRoomStatusRepository, EfRoomStatusRepository>();
-        services.AddScoped<IRoomTagRepository, EfRoomTagRepository>();
-        services.AddScoped<IRoomRoomTagRepository, EfRoomRoomTagRepository>();
-        services.AddScoped<IRoomTypeRepository, EfRoomTypeRepository>();
+        services.AddTransient<IRoomRepository, EfRoomRepository>();
+        services.AddTransient<IRoomImageRepository, EfRoomImageRepository>();
+        services.AddTransient<IRoomStatusRepository, EfRoomStatusRepository>();
+        services.AddTransient<IRoomTagRepository, EfRoomTagRepository>();
+        services.AddTransient<IRoomRoomTagRepository, EfRoomRoomTagRepository>();
+        services.AddTransient<IRoomTypeRepository, EfRoomTypeRepository>();
 
         services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 

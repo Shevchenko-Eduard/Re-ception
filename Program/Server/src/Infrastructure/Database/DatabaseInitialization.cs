@@ -3,7 +3,6 @@ using Infrastructure.Database.Interfaces;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Npgsql;
 
 namespace Infrastructure.Database;
 

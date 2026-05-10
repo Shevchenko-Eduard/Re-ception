@@ -1,4 +1,5 @@
 using Application.Interfaces;
+using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -6,11 +7,11 @@ namespace Infrastructure.EfRepository;
 
 public class EfUnitOfWork : IUnitOfWork
 {
-    private readonly DbContext _context;
+    private readonly ProgramContext _context;
     private IDbContextTransaction? _currentTransaction;
     private bool _disposed;
 
-    public EfUnitOfWork(DbContext context)
+    public EfUnitOfWork(ProgramContext context)
     {
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }

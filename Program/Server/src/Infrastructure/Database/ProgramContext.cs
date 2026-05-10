@@ -1,16 +1,20 @@
 ﻿using Infrastructure.Database.Converter;
-using Infrastructure.Database.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database;
 
-public partial class ProgramContext(IConnectionStrategy connectionStrategy) : DbContext
+public partial class ProgramContext : DbContext
 {
-    private readonly IConnectionStrategy _connectionStrategy = connectionStrategy;
+    private readonly Guid _instanceId = Guid.NewGuid();
+
+    public ProgramContext(DbContextOptions<ProgramContext> options)
+        : base(options)
+    {
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        _connectionStrategy.Configure(optionsBuilder);
+        Console.WriteLine($"ProgramContext created: {_instanceId}");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -7,15 +7,16 @@ namespace Application.UseCases.HotelTagUseCases;
 
 public class CreateHotelTagUseCase(
     IUnitOfWork unitOfWork,
-    IHotelTagRepository hotelTagRepository) : IAction<HotelTagDTOs.Create>
+    IHotelTagRepository hotelTagRepository) : IAction<HotelTagDTOs.Create, HotelTag>
 {
     private readonly IHotelTagRepository _hotelTagRepository = hotelTagRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public async Task Execute(HotelTagDTOs.Create input)
+    public async Task<HotelTag> Execute(HotelTagDTOs.Create input)
     {
         HotelTag tag = input.GetTag();
         await _hotelTagRepository.AddAsync(tag);
         await _unitOfWork.SaveChangesAsync();
+        return tag;
     }
 }

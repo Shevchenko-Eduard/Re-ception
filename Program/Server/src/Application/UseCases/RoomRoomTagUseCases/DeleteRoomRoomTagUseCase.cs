@@ -2,9 +2,9 @@ using Application.DTOs;
 using Application.Interfaces;
 using Domain.Interfaces.Repositories.RoomRepository;
 
-namespace Application.UseCases.RoomTagUseCases;
+namespace Application.UseCases.RoomRoomTagUseCases;
 
-public class RemoveRoomTagUseCase(
+public class DeleteRoomRoomTagUseCase(
     IRoomRoomTagRepository roomRoomTagRepository,
     IUnitOfWork unitOfWork) : IAction<RoomRoomTagDTOs.Delete>
 {

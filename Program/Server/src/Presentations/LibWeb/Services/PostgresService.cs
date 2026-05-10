@@ -1,6 +1,5 @@
 using Infrastructure.Database;
 using Infrastructure.Database.Interfaces;
-using Infrastructure.Database.Strategy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,10 +19,10 @@ public static class PostgresService
 {
     public static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IConnectionStrategy>(provider =>
-            new PostgresqlStrategy(connectionString: GetConnectionString(configuration)));
-        services.AddScoped<ProgramContext>();
-        services.AddScoped<DbContext>(sp => sp.GetRequiredService<ProgramContext>());
+        services.AddPooledDbContextFactory<ProgramContext>(options =>
+        {
+            options.UseNpgsql(GetConnectionString(configuration));
+        });
         services.AddScoped<IDatabaseInitialization, DatabaseInitialization>();
         return services;
     }
