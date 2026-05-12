@@ -28,9 +28,21 @@ builder.Services
     .AddSorting()
     .RegisterDbContextFactory<ProgramContext>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 app.UseRouting();
+
+app.UseCors();
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {

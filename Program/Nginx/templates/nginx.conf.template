@@ -19,8 +19,8 @@ server {
     listen 443 ssl;
     server_name employee.${NGINX_DOMAIN};
 
-    ssl_certificate /etc/nginx/certs/localhost+3.pem;
-    ssl_certificate_key /etc/nginx/certs/localhost+3-key.pem;
+    ssl_certificate /etc/nginx/certs/cert.pem;
+    ssl_certificate_key /etc/nginx/certs/key.pem;
 
     location / {
         proxy_pass http://employee-api:${PORT_EMPLOYEE}/;
@@ -38,8 +38,8 @@ server {
     listen 443 ssl;
     server_name customer.${NGINX_DOMAIN};
 
-    ssl_certificate /etc/nginx/certs/localhost+3.pem;
-    ssl_certificate_key /etc/nginx/certs/localhost+3-key.pem;
+    ssl_certificate /etc/nginx/certs/cert.pem;
+    ssl_certificate_key /etc/nginx/certs/key.pem;
 
     location / {
         proxy_pass http://customer-api:${PORT_CUSTOMER}/;
@@ -58,8 +58,8 @@ server {
     listen 443 ssl;
     server_name auth.${NGINX_DOMAIN};
 
-    ssl_certificate /etc/nginx/certs/localhost+3.pem;
-    ssl_certificate_key /etc/nginx/certs/localhost+3-key.pem;
+    ssl_certificate /etc/nginx/certs/cert.pem;
+    ssl_certificate_key /etc/nginx/certs/key.pem;
 
     location / {
         proxy_pass http://keycloak:${PORT_AUTH}/;

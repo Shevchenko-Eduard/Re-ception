@@ -35,6 +35,11 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 128M
     restart: unless-stopped
 
 networks:

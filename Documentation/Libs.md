@@ -2,7 +2,7 @@
 
 ## Библиотеки для unit тестирования
 
-- coverlet.collector\
+- coverlet.collector
 - Microsoft.NET.Test.Sdk
 - Moq
 - xunit
@@ -14,9 +14,6 @@
 
 ## Для слоя инфраструктуры
 
-- BCrypt.Net-Next
-- Mapster
-- Mapster.DependencyInjection
 - Microsoft.AspNetCore.Identity.EntityFrameworkCore
 - Microsoft.EntityFrameworkCore.Design
 - Microsoft.EntityFrameworkCore.Sqlite

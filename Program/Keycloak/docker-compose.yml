@@ -31,10 +31,15 @@ services:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "exec 3<> /dev/tcp/localhost/9000; echo -e 'GET /health/ready HTTP/1.1\\r\\nhost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3; if [ $? -eq 0 ]; then echo 'Healthcheck Successful'; exit 0; else echo 'Healthcheck Failed'; exit 1; fi;"]
-      interval: 5s
+      interval: 10s
       timeout: 10s
       retries: 5
       start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: 2
+          memory: 2G
     restart: always
 
   keycloak-db:
@@ -55,6 +60,11 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: 512M
     restart: unless-stopped
 
   terraform:
@@ -86,6 +96,11 @@ services:
     depends_on:
       keycloak:
         condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: 0.25
+          memory: 128M
     restart: always
 
 volumes:
