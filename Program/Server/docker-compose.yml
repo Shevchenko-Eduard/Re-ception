@@ -1,12 +1,10 @@
-include:
-  - ../Keycloak/docker-compose.yml
-    
 services:
 
   employee-api:
     build:
       context: .
-      dockerfile: employee-api.dockerfile
+      dockerfile: webapi.dockerfile
+      target: employee-api
     container_name: employee-api
     depends_on:
       backend-db:
@@ -63,7 +61,8 @@ services:
   customer-api:
     build:
       context: .
-      dockerfile: customer-api.dockerfile
+      dockerfile: webapi.dockerfile
+      target: customer-api
     container_name: customer-api
     depends_on:
       backend-db:
@@ -116,7 +115,7 @@ services:
     restart: unless-stopped
 
   backend-db:
-    image: postgres:18
+    image: postgres:18-alpine
     container_name: backend-db
     ports:
       - ${SERVER_POSTGRES_PORT}:5432
@@ -172,7 +171,7 @@ services:
     restart: unless-stopped
 
   redis:
-    image: redis:8.6
+    image: redis:8.6.3-alpine
     container_name: redis
     command: redis-server --requirepass ${CACHE_PASSWORD} --port ${CACHE_PORT}
     ports:

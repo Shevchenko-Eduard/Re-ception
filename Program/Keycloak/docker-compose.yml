@@ -43,7 +43,7 @@ services:
     restart: always
 
   keycloak-db:
-    image: postgres:18.3
+    image: postgres:18-alpine
     container_name: keycloak-db
     ports:
       - ${KC_POSTGRES_PORT}:5432

@@ -1,0 +1,4 @@
+include:
+  - ./Server/docker-compose.yml
+  - ./Nginx/docker-compose.yml
+  - ./Keycloak/docker-compose.yml
