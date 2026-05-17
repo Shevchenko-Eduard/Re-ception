@@ -16,30 +16,30 @@ services:
       keycloak:
         condition: service_healthy
     environment:
-      - Keycloak__AuthServerUrl=${KEYCLOAK_AUTH_SERVER_URL}
-      - Keycloak__Realm=${KEYCLOAK_EMPLOYEE_REALM}
-      - Keycloak__Resource=${KEYCLOAK_EMPLOYEE_RESOURCE}
-      - Keycloak__Secret=${KEYCLOAK_EMPLOYEE_SECRET}
+      Keycloak__AuthServerUrl: ${KEYCLOAK_AUTH_SERVER_URL}
+      Keycloak__Realm: ${KC_EMPLOYEE_REALM}
+      Keycloak__Resource: ${KC_EMPLOYEE_BACKEND_CLIENT_ID}
+      Keycloak__Secret: ${KC_EMPLOYEE_BACKEND_CLIENT_SECRET}
 
-      - Minio__Endpoint=${S3_HOST}:${S3_PORT}
-      - Minio__Username=${MINIO_ROOT_USER}
-      - Minio__Password=${MINIO_ROOT_PASSWORD}
-      - Minio__HTTPS=false
+      Minio__Endpoint: ${S3_HOST}:${S3_PORT}
+      Minio__Username: ${MINIO_ROOT_USER}
+      Minio__Password: ${MINIO_ROOT_PASSWORD}
+      Minio__HTTPS: false
 
-      - DB__Host=backend-db
-      - DB__Port=5432
-      - DB__Database=${SERVER_POSTGRES_DB}
-      - DB__Username=${SERVER_POSTGRES_USER}
-      - DB__Password=${SERVER_POSTGRES_PASSWORD}
+      DB__Host: backend-db
+      DB__Port: 5432
+      DB__Database: ${SERVER_POSTGRES_DB}
+      DB__Username: ${SERVER_POSTGRES_USER}
+      DB__Password: ${SERVER_POSTGRES_PASSWORD}
 
-      - Redis__Endpoint=redis:${CACHE_PORT}
-      - Redis__InstanceName=${REDIS_INSTANCE_NAME}
-      - Redis__Password=${CACHE_PASSWORD}
+      Redis__Endpoint: redis:${CACHE_PORT}
+      Redis__InstanceName: ${REDIS_INSTANCE_NAME}
+      Redis__Password: ${CACHE_PASSWORD}
 
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - ASPNETCORE_URLS=${ASPNETCORE_URLS}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
 
-      - LOG_LEVEL=debug
+      LOG_LEVEL: debug
     ports:
       - "${EMPLOYEE_API_PORT}:${ASPNETCORE_PORT}"
     networks:
@@ -73,9 +73,9 @@ services:
         condition: service_healthy
     environment:
       - Keycloak__AuthServerUrl=${KEYCLOAK_AUTH_SERVER_URL}
-      - Keycloak__Realm=${KEYCLOAK_CUSTOMER_REALM}
-      - Keycloak__Resource=${KEYCLOAK_CUSTOMER_RESOURCE}
-      - Keycloak__Secret=${KEYCLOAK_CUSTOMER_SECRET}
+      - Keycloak__Realm=${KC_CUSTOMER_REALM}
+      - Keycloak__Resource=${KC_CUSTOMER_BACKEND_CLIENT_ID}
+      - Keycloak__Secret=${KC_CUSTOMER_BACKEND_CLIENT_SECRET}
 
       - Minio__Endpoint=${S3_HOST}:${S3_PORT}
       - Minio__Username=${MINIO_ROOT_USER}

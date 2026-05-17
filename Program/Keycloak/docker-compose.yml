@@ -79,20 +79,39 @@ services:
     working_dir: /Terraform
     entrypoint: ["/bin/sh", "-c", "terraform init && terraform plan && terraform apply -auto-approve && sleep infinity"]
     environment:
-      - TF_IN_AUTOMATION=true
-      - TF_PLUGIN_CACHE_DIR=/Terraform/.terraform.d/plugin-cache
+      TF_IN_AUTOMATION: true
+      TF_PLUGIN_CACHE_DIR: /Terraform/.terraform.d/plugin-cache
 
-      - TF_VAR_employee_realm=${KEYCLOAK_EMPLOYEE_REALM}
-      - TF_VAR_employee_client_id=${KEYCLOAK_EMPLOYEE_RESOURCE}
-      - TF_VAR_employee_client_secret=${KEYCLOAK_EMPLOYEE_SECRET}
+      TF_VAR_admin_username: ${ADMIN_NAME}
+      TF_VAR_admin_password: ${ADMIN_PASSWORD}
+      TF_VAR_kc_url: http://keycloak:${KEYCLOAK_HTTP_PORT}
 
-      - TF_VAR_customer_realm=${KEYCLOAK_CUSTOMER_REALM}
-      - TF_VAR_customer_client_id=${KEYCLOAK_CUSTOMER_RESOURCE}
-      - TF_VAR_customer_client_secret=${KEYCLOAK_CUSTOMER_SECRET}
+      TF_VAR_smtp_host: ${KC_SMPT_HOST}
+      TF_VAR_smtp_port: ${KC_SMPT_PORT}
+      TF_VAR_smtp_from: ${KC_SMPT_FROM}
+      TF_VAR_smtp_username: ${KC_SMPT_USERNAME}
+      TF_VAR_smtp_password: ${KC_SMPT_PASSWORD}
 
-      - TF_VAR_admin_username=${ADMIN_NAME}
-      - TF_VAR_admin_password=${ADMIN_PASSWORD}
-      - TF_VAR_kc_url=http://keycloak:${KEYCLOAK_HTTP_PORT}
+      TF_VAR_employee_realm: ${KC_EMPLOYEE_REALM}
+      TF_VAR_employee_realm_display_name: ${KC_EMPLOYEE_REALM_DISPLAY_NAME}
+
+      TF_VAR_employee_backend_client_id: ${KC_EMPLOYEE_BACKEND_CLIENT_ID}
+      TF_VAR_employee_backend_client_name: ${KC_EMPLOYEE_BACKEND_CLIENT_NAME}
+      TF_VAR_employee_backend_client_secret: ${KC_EMPLOYEE_BACKEND_CLIENT_SECRET}
+      TF_VAR_employee_frontend_client_id: ${KC_EMPLOYEE_FRONTEND_CLIENT_ID}
+      TF_VAR_employee_frontend_client_name: ${KC_EMPLOYEE_FRONTEND_CLIENT_NAME}
+      TF_VAR_employee_frontend_client_secret: ${KC_EMPLOYEE_FRONTEND_CLIENT_SECRET}
+
+      TF_VAR_customer_realm: ${KC_CUSTOMER_REALM}
+      TF_VAR_customer_realm_display_name: ${KC_CUSTOMER_REALM_DISPLAY_NAME}
+      
+      TF_VAR_customer_backend_client_id: ${KC_CUSTOMER_BACKEND_CLIENT_ID}
+      TF_VAR_customer_backend_client_name: ${KC_CUSTOMER_BACKEND_CLIENT_NAME}
+      TF_VAR_customer_backend_client_secret: ${KC_CUSTOMER_BACKEND_CLIENT_SECRET}
+      TF_VAR_customer_frontend_client_id: ${KC_CUSTOMER_FRONTEND_CLIENT_ID}
+      TF_VAR_customer_frontend_client_name: ${KC_CUSTOMER_FRONTEND_CLIENT_NAME}
+      TF_VAR_customer_frontend_client_secret: ${KC_CUSTOMER_FRONTEND_CLIENT_SECRET}
+
     depends_on:
       keycloak:
         condition: service_healthy

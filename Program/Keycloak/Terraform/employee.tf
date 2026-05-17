@@ -1,59 +1,98 @@
 resource "keycloak_realm" "employee" {
-  realm             = var.employee_realm
-  enabled           = true
+  realm        = var.employee_realm
+  enabled      = true
+  display_name = var.employee_realm_display_name
 
-  access_code_lifespan = "1h"
+  login_with_email_allowed = true
+  registration_allowed     = false
+  remember_me              = true
+  verify_email             = true
+  reset_password_allowed   = true
 
-  ssl_required    = "none"
-  password_policy = "upperCase(1) and length(8) and forceExpiredPasswordChange(365) and notUsername"
+  ssl_required = "external"
+
+  login_theme   = "keycloak.v2"
+  account_theme = "keycloak.v3"
+  admin_theme   = "keycloak.v2"
+  email_theme   = "keycloak"
+
+  password_policy = "upperCase(1) and lowerCase(1) and digits(1) and length(8) and notUsername"
+
+  access_token_lifespan    = "5m"
+  sso_session_idle_timeout = "30m"
+  sso_session_max_lifespan = "10h"
+
+  smtp_server {
+    host     = var.smtp_host
+    from     = var.smtp_from
+    port     = var.smtp_port
+    starttls = true
+    ssl      = false
+    auth {
+      username = var.smtp_username
+      password = var.smtp_password
+    }
+  }
 
   internationalization {
-    supported_locales = [
-      "en",
-      "ru"
-    ]
+    supported_locales = ["en", "ru"]
     default_locale    = "ru"
   }
 
   security_defenses {
     headers {
-      x_frame_options                     = "DENY"
-      content_security_policy             = "frame-src 'self'; frame-ancestors 'self'; object-src 'none';"
-      content_security_policy_report_only = ""
-      x_content_type_options              = "nosniff"
-      x_robots_tag                        = "none"
-      x_xss_protection                    = "1; mode=block"
-      strict_transport_security           = "max-age=31536000; includeSubDomains"
+      x_frame_options           = "DENY"
+      x_content_type_options    = "nosniff"
+      x_robots_tag              = "none"
+      x_xss_protection          = "1; mode=block"
+      strict_transport_security = "max-age=31536000; includeSubDomains"
     }
     brute_force_detection {
-      permanent_lockout                 = false
-      max_login_failures                = 30
-      wait_increment_seconds            = 60
-      quick_login_check_milli_seconds   = 1000
-      minimum_quick_login_wait_seconds  = 60
-      max_failure_wait_seconds          = 900
-      failure_reset_time_seconds        = 43200
+      permanent_lockout          = false
+      max_login_failures         = 5
+      wait_increment_seconds     = 60
+      max_failure_wait_seconds   = 900
+      failure_reset_time_seconds = 43200
     }
-  }
-
-  web_authn_policy {
-    relying_party_entity_name = "Example"
-    relying_party_id          = "keycloak.example.com"
-    signature_algorithms      = ["ES256", "RS256"]
   }
 }
 
-resource "keycloak_openid_client" "employee_client" {
-    realm_id  = keycloak_realm.employee.id
-    client_id = var.employee_client_id
+resource "keycloak_openid_client" "employee_backend_client" {
+  realm_id  = keycloak_realm.employee.id
+  client_id = var.employee_backend_client_id
+  name      = var.employee_backend_client_name
+  enabled   = true
 
-    enabled = true
+  client_secret_wo         = var.employee_backend_client_secret
+  client_secret_wo_version = 1
 
-    client_secret_wo = var.employee_client_secret
-    client_secret_wo_version = 1
+  access_type                  = "CONFIDENTIAL"
+  standard_flow_enabled        = false
+  implicit_flow_enabled        = false
+  direct_access_grants_enabled = true
+  service_accounts_enabled     = true
+}
 
-    access_type           = "CONFIDENTIAL"
-    standard_flow_enabled = false
-    direct_access_grants_enabled = true
-    service_accounts_enabled = true
+resource "keycloak_openid_client" "frontend" {
+  realm_id  = keycloak_realm.employee.id
+  client_id = var.employee_frontend_client_id
+  name      = var.employee_frontend_client_name
+  enabled   = true
+
+  access_type                  = "PUBLIC"
+  standard_flow_enabled        = true
+  implicit_flow_enabled        = false
+  direct_access_grants_enabled = false
+  service_accounts_enabled     = false
+
+  valid_redirect_uris = [
+    "http://*",
+    "https://*"
+  ]
+
+  web_origins = ["*"]
+
+  pkce_code_challenge_method = "S256"
+
+  client_offline_session_idle_timeout = "86400"
 }
