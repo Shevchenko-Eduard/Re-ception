@@ -1,3 +1,4 @@
+using Domain.Exception;
 using Domain.Interfaces;
 
 namespace Domain.Entity.Reservation;
@@ -16,7 +17,17 @@ public class Reservation
     public byte ReservationStatusId { get; private set; }
     public DateTimeOffset CreateAt { get; init; }
     public decimal TotalPrice { get; private set; }
-    public decimal? Discount { get; private set; }
+    public decimal? Discount
+    {
+        get; private set
+        {
+            if (value is not null && (value > 1 || value < -1))
+            {
+                throw new DomainExternalException();
+            }
+            field = value;
+        }
+    }
     #endregion
     #region Navigation properties
     public Room.Room? Room
@@ -25,7 +36,7 @@ public class Reservation
         {
             if (value?.Id != RoomId)
             {
-                throw new ArgumentException();
+                throw new DomainExternalException();
             }
             field = value;
         }
@@ -54,29 +65,11 @@ public class Reservation
     }
     #endregion
     #region Methods
-    public void UpdateCheckIn(DateTimeOffset checkIn)
-    {
-        CheckIn = checkIn;
-    }
-    public void UpdateCheckOut(DateTimeOffset checkOut)
-    {
-        CheckOut = checkOut;
-    }
-    public void UpdateReservationStatusId(byte reservationStatusId)
-    {
-        ReservationStatusId = reservationStatusId;
-    }
-    public async Task UpdateTotalPrice()
-    {
-        TotalPrice = await _calculatorPrice.Calculator(this);
-    }
-    public void UpdateDiscount(decimal discount)
-    {
-        Discount = discount;
-    }
-    public void SetRoom(Room.Room room)
-    {
-        Room = room;
-    }
+    public void UpdateCheckIn(DateTimeOffset checkIn) => CheckIn = checkIn;
+    public void UpdateCheckOut(DateTimeOffset checkOut) => CheckOut = checkOut;
+    public void UpdateReservationStatusId(byte reservationStatusId) => ReservationStatusId = reservationStatusId;
+    public async Task UpdateTotalPrice() => TotalPrice = await _calculatorPrice.Calculator(this);
+    public void UpdateDiscount(decimal discount) => Discount = discount;
+    public void SetRoom(Room.Room room) => Room = room;
     #endregion
 }

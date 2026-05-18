@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Reflection;
+using Domain.Exception;
 
 namespace Domain.Abstract;
 
@@ -31,7 +32,7 @@ public abstract class EnumObjectAbstract<T> where T : EnumObjectAbstract<T>
             return typeof(T)
                 .GetFields(BindingFlags.Public | BindingFlags.Static)
                 .Where(f => f.FieldType == typeof(T) && f.IsInitOnly)
-                .Select(f => (T)(f.GetValue(null) ?? throw new SystemException($"Field {f.Name} returned null")))
+                .Select(f => (T)(f.GetValue(null) ?? throw new DomainInnerException($"Field {f.Name} returned null")))
                 .ToHashSet();
         });
         return _all;
@@ -40,12 +41,12 @@ public abstract class EnumObjectAbstract<T> where T : EnumObjectAbstract<T>
     public static EnumObjectAbstract<T> FromId(ushort id)
     {
         return All.FirstOrDefault(g => g.Id == id)
-            ?? throw new ArgumentException($"Invalid gender id: {id}");
+            ?? throw new DomainInnerException($"Invalid gender id: {id}");
     }
     public override bool Equals(object? obj)
     {
         if (obj is EnumObjectAbstract<T> enumObject) { return Equals(enumObject: enumObject); }
-        throw new TypeAccessException("Unsupported object type for comparison");
+        throw new DomainInnerException("Unsupported object type for comparison");
     }
     public bool Equals(EnumObjectAbstract<T> enumObject)
     {

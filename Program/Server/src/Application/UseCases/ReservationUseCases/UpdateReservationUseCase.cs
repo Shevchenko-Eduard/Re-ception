@@ -1,3 +1,4 @@
+using Application.Exception;
 using Application.Interfaces;
 using Domain.Entity.Reservation;
 using Domain.Interfaces.Repositories.ReservationRepository;
@@ -15,7 +16,7 @@ public class UpdateReservationUseCase(
     public async Task<Reservation> Execute(DTOs.ReservationDTOs.Update input)
     {
         Reservation reservation = await _reservationRepository.GetByIdAsync(input.Id)
-            ?? throw new ArgumentException("Reservation with the specified ID not found");
+            ?? throw new ApplicationExternalException("Reservation with the specified ID not found");
         Reservation updateReservation = await input.GetReservation(reservation);
         await _reservationRepository.UpdateAsync(updateReservation);
         await _unitOfWork.SaveChangesAsync();

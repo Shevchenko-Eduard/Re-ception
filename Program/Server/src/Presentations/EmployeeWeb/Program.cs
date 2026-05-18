@@ -21,6 +21,7 @@ builder.Services.AddHealthChecks();
 
 builder.Services
     .AddGraphQLServer()
+    .AddAuthorization()
     .AddGraphQLQuery()
     .AddPagingArguments()
     .AddProjections()

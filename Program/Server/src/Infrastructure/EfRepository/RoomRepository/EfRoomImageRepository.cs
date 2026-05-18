@@ -1,6 +1,7 @@
 using Domain.Entity.Room;
 using Domain.Interfaces.Repositories.RoomRepository;
 using Infrastructure.Database;
+using Infrastructure.Exception;
 using Infrastructure.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,25 +21,25 @@ public class EfRoomImageRepository(
 
     public async Task DeleteAsync(int id)
     {
-        RoomImage roomImage = await GetValueByIdAsync(id) ?? throw new Exception();
+        RoomImage roomImage = await GetValueByIdAsync(id) ?? throw new InfrastructureExternalException();
         await _context.RoomImages.Where(i => i.Id == id).ExecuteDeleteAsync();
         await _s3RoomImageRepository.DeleteAsync(roomImage.ImageKey.ToString());
     }
 
     public async Task<RoomImage?> GetValueByIdAsync(int id)
     {
-        return await _context.RoomImages.FirstAsync(i => i.Id == id) ?? throw new Exception();
+        return await _context.RoomImages.FirstAsync(i => i.Id == id) ?? throw new InfrastructureExternalException();
     }
 
     public async Task<Stream> ReadAsync(int id)
     {
-        RoomImage roomImage = await GetValueByIdAsync(id) ?? throw new Exception();
+        RoomImage roomImage = await GetValueByIdAsync(id) ?? throw new InfrastructureExternalException();
         return await _s3RoomImageRepository.DownloadAsync(roomImage.ImageKey.ToString());
     }
 
     public async Task UpdateAsync(int id, Stream stream)
     {
-        RoomImage roomImage  = await GetValueByIdAsync(id) ?? throw new Exception();
+        RoomImage roomImage  = await GetValueByIdAsync(id) ?? throw new InfrastructureExternalException();
         await _s3RoomImageRepository.UploadAsync(stream, roomImage.ImageKey.ToString());
     }
 }

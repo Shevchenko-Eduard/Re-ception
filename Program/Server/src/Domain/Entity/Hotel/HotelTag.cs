@@ -1,3 +1,5 @@
+using Domain.Exception;
+
 namespace Domain.Entity.Hotel;
 
 public sealed class HotelTag
@@ -10,7 +12,7 @@ public sealed class HotelTag
     {
         get; private set
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(value);
+            if (string.IsNullOrWhiteSpace(value)) { throw new DomainExternalException(); }
             field = value;
         }
     } = null!;
@@ -18,7 +20,7 @@ public sealed class HotelTag
     {
         get; private set
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(value);
+            if (string.IsNullOrWhiteSpace(value)) { throw new DomainExternalException(); }
             field = value;
         }
     } = null!;
@@ -35,13 +37,7 @@ public sealed class HotelTag
     }
     #endregion
     #region Methods
-    public void UpdateName(string name)
-    {
-        Name = name;
-    }
-    public void UpdateDescription(string description)
-    {
-        Description = description;
-    }
+    public void UpdateName(string name) => Name = name;
+    public void UpdateDescription(string description) => Description = description;
     #endregion
 }

@@ -11,7 +11,14 @@ public class Hotel
     private const double _minLongitude = -180;
     #endregion
     #region Fields
-    public int Id { get; private set; }
+    public int Id
+    {
+        get; private set
+        {
+            if (value < 0) { throw new DomainExternalException(); }
+            field = value;
+        }
+    }
     public string Name { get; private set; }
     public string? Description { get; private set; }
     // Географическая широта

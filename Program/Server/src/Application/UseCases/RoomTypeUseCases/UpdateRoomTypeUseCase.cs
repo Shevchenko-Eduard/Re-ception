@@ -1,4 +1,5 @@
 using Application.DTOs;
+using Application.Exception;
 using Application.Interfaces;
 using Domain.Entity.Room;
 using Domain.Interfaces.Repositories.RoomRepository;
@@ -17,7 +18,7 @@ public class UpdateRoomTypeUseCase(
     public async Task<RoomType> Execute(RoomTypeDTOs.Update input)
     {
         RoomType roomType = await _roomTypeRepository.GetByIdAsync(input.Id)
-            ?? throw new ArgumentException("Room type with the specified ID not found");
+            ?? throw new ApplicationExternalException("Room type with the specified ID not found");
         RoomType updatedRoomType = input.GetUpdateRoomType(roomType);
         await _roomTypeRepository.UpdateAsync(updatedRoomType);
         await _unitOfWork.SaveChangesAsync();

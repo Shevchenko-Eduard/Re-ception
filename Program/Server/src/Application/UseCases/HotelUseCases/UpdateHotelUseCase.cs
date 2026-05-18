@@ -1,4 +1,5 @@
 using Application.DTOs;
+using Application.Exception;
 using Application.Interfaces;
 using Domain.Entity.Hotel;
 using Domain.Interfaces.Repositories.HotelRepository;
@@ -15,7 +16,7 @@ public class UpdateHotelUseCase(
     public async Task<Hotel> Execute(HotelDTOs.Update input)
     {
         Hotel hotel = await _hotelRepository.GetByIdAsync(input.Id)
-            ?? throw new ArgumentException("Hotel with the specified ID not found");
+            ?? throw new ApplicationExternalException("Hotel with the specified ID not found");
         Hotel updatedHotel = input.GetHotel(hotel);
         await _hotelRepository.UpdateAsync(updatedHotel);
         await _unitOfWork.SaveChangesAsync();

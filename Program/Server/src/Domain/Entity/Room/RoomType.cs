@@ -1,3 +1,5 @@
+using Domain.Exception;
+
 namespace Domain.Entity.Room;
 
 public sealed class RoomType
@@ -12,10 +14,10 @@ public sealed class RoomType
     {
         get; private set
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(value);
+            if (string.IsNullOrWhiteSpace(value)) { throw new DomainExternalException(); }
             if (value.Length > _maxName)
             {
-                throw new ArgumentException(message: $"The name must not exceed {_maxName} characters.");
+                throw new DomainExternalException(message: $"The name must not exceed {_maxName} characters.");
             }
             field = value;
         }
@@ -24,10 +26,10 @@ public sealed class RoomType
     {
         get; private set
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(value);
+            if (string.IsNullOrWhiteSpace(value)) { throw new DomainExternalException(); }
             if (value.Length > _maxDescription)
             {
-                throw new ArgumentException(message: $"The description must not exceed {_maxDescription} characters.");
+                throw new DomainExternalException(message: $"The description must not exceed {_maxDescription} characters.");
             }
             field = value;
         }
@@ -38,7 +40,7 @@ public sealed class RoomType
         {
             if (value < 0)
             {
-                throw new ArgumentException(message: "The price cannot be negative");
+                throw new DomainExternalException(message: "The price cannot be negative");
             }
             field = value;
         }

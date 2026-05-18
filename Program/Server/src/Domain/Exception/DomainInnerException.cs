@@ -1,16 +1,12 @@
+using Domain.Interfaces.Exception;
+
 namespace Domain.Exception;
 
-public class DomainInnerException: DomainException
+public class DomainInnerException : DomainException, IInnerException
 {
-    public DomainInnerException() : base()
-    {
-    }
+    public DomainInnerException() : base() { }
 
-    public DomainInnerException(string? message) : base(message)
-    {
-    }
+    public DomainInnerException(string? message) : base(message) { }
 
-    public DomainInnerException(string? message, System.Exception? innerException) : base(message, innerException)
-    {
-    }
+    public DomainInnerException(string? message, System.Exception? innerException) : base(message, innerException) { }
 }

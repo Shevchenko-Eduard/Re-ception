@@ -1,3 +1,5 @@
+using Domain.Exception;
+
 namespace Domain.Abstract;
 
 public abstract class StatusObjectAbstract<T> : EnumObjectAbstract<T> where T : StatusObjectAbstract<T>
@@ -8,14 +10,14 @@ public abstract class StatusObjectAbstract<T> : EnumObjectAbstract<T> where T : 
     public static StatusObjectAbstract<T> FromName(string name)
     {
         return All.FirstOrDefault(g => g.Name == name)
-            ?? throw new ArgumentException($"Invalid gender name: {name}");
+            ?? throw new DomainInnerException($"Invalid gender name: {name}");
     }
     #region Methods
     public override bool Equals(object? obj)
     {
         if (obj is StatusObjectAbstract<T> status) { return Equals(status: status); }
         if (obj is EnumObjectAbstract<T> enumObject) { return Equals(enumObject: enumObject); }
-        throw new TypeAccessException("Unsupported object type for comparison");
+        throw new DomainInnerException("Unsupported object type for comparison");
     }
     public bool Equals(StatusObjectAbstract<T> status)
     {

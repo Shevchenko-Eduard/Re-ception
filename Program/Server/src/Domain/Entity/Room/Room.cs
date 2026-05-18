@@ -1,3 +1,5 @@
+using Domain.Exception;
+
 namespace Domain.Entity.Room;
 
 public sealed class Room
@@ -19,7 +21,7 @@ public sealed class Room
         {
             if (value?.Id != RoomTypeId)
             {
-                throw new ArgumentException();
+                throw new DomainExternalException();
             }
             field = value;
         }

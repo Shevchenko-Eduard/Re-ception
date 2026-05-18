@@ -1,4 +1,5 @@
 using Application.DTOs;
+using Application.Exception;
 using Application.Interfaces;
 using Domain.Entity.Hotel;
 using Domain.Interfaces.Repositories.HotelRepository;
@@ -14,7 +15,8 @@ public class UpdateHotelTagUseCase(
 
     public async Task<HotelTag> Execute(HotelTagDTOs.Update input)
     {
-        HotelTag tag = await _tagRepository.GetByIdAsync(input.Id) ?? throw new ArgumentException();
+        HotelTag tag = await _tagRepository.GetByIdAsync(input.Id) 
+            ?? throw new ApplicationExternalException();
         HotelTag updatedTag = input.GetUpdateHotelTag(tag);
         await _tagRepository.UpdateAsync(updatedTag);
         await _unitOfWork.SaveChangesAsync();

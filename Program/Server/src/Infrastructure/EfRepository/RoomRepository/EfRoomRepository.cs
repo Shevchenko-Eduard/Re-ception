@@ -1,6 +1,8 @@
 using Domain.Entity.Room;
+using Domain.Exception;
 using Domain.Interfaces.Repositories.RoomRepository;
 using Infrastructure.Database;
+using Infrastructure.Exception;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.EfRepository.RoomRepository;
@@ -14,6 +16,20 @@ public class EfRoomRepository(ProgramContext context) : IRoomRepository
     public async Task DeleteAsync(int id) => await _context.Rooms.Where(r => r.Id == id).ExecuteDeleteAsync();
 
     public async Task<Room?> GetByIdAsync(int id) => await _context.Rooms.FirstOrDefaultAsync(r => r.Id == id);
+
+    public async Task<decimal> GetPricePerDay(int id)
+    {
+        Room room = await _context.Rooms
+            .Include(r => r.RoomType)
+            .AsSplitQuery()
+            .AsNoTracking()
+            .FirstOrDefaultAsync(r => r.Id == id) ?? throw new DomainExternalException();
+        decimal pricePerDay = (room.PricePerDay is null
+            ? room.PricePerDay
+            : room.RoomType!.BasePricePerDay)
+            ?? throw new SystemException();
+        return pricePerDay;
+    }
 
     public IQueryable<Room> GetQueryable() => _context.Rooms.AsQueryable();
 

@@ -1,3 +1,5 @@
+using Domain.Exception;
+
 namespace Domain.Entity.Room;
 
 public sealed class RoomTag
@@ -10,7 +12,7 @@ public sealed class RoomTag
     {
         get; private set
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(value);
+            if (string.IsNullOrWhiteSpace(value)) { throw new DomainExternalException(); }
             field = value;
         }
     } = null!;
@@ -18,7 +20,7 @@ public sealed class RoomTag
     {
         get; private set
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(value);
+            if (string.IsNullOrWhiteSpace(value)) { throw new DomainExternalException(); }
             field = value;
         }
     } = null!;

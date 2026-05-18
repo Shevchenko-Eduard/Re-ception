@@ -1,6 +1,7 @@
 using Domain.Entity.Hotel;
 using Domain.Interfaces.Repositories.HotelRepository;
 using Infrastructure.Database;
+using Infrastructure.Exception;
 using Infrastructure.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,25 +21,25 @@ public class EfHotelImageRepository(
 
     public async Task DeleteAsync(int id)
     {
-        HotelImage hotelImage = await GetValueByIdAsync(id) ?? throw new Exception();
+        HotelImage hotelImage = await GetValueByIdAsync(id) ?? throw new InfrastructureExternalException();
         await _context.HotelImages.Where(i => i.Id == id).ExecuteDeleteAsync();
         await _s3HotelImageRepository.DeleteAsync(hotelImage.ImageKey.ToString());
     }
 
     public async Task<HotelImage?> GetValueByIdAsync(int id)
     {
-        return await _context.HotelImages.FirstAsync(i => i.Id == id) ?? throw new Exception();
+        return await _context.HotelImages.FirstAsync(i => i.Id == id) ?? throw new InfrastructureExternalException();
     }
 
     public async Task<Stream> ReadAsync(int id)
     {
-        HotelImage hotelImage = await GetValueByIdAsync(id) ?? throw new Exception();
+        HotelImage hotelImage = await GetValueByIdAsync(id) ?? throw new InfrastructureExternalException();
         return await _s3HotelImageRepository.DownloadAsync(hotelImage.ImageKey.ToString());
     }
 
     public async Task UpdateAsync(int id, Stream stream)
     {
-        HotelImage hotelImage  = await GetValueByIdAsync(id) ?? throw new Exception();
+        HotelImage hotelImage  = await GetValueByIdAsync(id) ?? throw new InfrastructureExternalException();
         await _s3HotelImageRepository.UploadAsync(stream, hotelImage.ImageKey.ToString());
     }
 }

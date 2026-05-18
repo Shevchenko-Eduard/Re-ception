@@ -1,3 +1,4 @@
+using Application.Exception;
 using Application.Interfaces;
 using Domain.Entity.Reservation;
 using Domain.Interfaces.Repositories.ReservationRepository;
@@ -14,7 +15,7 @@ public class DeleteReservationUseCase(
     public async Task Execute(DTOs.ReservationDTOs.Delete input)
     {
         Reservation reservation = await _reservationRepository.GetByIdAsync(input.Id)
-            ?? throw new ArgumentException("Reservation with the specified ID not found");
+            ?? throw new ApplicationExternalException("Reservation with the specified ID not found");
         await _reservationRepository.DeleteAsync(reservation.Id);
         await _unitOfWork.SaveChangesAsync();
     }

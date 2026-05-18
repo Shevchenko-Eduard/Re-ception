@@ -1,5 +1,6 @@
 using System.Data.Common;
 using Infrastructure.Database.Interfaces;
+using Infrastructure.Exception;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -42,7 +43,7 @@ public class DatabaseInitialization(
                 }
             }
         }
-        catch (Exception ex)
+        catch (InfrastructureInnerException ex)
         {
             _logger?.LogError(ex, "An error occurred while initializing the database");
             throw;

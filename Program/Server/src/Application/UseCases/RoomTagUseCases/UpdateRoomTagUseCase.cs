@@ -1,4 +1,5 @@
 using Application.DTOs;
+using Application.Exception;
 using Application.Interfaces;
 using Domain.Entity.Room;
 using Domain.Interfaces.Repositories.RoomRepository;
@@ -17,7 +18,8 @@ public class UpdateRoomTagUseCase(
     public async Task<RoomTag> Execute(RoomTagDTOs.Update input)
     {
 
-        RoomTag roomTag = await _roomTagRepository.GetByIdAsync(input.Id) ?? throw new ArgumentException();
+        RoomTag roomTag = await _roomTagRepository.GetByIdAsync(input.Id)
+            ?? throw new ApplicationExternalException();
         RoomTag updatedRoomTag = input.GetUpdateRoomTag(roomTag);
         await _roomTagRepository.UpdateAsync(updatedRoomTag);
         await _unitOfWork.SaveChangesAsync();
