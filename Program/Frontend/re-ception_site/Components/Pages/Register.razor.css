@@ -1,0 +1,76 @@
+ .login_container {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            padding: 2.2rem 2rem 2.5rem 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 8px 18px rgba(0, 0, 0, 0.05);
+            transition: transform 0.25s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .login_container:hover {
+            box-shadow: 0 30px 55px -15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+        }
+
+ .login_form {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login_form label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e4e;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* icon inside label (tiny emoji, but optional) */
+        .label-icon {
+            font-size: 1rem;
+        }
+
+        /* input fields */
+        .login_form input {
+            padding: 0.9rem 1rem;
+            font-size: 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 1.2rem;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            outline: none;
+            color: #1e293b;
+            font-weight: 450;
+            background: #FFAFCC35;
+        }
+
+        .login_form input:focus {
+            border-color: #A2D2FF;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            background: #FFAFCC;
+        }
+
+        .login_form input::placeholder {
+            color: #a0afc3;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+        .login_form select {
+            padding: 0.9rem 1rem;
+            font-size: 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 1.2rem;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            outline: none;
+            color: #1e293b;
+            font-weight: 450;
+            background: #FFAFCC35;
+        }

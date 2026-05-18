@@ -1,0 +1,256 @@
+.home_container {
+    background-color: #FFF6F9;
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+}
+
+
+        .logo {
+        background-image: linear-gradient(90deg, #D21616 -15.62%, #FF3C00 55.97%);
+        color: transparent;
+        background-clip: text;
+        text-decoration: none;
+        }
+        .hero {
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #e2d5c8;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #3b2a1f;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #6b4f34;
+            margin-top: 1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* gallery grid — main hotel showroom */
+        .gallery-section {
+            max-width: 1300px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2d2b26;
+            letter-spacing: -0.3px;
+        }
+
+        .section-title span {
+            display: inline-block;
+            width: 70px;
+            height: 3px;
+            background: #cfb28b;
+            margin-top: 0.6rem;
+            border-radius: 4px;
+        }
+
+        /* photo grid (responsive cards) */
+        .hotel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 2rem;
+        }
+
+        .hotel-card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #f3ede6;
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* image container — placeholder ready */
+        .card-img {
+            width: 100%;
+            height: 250px;
+            background-color: #e7dfd5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .hotel-card:hover .card-img img {
+            transform: scale(1.02);
+        }
+
+        /* description area */
+        .card-content {
+            padding: 1.6rem 1.5rem 1.8rem;
+        }
+
+        .card-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2e2a24;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-location {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: #b48347;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .card-location::before {
+            content: "📍";
+            font-size: 0.75rem;
+        }
+
+        .card-description {
+            color: #4f4a42;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-tag {
+            display: inline-block;
+            background: #f8f2ea;
+            padding: 0.3rem 0.9rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #ab7b4a;
+            letter-spacing: 0.3px;
+        }
+
+        /* additional info / amenity preview */
+        .amenities-badge {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .amenities-badge span {
+            background: #faf6f0;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            color: #6a4e2e;
+        }
+
+        .extra-showcase {
+            padding: 3rem 2rem;
+            margin-top: 2rem;
+        }
+
+        .inline-flex {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s;
+        }
+
+        .feature-img {
+            height: 220px;
+            width: 100%;
+            background: #e2d4c6;
+        }
+
+        .feature-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .feature-text {
+            padding: 1.5rem;
+        }
+
+        .feature-text h4 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* footer */
+        .footer {
+            background: #1f1c18;
+            color: #d9cdbc;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.85rem;
+            position: absolute;
+            width: 100%;
+            left: 0%;
+        }
+
+        /* responsive touches */
+        @media (max-width: 700px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            .card-content h3 {
+                font-size: 1.3rem;
+            }
+        }
+
+        button, a {
+            cursor: pointer;
+        }
+
+        /* placeholder helper note (tiny) */
+        .helper-note {
+            text-align: center;
+            font-size: 0.7rem;
+            margin-top: 1rem;
+            color: #a18566;
+        }

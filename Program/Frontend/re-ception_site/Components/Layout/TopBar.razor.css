@@ -1,0 +1,77 @@
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color: #FFF6F9;
+  overflow: hidden;
+  top: 0%;
+  left: 0%;
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+}
+
+/* Style the links inside the navigation bar */
+.topnav li {
+  float: left;
+  color: #f2f2f2;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  font-size: 17px;
+  list-style: none;
+}
+
+.topnav li.login {
+  float: right;
+  color: #f2f2f2;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  font-size: 17px;
+  list-style: none;
+  position: fixed;
+  right: 1em;
+}
+
+.topnav a {
+  float: left;
+  color: black;
+  padding-bottom: 1em;
+  padding-right: 1em;
+  text-align: center;
+  text-decoration: none;
+  font-size: 17px;
+  list-style: none;
+}
+
+/* Add a color to the active/current link */
+.topnav a.logo {
+  background-image: linear-gradient(90deg, #D21616 -15.62%, #FF3C00 55.97%);
+  color: transparent;
+  background-clip: text;
+  text-decoration: none;
+}
+
+.topnav a.logo:hover {
+  background-color: #ddd;
+  color: #FF3C00;
+  text-decoration: none;
+}
+.topnav a.logo:visited {
+  background-image: linear-gradient(90deg, #D21616 -15.62%, #FF3C00 55.97%);
+  color: transparent;
+  background-clip: text;
+  text-decoration: none;
+}
+.topnav a.logo:active {
+  background-image: linear-gradient(90deg, #D21616 -15.62%, #FF3C00 55.97%);
+  color: transparent;
+  background-clip: text;
+  text-decoration: none;
+}
+
+.topnav a.login {
+  float: right;
+  padding-bottom: 1em;
+  padding-right: 1em;
+  color: black;
+}
