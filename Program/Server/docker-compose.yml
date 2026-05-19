@@ -46,6 +46,8 @@ services:
       - server-network
       - nginx-network
       - keycloak-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:${ASPNETCORE_PORT}/health"]
       interval: 5s
@@ -70,6 +72,8 @@ services:
       minio:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
     environment:
       - Keycloak__AuthServerUrl=${KEYCLOAK_AUTH_SERVER_URL}
@@ -102,6 +106,8 @@ services:
       - server-network
       - nginx-network
       - keycloak-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:${ASPNETCORE_PORT}/health"]
       interval: 5s

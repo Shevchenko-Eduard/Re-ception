@@ -2,12 +2,14 @@ using Application.DTOs;
 using Application.Interfaces;
 using Application.UseCases.HotelImageUseCases;
 using Domain.Interfaces.Repositories.HotelRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeWeb.WebApi;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class HotelImageController(
     IHotelImageRepository hotelImageRepository,
     IUnitOfWork unitOfWork) : ControllerBase
@@ -16,6 +18,7 @@ public class HotelImageController(
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     [HttpPost]
+    [Authorize(Roles = "HotelImage-Create")]
     public async Task<IActionResult> Create([FromBody] HotelImageDTOs.Create request)
     {
         var useCase = new CreateImageUseCase(_hotelImageRepository, _unitOfWork);
@@ -24,6 +27,7 @@ public class HotelImageController(
     }
 
     [HttpPut]
+    [Authorize(Roles = "HotelImage-Update")]
     public async Task<IActionResult> Update([FromBody] HotelImageDTOs.Update request)
     {
         var useCase = new UpdateImageUseCase(_hotelImageRepository, _unitOfWork);
@@ -32,6 +36,7 @@ public class HotelImageController(
     }
 
     [HttpDelete]
+    [Authorize(Roles = "HotelImage-Delete")]
     public async Task<IActionResult> Delete(HotelImageDTOs.Delete request)
     {
         var useCase = new DeleteImageUseCase(_hotelImageRepository, _unitOfWork);

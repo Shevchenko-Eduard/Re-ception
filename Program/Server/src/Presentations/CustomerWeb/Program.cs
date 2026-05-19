@@ -1,7 +1,7 @@
-using LibWeb.Services;
-using LibWeb.GraphQL;
-using Microsoft.AspNetCore.HttpOverrides;
 using Infrastructure.Database;
+using LibWeb.GraphQL;
+using LibWeb.Services;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,11 +9,7 @@ builder.AddAppInit();
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(c =>
-{
-    c.CustomSchemaIds(type => 
-        type.FullName?.Replace("+", ".") ?? type.Name);
-});
+builder.Services.AddSwagger(builder.Configuration);
 
 builder.Services.AddControllers();
 
@@ -21,12 +17,19 @@ builder.Services.AddHealthChecks();
 
 builder.Services
     .AddGraphQLServer()
-    .AddAuthorization()
     .AddGraphQLQuery()
+
+    .AddAuthorization()
+
     .AddPagingArguments()
     .AddProjections()
     .AddFiltering()
     .AddSorting()
+
+    .UseQueryCache()
+    .AddCacheControl()
+    .AddInMemorySubscriptions()
+
     .RegisterDbContextFactory<ProgramContext>();
 
 builder.Services.AddCors(options =>
@@ -54,11 +57,10 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerMap(app.Configuration);
 }
 
-app.UseOutputCache(); 
+app.UseOutputCache();
 
 app.UseAuthentication();
 app.UseAuthorization();

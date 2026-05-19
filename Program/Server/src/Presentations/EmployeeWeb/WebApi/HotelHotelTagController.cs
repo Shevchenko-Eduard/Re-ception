@@ -2,12 +2,14 @@ using Application.DTOs;
 using Application.Interfaces;
 using Application.UseCases.HotelHotelTagUseCases;
 using Domain.Interfaces.Repositories.HotelRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeWeb.WebApi;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class HotelHotelTagController(
     IHotelHotelTagRepository hotelHotelTagRepository,
     IUnitOfWork unitOfWork) : ControllerBase
@@ -16,6 +18,7 @@ public class HotelHotelTagController(
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     [HttpPost]
+    [Authorize(Roles = "HotelHotelTag-Create")]
     public async Task<IActionResult> Create([FromBody] HotelHotelTagDTOs.Create request)
     {
         var useCase = new CreateHotelHotelTagUseCase(_hotelHotelTagRepository, _unitOfWork);
@@ -24,6 +27,7 @@ public class HotelHotelTagController(
     }
 
     [HttpDelete]
+    [Authorize(Roles = "HotelHotelTag-Delete")]
     public async Task<IActionResult> Delete(HotelHotelTagDTOs.Delete request)
     {
         var useCase = new DeleteHotelHotelTagUseCase(_hotelHotelTagRepository, _unitOfWork);

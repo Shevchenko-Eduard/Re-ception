@@ -3,6 +3,7 @@ using HotChocolate.Types;
 using LibWeb.GraphQL;
 using Infrastructure.Database;
 using HotChocolate;
+using HotChocolate.Authorization;
 
 namespace EmployeeWeb.GraphQL.Payment;
 
@@ -13,5 +14,6 @@ public class PaymentQuery : IGraphQLQuery
     [UseProjection]
     [UseFiltering]
     [UseSorting]
+    [Authorize]
     public IQueryable<Domain.Entity.Payment.Payment> GetPayments([Service] ProgramContext context) => context.Payments;
 }

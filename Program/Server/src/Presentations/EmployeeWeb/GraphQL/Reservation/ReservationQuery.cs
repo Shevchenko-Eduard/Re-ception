@@ -3,6 +3,7 @@ using HotChocolate.Types;
 using LibWeb.GraphQL;
 using Infrastructure.Database;
 using HotChocolate;
+using HotChocolate.Authorization;
 
 namespace EmployeeWeb.GraphQL.Reservation;
 
@@ -14,5 +15,6 @@ public class ReservationQuery : IGraphQLQuery
     [UseProjection]
     [UseFiltering]
     [UseSorting]
+    [Authorize]
     public IQueryable<Domain.Entity.Reservation.Reservation> GetReservations([Service] ProgramContext context) => context.Reservations;
 }

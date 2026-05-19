@@ -5,15 +5,16 @@ using LibWeb.GraphQL;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using HotChocolate;
+using HotChocolate.Caching;
 
 namespace EmployeeWeb.GraphQL.Payment;
 
 [ExtendObjectType(typeof(Query))]
 public class PaymentMethodQuery : IGraphQLQuery
 {
-
     [UseFiltering]
     [UseSorting]
+    [CacheControl(MaxAge = 120)]
     public async Task<IEnumerable<PaymentMethod>> GetPaymentMethods([Service] ProgramContext context)
     {
         return await context.PaymentMethods.ToArrayAsync();

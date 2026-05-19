@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace LibWeb.Services;
 
@@ -19,17 +21,19 @@ public static class RedisService
         string? instanceName = redisSettings["InstanceName"];
         string? password = redisSettings["Password"];
 
+        var redisConfigurationOptions = new ConfigurationOptions
+        {
+            EndPoints = { endpoint },
+            Password = password
+        };
+
         services.AddStackExchangeRedisCache(options =>
         {
             options.Configuration = endpoint;
             options.InstanceName = instanceName;
             if (!string.IsNullOrEmpty(password))
             {
-                options.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions
-                {
-                    EndPoints = { endpoint },
-                    Password = password
-                };
+                options.ConfigurationOptions = redisConfigurationOptions;
             }
         });
 
@@ -39,13 +43,15 @@ public static class RedisService
             options.InstanceName = instanceName;
             if (!string.IsNullOrEmpty(password))
             {
-                options.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions
-                {
-                    EndPoints = { endpoint },
-                    Password = password
-                };
+                options.ConfigurationOptions = redisConfigurationOptions;
             }
         });
+
+        var connectionMultiplexer = ConnectionMultiplexer.Connect(redisConfigurationOptions);
+
+        services.AddDataProtection()
+            .PersistKeysToStackExchangeRedis(connectionMultiplexer, password)
+            .UnprotectKeysWithAnyCertificate(); // Не шифровать ключи
 
         return services;
     }

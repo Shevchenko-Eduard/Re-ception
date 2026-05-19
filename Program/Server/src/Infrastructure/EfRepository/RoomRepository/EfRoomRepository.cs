@@ -2,7 +2,6 @@ using Domain.Entity.Room;
 using Domain.Exception;
 using Domain.Interfaces.Repositories.RoomRepository;
 using Infrastructure.Database;
-using Infrastructure.Exception;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.EfRepository.RoomRepository;

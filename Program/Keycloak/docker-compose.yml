@@ -3,9 +3,7 @@ services:
   keycloak:
     image: keycloak/keycloak:26.6.1
     container_name: keycloak
-    command: "start-dev"
-    ports:
-      - ${KEYCLOAK_HTTP_PORT}:${KEYCLOAK_HTTP_PORT}
+    command: "start"
     networks:
       - keycloak-network
       - nginx-network
