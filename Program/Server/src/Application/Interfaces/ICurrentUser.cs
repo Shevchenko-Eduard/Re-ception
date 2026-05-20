@@ -4,4 +4,7 @@ public interface ICurrentUser
 {
     string? Id { get; }
     bool IsAuthenticated { get; }
+    public string? Email { get; }
+    public string? Name { get; }
+    public string? PreferredUsername { get; }
 }

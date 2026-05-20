@@ -13,6 +13,7 @@ public class KeycloakSchema(IConfiguration configuration)
     public string Secret => _kcSettings["Secret"] ?? throw new InvalidOperationException("Keycloak:Secret is missing");
     public string SslRequired => _kcSettings["SslRequired"] ?? "none";
     public bool VerifyTokenAudience => bool.TryParse(_kcSettings["VerifyTokenAudience"], out var verify) && verify;
+    public string MetadataAddress => $"{AuthServerUrl}/realms/{Realm}/.well-known/openid-configuration";
 
     public async Task<string> AuthorizationEndpoint()
     {
@@ -25,6 +26,12 @@ public class KeycloakSchema(IConfiguration configuration)
             ?? throw new Exception("token_endpoint is missing in OIDC configuration");
     }
 
+    public async Task<string> IssuerEndpoint()
+    {
+        return (await OidcConfigurationAsync())["issuer"].ToString()
+            ?? throw new Exception("issuer is missing in OIDC configuration");
+    }
+
     private Dictionary<string, object>? _oidcConfig = null;
 
     public async Task<Dictionary<string, object>> OidcConfigurationAsync()
@@ -34,8 +41,8 @@ public class KeycloakSchema(IConfiguration configuration)
             return _oidcConfig;
         }
 
-        var authorityUrl = $"{AuthServerUrl}/realms/{Realm}";
-        var discoveryEndpoint = $"{authorityUrl}/.well-known/openid-configuration";
+        // var authorityUrl = $"{AuthServerUrl}/realms/{Realm}";
+        // var discoveryEndpoint = $"{authorityUrl}/.well-known/openid-configuration";
 
         HttpClientHandler handler = new()
         {
@@ -45,7 +52,7 @@ public class KeycloakSchema(IConfiguration configuration)
 
         using HttpClient httpClient = new(handler);
 
-        HttpResponseMessage response = await httpClient.GetAsync(discoveryEndpoint);
+        HttpResponseMessage response = await httpClient.GetAsync(MetadataAddress);
         response.EnsureSuccessStatusCode();
 
         string jsonString = await response.Content.ReadAsStringAsync();

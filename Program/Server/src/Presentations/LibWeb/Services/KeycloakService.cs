@@ -38,6 +38,26 @@ public static class KeycloakService
             options.Credentials = new() { Secret = schema.Secret };
             options.SslRequired = schema.SslRequired;
             options.VerifyTokenAudience = schema.VerifyTokenAudience;
+        },
+        configureJwtBearerOptions: jwtOptions =>
+        {
+            jwtOptions.MetadataAddress = schema.MetadataAddress;
+            jwtOptions.BackchannelHttpHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            };
+            jwtOptions.RequireHttpsMetadata = false;
+
+            jwtOptions.TokenValidationParameters = new()
+            {
+                ValidateAudience = true,
+                ValidAudience = "account",
+
+                ValidateIssuer = true,
+                ValidIssuer = schema.IssuerEndpoint().GetAwaiter().GetResult(),
+
+                ValidateLifetime = true
+            };
         });
 
         return services;

@@ -8,12 +8,15 @@ namespace LibWeb;
 /// <summary>
 /// Предварительно надо добавить builder.Services.AddHttpContextAccessor();
 /// </summary>
-public class CurrentUserService(IHttpContextAccessor httpContextAccessor, IConfiguration configuration) : ICurrentUser
+public class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICurrentUser
 {
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
-    private readonly string _userIdClaimType = configuration["Auth:UserIdClaimType"] ?? "sub";
-
     private ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
-    public string? Id => User?.FindFirstValue("sub");
-    public bool IsAuthenticated => User?.Identity?.IsAuthenticated ?? false;    
+
+    // public string? Id => User?.FindFirstValue("sub");
+    public string? Id => User?.FindFirstValue(ClaimTypes.NameIdentifier);
+    public bool IsAuthenticated => User?.Identity?.IsAuthenticated ?? false;
+    public string? Email => User?.FindFirstValue(ClaimTypes.Email);
+    public string? Name => User?.FindFirstValue(ClaimTypes.Name);
+    public string? PreferredUsername => User?.FindFirstValue("preferred_username");
 }

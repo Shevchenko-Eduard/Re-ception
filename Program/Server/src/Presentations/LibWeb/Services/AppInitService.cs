@@ -9,16 +9,17 @@ public static class AppInitService
 {
     public static WebApplicationBuilder AddAppInit(this WebApplicationBuilder builder)
     {
-        builder.Logging.AddConsole(); 
+        builder.Logging.AddConsole();
 
         builder.Services.AddHttpContextAccessor();
 
         builder.Services.AddPostgres(builder.Configuration);
+        builder.Services.AddApplicationServices();
+
         builder.Services.AddMinioClient(builder.Configuration);
         builder.Services.AddRedis(builder.Configuration);
         builder.Services.AddKeycloak(builder.Configuration);
         builder.Services.AddRepositories();
-        builder.Services.AddApplicationServices();
 
         builder.Services.AddHostedService<DbInitService>();
 
