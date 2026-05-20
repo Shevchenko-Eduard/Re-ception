@@ -5,7 +5,6 @@ services:
     ports:
       - "${NGINX_HTTP_PORT}:80"
       - "${NGINX_HTTPS_PORT}:443"
-      - "${KEYCLOAK_HTTP_PORT}:${KEYCLOAK_HTTP_PORT}"
     volumes:
       - ./certs/:/etc/nginx/certs/:ro
       - ./conf/nginx.conf.template:/etc/nginx/templates/nginx.conf.template:ro
@@ -21,7 +20,10 @@ services:
 
       - NGINX_DOMAIN=${NGINX_DOMAIN}
     networks:
-      - nginx-network
+      nginx-network:
+        ipv4_address: 172.20.0.100
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/health"]
       interval: 5s
@@ -37,3 +39,6 @@ services:
 networks:
   nginx-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24

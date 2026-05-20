@@ -67,13 +67,26 @@ resource "keycloak_openid_client" "employee_backend_client" {
   client_secret_wo_version = 1
 
   access_type                  = "CONFIDENTIAL"
-  standard_flow_enabled        = false
+  standard_flow_enabled        = true
   implicit_flow_enabled        = false
   direct_access_grants_enabled = true
   service_accounts_enabled     = true
+
+  valid_redirect_uris = [
+    "https://employee.docker.local/swagger/oauth2-redirect.html",
+    "http://employee.docker.local/swagger/oauth2-redirect.html",
+
+    "https://employee.docker.local/*",
+    "http://employee.docker.local/*",
+
+    "http://*",
+    "https://*"
+  ]
+
+  web_origins = ["*"]
 }
 
-resource "keycloak_openid_client" "frontend" {
+resource "keycloak_openid_client" "employee_frontend_client" {
   realm_id  = keycloak_realm.employee.id
   client_id = var.employee_frontend_client_id
   name      = var.employee_frontend_client_name

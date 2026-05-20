@@ -75,6 +75,12 @@ resource "keycloak_openid_client" "customer_backend_client" {
   service_accounts_enabled     = true
 
   valid_redirect_uris = [
+    "https://customer.docker.local/swagger/oauth2-redirect.html",
+    "http://customer.docker.local/swagger/oauth2-redirect.html",
+
+    "https://customer.docker.local/*",
+    "http://customer.docker.local/*",
+    
     "https://*",
     "http://*"
   ]

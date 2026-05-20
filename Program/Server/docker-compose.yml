@@ -13,7 +13,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      keycloak:
+      nginx:
         condition: service_healthy
     environment:
       Keycloak__AuthServerUrl: ${KEYCLOAK_AUTH_SERVER_URL}
@@ -47,7 +47,7 @@ services:
       - nginx-network
       - keycloak-network
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "${KEYCLOAK_HOST}:172.20.0.100"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:${ASPNETCORE_PORT}/health"]
       interval: 5s
@@ -73,7 +73,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      keycloak:
+      nginx:
         condition: service_healthy
     environment:
       - Keycloak__AuthServerUrl=${KEYCLOAK_AUTH_SERVER_URL}
@@ -107,7 +107,7 @@ services:
       - nginx-network
       - keycloak-network
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "${KEYCLOAK_HOST}:172.20.0.100"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:${ASPNETCORE_PORT}/health"]
       interval: 5s

@@ -1,3 +1,4 @@
+using Application.Interfaces;
 using Domain.Entity.Reservation;
 using Domain.Interfaces;
 
@@ -6,17 +7,17 @@ namespace Application.DTOs;
 public static class ReservationDTOs
 {
     public record Create(
-        string GuestId,
         int RoomId,
         DateTimeOffset CheckIn,
         DateTimeOffset CheckOut)
     {
         public async Task<Reservation> GetReservation(
-            ICalculatorReservationPrice calculatorReservationPrice)
+            ICalculatorReservationPrice calculatorReservationPrice,
+            ICurrentUser currentUser)
         {
             Reservation reservation = new(
                 calculatorPrice: calculatorReservationPrice,
-                guestId: GuestId,
+                guestId: currentUser.Id ?? throw new System.Exception("User id is null"),
                 roomId: RoomId,
                 checkIn: CheckIn,
                 checkOut: CheckOut);

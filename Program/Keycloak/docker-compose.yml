@@ -16,7 +16,7 @@ services:
 
       KC_HTTP_ENABLED: true
       KC_HTTP_PORT: ${KEYCLOAK_HTTP_PORT}
-      KC_HOSTNAME: ${KEYCLOAK_HOST}
+      KC_HOSTNAME: https://${KEYCLOAK_HOST}
       KC_PROXY_HEADERS: xforwarded
 
       KC_DB_DEBUG_JPQL: true

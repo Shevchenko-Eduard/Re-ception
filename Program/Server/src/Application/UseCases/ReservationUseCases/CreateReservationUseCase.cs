@@ -9,15 +9,17 @@ namespace Application.UseCases.ReservationUseCases;
 public class CreateReservationUseCase(
     IReservationRepository reservationRepository,
     IUnitOfWork unitOfWork,
-    ICalculatorReservationPrice calculatorReservationPrice) : IAction<ReservationDTOs.Create, Reservation>
+    ICalculatorReservationPrice calculatorReservationPrice,
+    ICurrentUser currentUser) : IAction<ReservationDTOs.Create, Reservation>
 {
     private readonly IReservationRepository _reservationRepository = reservationRepository;
     private readonly ICalculatorReservationPrice _calculatorReservationPrice = calculatorReservationPrice;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly ICurrentUser _currentUser = currentUser;
 
     public async Task<Reservation> Execute(ReservationDTOs.Create input)
     {
-        var reservation = await input.GetReservation(_calculatorReservationPrice);
+        var reservation = await input.GetReservation(_calculatorReservationPrice, _currentUser);
         await _reservationRepository.AddAsync(reservation);
         await _unitOfWork.SaveChangesAsync();
         return reservation;

@@ -14,17 +14,22 @@ namespace EmployeeWeb.WebApi;
 public class ReservationController(
     IReservationRepository reservationRepository,
     IUnitOfWork unitOfWork,
-    ICalculatorReservationPrice calculatorReservationPrice) : ControllerBase
+    ICalculatorReservationPrice calculatorReservationPrice,
+    ICurrentUser currentUser) : ControllerBase
 {
     private readonly IReservationRepository _reservationRepository = reservationRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly ICalculatorReservationPrice _calculatorReservationPrice = calculatorReservationPrice;
+    private readonly ICurrentUser _currentUser = currentUser;
 
     [HttpPost]
     [Authorize(Roles = "Reservation-Create")]
     public async Task<IActionResult> Create([FromBody] ReservationDTOs.Create request)
     {
-        var useCase = new CreateReservationUseCase(_reservationRepository, _unitOfWork, _calculatorReservationPrice);
+        var useCase = new CreateReservationUseCase(
+            _reservationRepository,
+            _unitOfWork,
+            _calculatorReservationPrice, _currentUser);
         var reservation = await useCase.Execute(request);
         return Ok(reservation);
     }
