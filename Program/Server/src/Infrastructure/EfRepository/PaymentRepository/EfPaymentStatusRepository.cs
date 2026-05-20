@@ -13,5 +13,4 @@ public class EfPaymentStatusRepository(ProgramContext context) : IPaymentStatusR
 
     public async Task<PaymentStatus?> GetByNameAsync(string name) => await _context.PaymentStatuses.FirstOrDefaultAsync(ps => ps.Name == name);
 
-    public IQueryable<PaymentStatus> GetQueryable() => _context.PaymentStatuses.AsQueryable();
 }

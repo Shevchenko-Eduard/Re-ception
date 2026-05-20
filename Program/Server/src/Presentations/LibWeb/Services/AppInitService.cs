@@ -14,9 +14,9 @@ public static class AppInitService
         builder.Services.AddHttpContextAccessor();
 
         builder.Services.AddPostgres(builder.Configuration);
+        builder.Services.AddMinioClient(builder.Configuration);
         builder.Services.AddApplicationServices();
 
-        builder.Services.AddMinioClient(builder.Configuration);
         builder.Services.AddRedis(builder.Configuration);
         builder.Services.AddKeycloak(builder.Configuration);
         builder.Services.AddRepositories();

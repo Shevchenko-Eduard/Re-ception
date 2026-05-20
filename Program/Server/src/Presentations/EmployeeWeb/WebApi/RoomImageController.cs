@@ -12,35 +12,74 @@ namespace EmployeeWeb.WebApi;
 [Authorize]
 public class RoomImageController(
     IRoomImageRepository roomImageRepository,
-    IUnitOfWork unitOfWork) : ControllerBase
+    IUnitOfWork unitOfWork,
+    IS3RoomImageRepository s3RoomImageRepository) : ControllerBase
 {
     private readonly IRoomImageRepository _roomImageRepository = roomImageRepository;
+    private readonly IS3RoomImageRepository _s3RoomImageRepository = s3RoomImageRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     [HttpPost]
     [Authorize(Roles = "RoomImage-Create")]
-    public async Task<IActionResult> Create([FromBody] RoomImageDTOs.Create request)
+    public async Task<IActionResult> Create(IFormFile file, [FromBody] RoomImageDTOs.Request.Create request)
     {
-        var useCase = new CreateRoomImageUseCase(_roomImageRepository, _unitOfWork);
-        var image = await useCase.Execute(request);
+        var useCase = new CreateRoomImageUseCase(
+            _roomImageRepository,
+            _unitOfWork,
+            _s3RoomImageRepository);
+
+        RoomImageDTOs.Inner.Create innerRequest = new(
+            RoomId: request.RoomId,
+            Extension: Path.GetExtension(file.FileName),
+            ContentType: file.ContentType,
+            Stream: file.OpenReadStream()
+        );
+
+        var image = await useCase.Execute(innerRequest);
         return Ok(image);
     }
 
     [HttpPut]
     [Authorize(Roles = "RoomImage-Update")]
-    public async Task<IActionResult> Update([FromBody] RoomImageDTOs.Update request)
+    public async Task<IActionResult> Update(IFormFile file, [FromBody] RoomImageDTOs.Request.Update request)
     {
-        var useCase = new UpdateRoomImageUseCase(_roomImageRepository, _unitOfWork);
-        await useCase.Execute(request);
+        var useCase = new UpdateRoomImageUseCase(
+            _roomImageRepository,
+            _s3RoomImageRepository,
+            _unitOfWork);
+
+        RoomImageDTOs.Inner.Update innerRequest = new(
+            Id: request.Id,
+            Extension: Path.GetExtension(file.FileName),
+            ContentType: file.ContentType,
+            Stream: file.OpenReadStream()
+        );
+
+        await useCase.Execute(innerRequest);
         return NoContent();
     }
 
     [HttpDelete]
     [Authorize(Roles = "RoomImage-Delete")]
-    public async Task<IActionResult> Delete(RoomImageDTOs.Delete request)
+    public async Task<IActionResult> Delete(RoomImageDTOs.Request.Delete request)
     {
-        var useCase = new DeleteRoomImageUseCase(_roomImageRepository, _unitOfWork);
+        var useCase = new DeleteRoomImageUseCase(
+            _roomImageRepository,
+            _s3RoomImageRepository,
+            _unitOfWork);
+
         await useCase.Execute(request);
         return NoContent();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Read(RoomImageDTOs.Request.Read request)
+    {
+        var useCase = new ReadRoomImageUseCase(
+            _roomImageRepository,
+            _s3RoomImageRepository);
+
+        var image = await useCase.Ask(request);
+        return File(image.Stream, image.ContentType, image.FileName);
     }
 }

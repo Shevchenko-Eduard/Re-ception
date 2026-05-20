@@ -1,4 +1,5 @@
 using Application.Interfaces;
+using Domain.Interfaces.Repositories.BaseRepository;
 using Domain.Interfaces.Repositories.HotelRepository;
 using Domain.Interfaces.Repositories.PaymentRepository;
 using Domain.Interfaces.Repositories.ReservationRepository;
@@ -8,7 +9,6 @@ using Infrastructure.EfRepository.HotelRepository;
 using Infrastructure.EfRepository.PaymentRepository;
 using Infrastructure.EfRepository.ReservationRepository;
 using Infrastructure.EfRepository.RoomRepository;
-using Infrastructure.Interfaces.Repository;
 using Infrastructure.MinioRepository;
 using Microsoft.Extensions.DependencyInjection;
 

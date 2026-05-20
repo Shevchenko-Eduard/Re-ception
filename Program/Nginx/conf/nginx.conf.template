@@ -1,5 +1,16 @@
 server {
     listen 80;
+    server_name localhost;
+
+    location = /health {
+        access_log off;
+        return 200 "healthy\n";
+        add_header Content-Type text/plain;
+    }
+}
+
+server {
+    listen 80;
     server_name employee.${NGINX_DOMAIN} customer.${NGINX_DOMAIN} auth.${NGINX_DOMAIN} ${NGINX_DOMAIN};
 
     location = /health {

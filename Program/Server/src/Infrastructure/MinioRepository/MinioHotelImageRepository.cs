@@ -1,4 +1,5 @@
-using Infrastructure.Interfaces.Repository;
+using Domain.Interfaces.Repositories.BaseRepository;
+using Domain.Interfaces.Repositories.HotelRepository;
 
 namespace Infrastructure.MinioRepository;
 
@@ -7,7 +8,7 @@ public class MinioHotelImageRepository(
 {
     private readonly IS3Repository _minioRepository = minioRepository;
     private readonly string bucket = "Hotel";
-    public Task DeleteAsync(string fileName) => _minioRepository.DeleteAsync(fileName, bucket);
-    public Task<Stream> DownloadAsync(string fileName) => _minioRepository.DownloadAsync(fileName, bucket);
-    public Task UploadAsync(Stream fileStream, string fileName) => _minioRepository.UploadAsync(fileStream, fileName, bucket);
+    public Task DeleteAsync(string path) => _minioRepository.DeleteAsync(path, bucket);
+    public Task<Stream> DownloadAsync(string path) => _minioRepository.DownloadAsync(path, bucket);
+    public Task UploadAsync(Stream fileStream, string path) => _minioRepository.UploadAsync(fileStream, path, bucket);
 }

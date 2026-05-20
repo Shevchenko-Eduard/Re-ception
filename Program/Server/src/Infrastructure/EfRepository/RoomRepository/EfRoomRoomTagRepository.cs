@@ -15,5 +15,4 @@ public class EfRoomRoomTagRepository(ProgramContext context) : IRoomRoomTagRepos
 
     public async Task<RoomRoomTag?> GetByIdAsync(int id) => await _context.RoomRoomTags.FirstOrDefaultAsync(ht => ht.Id == id);
 
-    public IQueryable<RoomRoomTag> GetQueryable() => _context.RoomRoomTags.AsQueryable();
 }

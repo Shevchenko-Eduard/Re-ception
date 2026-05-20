@@ -19,7 +19,16 @@ public class RoomImageConf : IEntityTypeConfiguration<RoomImage>
 
         #region property
         builder.Property(i => i.RoomId)
-            .HasColumnName("room_id");
+            .HasColumnName("room_id")
+            .IsRequired();
+
+        builder.Property(i => i.ContentType)
+            .HasColumnName("content_type")
+            .IsRequired();
+
+        builder.Property(i => i.Extension)
+            .HasColumnName("extension")
+            .IsRequired();
 
         builder.Property(i => i.ImageKey)
             .HasColumnName("image_key")

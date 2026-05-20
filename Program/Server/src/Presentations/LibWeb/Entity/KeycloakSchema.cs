@@ -52,8 +52,31 @@ public class KeycloakSchema(IConfiguration configuration)
 
         using HttpClient httpClient = new(handler);
 
-        HttpResponseMessage response = await httpClient.GetAsync(MetadataAddress);
-        response.EnsureSuccessStatusCode();
+        HttpResponseMessage? response = null;
+
+        for (int attempt = 1; attempt <= 3; attempt++)
+        {
+            try
+            {
+                response = await httpClient.GetAsync(MetadataAddress) 
+                    ?? throw new Exception("Failed to fetch OIDC configuration: No response received");
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException ex)
+            {
+                if (attempt == 3)
+                {
+                    throw new Exception($"Failed to fetch OIDC configuration after 3 attempts: {ex.Message}", ex);
+                }
+                // Wait before retrying
+                await Task.Delay(1000 * attempt);
+            }
+        }
+
+        if (response == null)
+        {
+            throw new Exception("Failed to fetch OIDC configuration: No response received after retries");
+        }
 
         string jsonString = await response.Content.ReadAsStringAsync();
         var dict = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString)

@@ -15,7 +15,5 @@ public class EfHotelTagRepository(ProgramContext context) : IHotelTagRepository
 
     public async Task<HotelTag?> GetByIdAsync(int id) => await _context.HotelTags.FirstOrDefaultAsync(ht => ht.Id == id);
 
-    public IQueryable<HotelTag> GetQueryable() => _context.HotelTags.AsQueryable();
-
     public async Task UpdateAsync(HotelTag entity) => _context.HotelTags.Update(entity);
 }

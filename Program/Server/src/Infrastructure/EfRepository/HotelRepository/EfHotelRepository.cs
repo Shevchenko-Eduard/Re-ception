@@ -15,7 +15,5 @@ public class EfHotelRepository(ProgramContext context) : IHotelRepository
 
     public async Task<Hotel?> GetByIdAsync(int id) => await _context.Hotels.FirstOrDefaultAsync(h => h.Id == id);
 
-    public IQueryable<Hotel> GetQueryable() => _context.Hotels.AsQueryable();
-
     public async Task UpdateAsync(Hotel entity) => _context.Hotels.Update(entity);
 }

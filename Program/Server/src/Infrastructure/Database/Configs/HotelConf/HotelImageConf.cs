@@ -19,7 +19,16 @@ public class HotelImageConf : IEntityTypeConfiguration<HotelImage>
 
         #region property
         builder.Property(i => i.HotelId)
-            .HasColumnName("hotel_id");
+            .HasColumnName("hotel_id")
+            .IsRequired();
+
+        builder.Property(i => i.ContentType)
+            .HasColumnName("content_type")
+            .IsRequired();
+
+        builder.Property(i => i.Extension)
+            .HasColumnName("extension")
+            .IsRequired();
 
         builder.Property(i => i.ImageKey)
             .HasColumnName("image_key")

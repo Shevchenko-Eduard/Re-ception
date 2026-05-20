@@ -15,7 +15,5 @@ public class EfRoomTypeRepository(ProgramContext context) : IRoomTypeRepository
 
     public async Task<RoomType?> GetByIdAsync(int id) => await _context.RoomTypes.FirstOrDefaultAsync(rt => rt.Id == id);
 
-    public IQueryable<RoomType> GetQueryable() => _context.RoomTypes.AsQueryable();
-
     public async Task UpdateAsync(RoomType entity) => _context.RoomTypes.Update(entity);
 }

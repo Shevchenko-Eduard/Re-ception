@@ -15,5 +15,4 @@ public class EfHotelHotelTagRepository(ProgramContext context) : IHotelHotelTagR
 
     public async Task<HotelHotelTag?> GetByIdAsync(int id) => await _context.HotelHotelTags.FirstOrDefaultAsync(ht => ht.Id == id);
 
-    public IQueryable<HotelHotelTag> GetQueryable() => _context.HotelHotelTags.AsQueryable();
 }

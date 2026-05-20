@@ -13,5 +13,4 @@ public class EfReservationStatusRepository(ProgramContext context) : IReservatio
 
     public async Task<ReservationStatus?> GetByNameAsync(string name) => await _context.ReservationStatuses.FirstOrDefaultAsync(rs => rs.Name == name);
 
-    public IQueryable<ReservationStatus> GetQueryable() => _context.ReservationStatuses.AsQueryable();
 }

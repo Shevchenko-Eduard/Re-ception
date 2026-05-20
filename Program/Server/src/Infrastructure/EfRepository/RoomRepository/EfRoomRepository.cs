@@ -30,7 +30,5 @@ public class EfRoomRepository(ProgramContext context) : IRoomRepository
         return pricePerDay;
     }
 
-    public IQueryable<Room> GetQueryable() => _context.Rooms.AsQueryable();
-
     public async Task UpdateAsync(Room entity) => _context.Rooms.Update(entity);
 }

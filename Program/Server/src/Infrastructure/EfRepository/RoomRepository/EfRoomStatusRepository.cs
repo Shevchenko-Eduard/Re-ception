@@ -13,5 +13,4 @@ public class EfRoomStatusRepository(ProgramContext context) : IRoomStatusReposit
 
     public async Task<RoomStatus?> GetByNameAsync(string name) => await _context.RoomStatuses.FirstOrDefaultAsync(rs => rs.Name == name);
 
-    public IQueryable<RoomStatus> GetQueryable() => _context.RoomStatuses.AsQueryable();
 }

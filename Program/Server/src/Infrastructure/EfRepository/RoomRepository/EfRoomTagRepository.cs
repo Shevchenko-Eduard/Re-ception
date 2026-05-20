@@ -15,7 +15,5 @@ public class EfRoomTagRepository(ProgramContext context) : IRoomTagRepository
 
     public async Task<RoomTag?> GetByIdAsync(int id) => await _context.RoomTags.FirstOrDefaultAsync(rt => rt.Id == id);
 
-    public IQueryable<RoomTag> GetQueryable() => _context.RoomTags.AsQueryable();
-
     public async Task UpdateAsync(RoomTag entity) => _context.RoomTags.Update(entity);
 }

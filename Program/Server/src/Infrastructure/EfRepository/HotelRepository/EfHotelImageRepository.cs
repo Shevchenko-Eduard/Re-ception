@@ -1,45 +1,21 @@
 using Domain.Entity.Hotel;
 using Domain.Interfaces.Repositories.HotelRepository;
 using Infrastructure.Database;
-using Infrastructure.Exception;
-using Infrastructure.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.EfRepository.HotelRepository;
 
 public class EfHotelImageRepository(
-    ProgramContext context,
-    IS3HotelImageRepository s3HotelImageRepository) : IHotelImageRepository
+    ProgramContext context) : IHotelImageRepository
 {
     private readonly ProgramContext _context = context;
-    private readonly IS3HotelImageRepository _s3HotelImageRepository = s3HotelImageRepository;
-    public async Task CreateAsync(HotelImage entity, Stream stream)
-    {
-        await _context.HotelImages.AddAsync(entity);
-        await _s3HotelImageRepository.UploadAsync(stream, entity.ImageKey.ToString());
-    }
 
-    public async Task DeleteAsync(int id)
-    {
-        HotelImage hotelImage = await GetValueByIdAsync(id) ?? throw new InfrastructureExternalException();
-        await _context.HotelImages.Where(i => i.Id == id).ExecuteDeleteAsync();
-        await _s3HotelImageRepository.DeleteAsync(hotelImage.ImageKey.ToString());
-    }
 
-    public async Task<HotelImage?> GetValueByIdAsync(int id)
-    {
-        return await _context.HotelImages.FirstAsync(i => i.Id == id) ?? throw new InfrastructureExternalException();
-    }
+    public async Task AddAsync(HotelImage entity) => await _context.HotelImages.AddAsync(entity);
 
-    public async Task<Stream> ReadAsync(int id)
-    {
-        HotelImage hotelImage = await GetValueByIdAsync(id) ?? throw new InfrastructureExternalException();
-        return await _s3HotelImageRepository.DownloadAsync(hotelImage.ImageKey.ToString());
-    }
+    public async Task DeleteAsync(int id) => await _context.HotelImages.Where(h => h.Id == id).ExecuteDeleteAsync();
 
-    public async Task UpdateAsync(int id, Stream stream)
-    {
-        HotelImage hotelImage  = await GetValueByIdAsync(id) ?? throw new InfrastructureExternalException();
-        await _s3HotelImageRepository.UploadAsync(stream, hotelImage.ImageKey.ToString());
-    }
+    public async Task<HotelImage?> GetByIdAsync(int id) => await _context.HotelImages.FirstOrDefaultAsync(h => h.Id == id);
+
+    public async Task UpdateAsync(HotelImage entity) => _context.HotelImages.Update(entity);
 }

@@ -13,5 +13,4 @@ public class EfPaymentMethodRepository(ProgramContext context) : IPaymentMethodR
 
     public async Task<PaymentMethod?> GetByNameAsync(string name) => await _context.PaymentMethods.FirstOrDefaultAsync(pm => pm.Name == name);
 
-    public IQueryable<PaymentMethod> GetQueryable() => _context.PaymentMethods.AsQueryable();
 }

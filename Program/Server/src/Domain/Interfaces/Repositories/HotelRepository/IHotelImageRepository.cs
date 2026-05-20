@@ -3,7 +3,7 @@ using Domain.Interfaces.Repositories.BaseRepository;
 
 namespace Domain.Interfaces.Repositories.HotelRepository;
 
-public interface IHotelImageRepository: IBaseImageRepository<HotelImage, int>
+public interface IHotelImageRepository: IBaseCrudRepository<HotelImage, int>
 {
     
 }

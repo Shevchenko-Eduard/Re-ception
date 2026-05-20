@@ -15,7 +15,5 @@ public class EfReservationRepository(ProgramContext context) : IReservationRepos
 
     public async Task<Reservation?> GetByIdAsync(int id) => await _context.Reservations.FirstOrDefaultAsync(r => r.Id == id);
 
-    public IQueryable<Reservation> GetQueryable() => _context.Reservations.AsQueryable();
-
     public async Task UpdateAsync(Reservation entity) => _context.Reservations.Update(entity);
 }

@@ -15,5 +15,4 @@ public class EfPaymentRepository(ProgramContext context) : IPaymentRepository
 
     public async Task<Payment?> GetByIdAsync(int id) => await _context.Payments.FirstOrDefaultAsync(p => p.Id == id);
 
-    public IQueryable<Payment> GetQueryable() => _context.Payments.AsQueryable();
 }
