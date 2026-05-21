@@ -23,6 +23,11 @@ public class HotelImageController(
     [Authorize(Roles = "HotelImage-Create")]
     public async Task<IActionResult> Create(IFormFile file, [FromForm] HotelImageDTOs.Request.Create request)
     {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("Файл не выбран или пустой.");
+        }
+
         var useCase = new CreateImageUseCase(
             _hotelImageRepository,
             _s3HotelImageRepository,
@@ -43,6 +48,11 @@ public class HotelImageController(
     [Authorize(Roles = "HotelImage-Update")]
     public async Task<IActionResult> Update(IFormFile file, [FromForm] HotelImageDTOs.Request.Update request)
     {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("Файл не выбран или пустой.");
+        }
+
         var useCase = new UpdateImageUseCase(
             _hotelImageRepository,
             _s3HotelImageRepository,

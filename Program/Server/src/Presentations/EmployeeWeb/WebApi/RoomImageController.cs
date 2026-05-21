@@ -22,6 +22,11 @@ public class RoomImageController(
     [Authorize(Roles = "RoomImage-Create")]
     public async Task<IActionResult> Create(IFormFile file, [FromForm] RoomImageDTOs.Request.Create request)
     {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("Файл не выбран или пустой.");
+        }
+
         var useCase = new CreateRoomImageUseCase(
             _roomImageRepository,
             _unitOfWork,
@@ -42,6 +47,11 @@ public class RoomImageController(
     [Authorize(Roles = "RoomImage-Update")]
     public async Task<IActionResult> Update(IFormFile file, [FromForm] RoomImageDTOs.Request.Update request)
     {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("Файл не выбран или пустой.");
+        }
+
         var useCase = new UpdateRoomImageUseCase(
             _roomImageRepository,
             _s3RoomImageRepository,
