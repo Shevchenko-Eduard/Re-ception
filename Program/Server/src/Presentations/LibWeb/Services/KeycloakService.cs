@@ -1,5 +1,6 @@
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
+using Keycloak.AuthServices.Common;
 using LibWeb.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,7 @@ public static class KeycloakService
             options.Credentials = new() { Secret = schema.Secret };
             options.SslRequired = schema.SslRequired;
             options.VerifyTokenAudience = schema.VerifyTokenAudience;
+            options.RoleClaimType = "roles";
         },
         configureJwtBearerOptions: jwtOptions =>
         {
@@ -51,6 +53,8 @@ public static class KeycloakService
             {
                 ValidateAudience = true,
                 ValidAudience = "account",
+
+                RoleClaimType = "roles",
 
                 ValidateIssuer = true,
                 ValidIssuer = schema.IssuerEndpoint().GetAwaiter().GetResult(),
@@ -74,6 +78,8 @@ public static class KeycloakService
             options.Credentials = new() { Secret = schema.Secret };
             options.SslRequired = schema.SslRequired;
             options.VerifyTokenAudience = schema.VerifyTokenAudience;
+            options.EnableRolesMapping = RolesClaimTransformationSource.ResourceAccess;
+            options.RoleClaimType = "roles";
         })
             .AddAuthorizationBuilder();
 

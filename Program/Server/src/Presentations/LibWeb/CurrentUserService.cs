@@ -17,5 +17,4 @@ public class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICur
     public bool IsAuthenticated => User?.Identity?.IsAuthenticated ?? false;
     public string? Email => User?.FindFirstValue(ClaimTypes.Email);
     public string? Name => User?.FindFirstValue(ClaimTypes.Name);
-    public string? PreferredUsername => User?.FindFirstValue("preferred_username");
 }

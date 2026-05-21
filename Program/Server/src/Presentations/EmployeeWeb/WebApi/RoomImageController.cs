@@ -9,7 +9,6 @@ namespace EmployeeWeb.WebApi;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
 public class RoomImageController(
     IRoomImageRepository roomImageRepository,
     IUnitOfWork unitOfWork,
@@ -21,7 +20,7 @@ public class RoomImageController(
 
     [HttpPost]
     [Authorize(Roles = "RoomImage-Create")]
-    public async Task<IActionResult> Create(IFormFile file, [FromBody] RoomImageDTOs.Request.Create request)
+    public async Task<IActionResult> Create(IFormFile file, [FromForm] RoomImageDTOs.Request.Create request)
     {
         var useCase = new CreateRoomImageUseCase(
             _roomImageRepository,
@@ -41,7 +40,7 @@ public class RoomImageController(
 
     [HttpPut]
     [Authorize(Roles = "RoomImage-Update")]
-    public async Task<IActionResult> Update(IFormFile file, [FromBody] RoomImageDTOs.Request.Update request)
+    public async Task<IActionResult> Update(IFormFile file, [FromForm] RoomImageDTOs.Request.Update request)
     {
         var useCase = new UpdateRoomImageUseCase(
             _roomImageRepository,
@@ -72,9 +71,10 @@ public class RoomImageController(
         return NoContent();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Read(RoomImageDTOs.Request.Read request)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Read(int id)
     {
+        RoomImageDTOs.Request.Read request = new(Id: id);
         var useCase = new ReadRoomImageUseCase(
             _roomImageRepository,
             _s3RoomImageRepository);

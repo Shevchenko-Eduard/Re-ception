@@ -14,6 +14,7 @@ public class KeycloakSchema(IConfiguration configuration)
     public string SslRequired => _kcSettings["SslRequired"] ?? "none";
     public bool VerifyTokenAudience => bool.TryParse(_kcSettings["VerifyTokenAudience"], out var verify) && verify;
     public string MetadataAddress => $"{AuthServerUrl}/realms/{Realm}/.well-known/openid-configuration";
+    public const string RoleClaimType = "roles";
 
     public async Task<string> AuthorizationEndpoint()
     {

@@ -21,7 +21,7 @@ services:
       Keycloak__Resource: ${KC_EMPLOYEE_BACKEND_CLIENT_ID}
       Keycloak__Secret: ${KC_EMPLOYEE_BACKEND_CLIENT_SECRET}
 
-      Minio__Endpoint: ${S3_HOST}:${S3_PORT}
+      Minio__Endpoint: ${MINIO_HOST}:${S3_PORT}
       Minio__Username: ${MINIO_ROOT_USER}
       Minio__Password: ${MINIO_ROOT_PASSWORD}
       Minio__HTTPS: false
@@ -81,7 +81,7 @@ services:
       - Keycloak__Resource=${KC_CUSTOMER_BACKEND_CLIENT_ID}
       - Keycloak__Secret=${KC_CUSTOMER_BACKEND_CLIENT_SECRET}
 
-      - Minio__Endpoint=${S3_HOST}:${S3_PORT}
+      - Minio__Endpoint=${MINIO_HOST}:${S3_PORT}
       - Minio__Username=${MINIO_ROOT_USER}
       - Minio__Password=${MINIO_ROOT_PASSWORD}
       - Minio__HTTPS=false

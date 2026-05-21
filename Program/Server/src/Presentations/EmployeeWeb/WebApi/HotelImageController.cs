@@ -10,7 +10,6 @@ namespace EmployeeWeb.WebApi;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
 public class HotelImageController(
     IHotelImageRepository hotelImageRepository,
     IS3HotelImageRepository s3HotelImageRepository,
@@ -22,7 +21,7 @@ public class HotelImageController(
 
     [HttpPost]
     [Authorize(Roles = "HotelImage-Create")]
-    public async Task<IActionResult> Create(IFormFile file, [FromBody] HotelImageDTOs.Request.Create request)
+    public async Task<IActionResult> Create(IFormFile file, [FromForm] HotelImageDTOs.Request.Create request)
     {
         var useCase = new CreateImageUseCase(
             _hotelImageRepository,
@@ -42,7 +41,7 @@ public class HotelImageController(
 
     [HttpPut]
     [Authorize(Roles = "HotelImage-Update")]
-    public async Task<IActionResult> Update(IFormFile file, [FromBody] HotelImageDTOs.Request.Update request)
+    public async Task<IActionResult> Update(IFormFile file, [FromForm] HotelImageDTOs.Request.Update request)
     {
         var useCase = new UpdateImageUseCase(
             _hotelImageRepository,
@@ -72,9 +71,10 @@ public class HotelImageController(
         return NoContent();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Read(HotelImageDTOs.Request.Read request)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Read(int id)
     {
+        HotelImageDTOs.Request.Read request = new(Id: id);
         var useCase = new ReadImageUseCase(
             _hotelImageRepository,
             _s3HotelImageRepository);
