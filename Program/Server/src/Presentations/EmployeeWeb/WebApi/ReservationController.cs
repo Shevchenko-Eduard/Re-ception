@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.UseCases.ReservationUseCases;
 using Domain.Interfaces;
 using Domain.Interfaces.Repositories.ReservationRepository;
+using Domain.Interfaces.Repositories.RoomRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,12 +16,14 @@ public class ReservationController(
     IReservationRepository reservationRepository,
     IUnitOfWork unitOfWork,
     ICalculatorReservationPrice calculatorReservationPrice,
-    ICurrentUser currentUser) : ControllerBase
+    ICurrentUser currentUser,
+    IRoomRepository roomRepository) : ControllerBase
 {
     private readonly IReservationRepository _reservationRepository = reservationRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly ICalculatorReservationPrice _calculatorReservationPrice = calculatorReservationPrice;
     private readonly ICurrentUser _currentUser = currentUser;
+    private readonly IRoomRepository _roomRepository = roomRepository;
 
     [HttpPost]
     [Authorize(Roles = "Reservation-Create")]
@@ -29,7 +32,9 @@ public class ReservationController(
         var useCase = new CreateReservationUseCase(
             _reservationRepository,
             _unitOfWork,
-            _calculatorReservationPrice, _currentUser);
+            _calculatorReservationPrice, 
+            _currentUser,
+            _roomRepository);
         var reservation = await useCase.Execute(request);
         return Ok(reservation);
     }

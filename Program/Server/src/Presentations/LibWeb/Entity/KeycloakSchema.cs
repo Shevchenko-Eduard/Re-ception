@@ -42,49 +42,33 @@ public class KeycloakSchema(IConfiguration configuration)
             return _oidcConfig;
         }
 
-        // var authorityUrl = $"{AuthServerUrl}/realms/{Realm}";
-        // var discoveryEndpoint = $"{authorityUrl}/.well-known/openid-configuration";
-
         HttpClientHandler handler = new()
         {
-            ServerCertificateCustomValidationCallback = // Accept all certificates (for development purposes only)
-                (sender, cert, chain, sslPolicyErrors) => true
+            ServerCertificateCustomValidationCallback = (_, _, _, _) => true
         };
 
         using HttpClient httpClient = new(handler);
 
-        HttpResponseMessage? response = null;
-
         for (int attempt = 1; attempt <= 3; attempt++)
+    {
+        try
         {
-            try
-            {
-                response = await httpClient.GetAsync(MetadataAddress) 
-                    ?? throw new Exception("Failed to fetch OIDC configuration: No response received");
-                response.EnsureSuccessStatusCode();
-            }
-            catch (HttpRequestException ex)
-            {
-                if (attempt == 3)
-                {
-                    throw new Exception($"Failed to fetch OIDC configuration after 3 attempts: {ex.Message}", ex);
-                }
-                // Wait before retrying
-                await Task.Delay(1000 * attempt);
-            }
+            using HttpResponseMessage response = await httpClient.GetAsync(MetadataAddress);
+            response.EnsureSuccessStatusCode();
+            
+            string jsonString = await response.Content.ReadAsStringAsync();
+            var dict = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString)
+                ?? throw new Exception("Failed to deserialize OIDC configuration");
+            
+            _oidcConfig = dict;
+            return dict;
         }
-
-        if (response == null)
+        catch (HttpRequestException) when (attempt < 3)
         {
-            throw new Exception("Failed to fetch OIDC configuration: No response received after retries");
+            await Task.Delay(1000 * attempt);
         }
-
-        string jsonString = await response.Content.ReadAsStringAsync();
-        var dict = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString)
-            ?? throw new Exception("Failed to deserialize OIDC configuration");
-
-        _oidcConfig = dict;
-
-        return dict;
+    }
+    
+    throw new Exception("Failed to fetch OIDC configuration after 3 attempts");
     }
 }

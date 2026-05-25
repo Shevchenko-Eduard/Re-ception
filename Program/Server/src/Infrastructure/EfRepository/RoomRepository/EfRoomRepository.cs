@@ -31,4 +31,6 @@ public class EfRoomRepository(ProgramContext context) : IRoomRepository
     }
 
     public async Task UpdateAsync(Room entity) => _context.Rooms.Update(entity);
+
+    public async Task LoadRoomStatusAsync(Room room) => await _context.Entry(room).Reference(r => r.RoomStatus).LoadAsync();
 }
