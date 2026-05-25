@@ -438,4 +438,5 @@ bash/
 .terraformrc
 terraform.rc
 
-**/Frontend/
+**/wwwroot/.jsontest/*
+**/wwwroot/images/*

@@ -1,0 +1,24 @@
+/* footer */
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.footer {
+    background: #1f1c18;
+    color: #d9cdbc;
+    text-align: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    font-size: 0.85rem;
+}
+
+.logo_footer {
+background-image: linear-gradient(90deg, #D21616 -15.62%, #FF3C00 55.97%);
+color: transparent;
+background-clip: text;
+text-decoration: none;
+font-size: 0.85rem;
+}

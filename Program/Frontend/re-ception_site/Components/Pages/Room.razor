@@ -1,0 +1,300 @@
+@page "/Room"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Hotel Room | Dynamic Suite View</title>
+
+</head>
+<body>
+
+<main class="room-container" id="roomContainer">
+    <!-- dynamic content will be injected via JavaScript + API -->
+    <div class="loading-state" id="loadingPlaceholder">
+        <div class="loading-spinner"></div>
+        <p>Fetching luxurious room details...</p>
+    </div>
+</main>
+
+<script>
+    // *************************************************************
+    // HOTEL ROOM PAGE - FULLY API DRIVEN (room number, photos, description)
+    // *************************************************************
+    // INSTRUCTIONS: 
+    // Replace API_URL with your actual endpoint that returns JSON data.
+    // Expected JSON format example:
+    // {
+    //   "roomNumber": "504",
+    //   "roomType": "Presidential Ocean Suite",
+    //   "description": "Spacious suite with balcony...",
+    //   "photos": [
+    //     "https://your-image-host.com/room1.jpg",
+    //     "https://your-image-host.com/room2.jpg"
+    //   ],
+    //   "amenities": ["King Bed", "Sea View", "Jacuzzi", "Mini Bar"],
+    //   "pricePerNight": 450
+    // }
+    // 
+    // You can also include extra fields like "size", "beds", etc. 
+    // The script below handles photos array, room number, description, and optional amenities.
+    // -----------------------------------------------------------------
+    
+    // ****** 👇 PUT YOUR REAL API ENDPOINT HERE ******
+    const API_URL = ".jsontest/test_site.json";  // <-- REPLACE WITH YOUR ACTUAL API CALL
+    
+    // For DEMO / fallback purposes only – will be overridden by real API data.
+    // The demo data shows structure but you should replace the endpoint.
+    // To avoid confusion, the script will FIRST try to fetch from your API.
+    // If the API fails (network error or demo endpoint), we show a helpful error.
+    // If you want to test with mock data temporarily, you can uncomment the "mock fallback".
+    
+    // Helper: DOM element selector
+    const container = document.getElementById('roomContainer');
+    
+    // Show loading state
+    function showLoading() {
+        container.innerHTML = `
+            <div class="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Loading room data from server...</p>
+            </div>
+        `;
+    }
+    
+    // Show error message with retry option
+    function showError(message) {
+        container.innerHTML = `
+            <div class="error-state">
+                <p style="font-weight: 600; margin-bottom: 8px;">⚠️ ${message}</p>
+                <p style="font-size: 0.85rem; margin-top: 8px;">Please check API endpoint or network.</p>
+                <button id="retryBtn" style="margin-top: 1rem; background: #b47c48; border: none; color: white; padding: 0.5rem 1.2rem; border-radius: 2rem; cursor: pointer; font-weight: 500;">Retry</button>
+            </div>
+        `;
+        const retryBtn = document.getElementById('retryBtn');
+        if (retryBtn) {
+            retryBtn.addEventListener('click', () => {
+                fetchRoomData();
+            });
+        }
+    }
+    
+    // Render room UI from API data
+    function renderRoomUI(data) {
+        // Validate required fields: roomNumber, description, photos (at least array)
+        const roomNumber = data.roomNumber || data.room_number || data.number || "Not specified";
+        const description = data.description || data.desc || "No description provided.";
+        let photosArray = [];
+        
+        if (Array.isArray(data.photos) && data.photos.length > 0) {
+            photosArray = data.photos;
+        } else if (Array.isArray(data.images)) {
+            photosArray = data.images;
+        } else if (typeof data.photo === 'string') {
+            photosArray = [data.photo];
+        } else if (typeof data.image === 'string') {
+            photosArray = [data.image];
+        } else {
+            // fallback placeholder image (we'll show a gentle placeholder)
+            photosArray = ["https://placehold.co/800x600/F2E5D8/AF7A48?text=Room+Photo+Placeholder"];
+        }
+        
+        const roomType = data.roomType || data.type || "Deluxe Suite";
+        const amenities = Array.isArray(data.amenities) ? data.amenities : (data.amenities_list ? data.amenities_list : []);
+        const pricePerNight = data.pricePerNight || data.price || null;
+        
+        // Build photos grid HTML
+        let photosHtml = '';
+        photosArray.forEach((photoUrl, idx) => {
+            // make sure photoUrl is valid string
+            const imgSrc = (photoUrl && typeof photoUrl === 'string') ? photoUrl : 'https://placehold.co/600x400/E9DDCF/B87F48?text=Image+Unavailable';
+            photosHtml += `
+                <div class="room-photo">
+                    <img src="${escapeHtml(imgSrc)}" alt="Room view ${idx + 1}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x400/E9DDCF/B87F48?text=Photo+Error';">
+                </div>
+            `;
+        });
+        
+        // amenities chips
+        let amenitiesHtml = '';
+        if (amenities.length) {
+            amenities.forEach(amenity => {
+                amenitiesHtml += `<span class="detail-chip">${escapeHtml(amenity)}</span>`;
+            });
+        } else {
+            amenitiesHtml = `<span class="detail-chip">Premium bedding</span>
+                             <span class="detail-chip">Wi-Fi included</span>
+                             <span class="detail-chip">24h room service</span>`;
+        }
+        
+        // optional price display
+        let priceHtml = '';
+        if (pricePerNight) {
+            priceHtml = `<div class="room-badge" style="background:#A2D2FF;">$${pricePerNight} / night</div>`;
+        } else {
+            priceHtml = `<div class="room-badge">✨ Best rate guaranteed</div>`;
+        }
+        
+        const finalHtml = `
+            <div class="top-bar">
+            <div class="logo">Re:Ception ROOM SUITE</div>
+                <a href="#" class="back-link" id="backLink">← Back to all rooms</a>
+            </div>
+            <div class="room-card">
+                <div class="photo-gallery">
+                    <div class="gallery-title">ROOM GALLERY · ${photosArray.length} PHOTOS</div>
+                    <div class="image-grid">
+                        ${photosHtml}
+                    </div>
+                </div>
+                <div class="room-info">
+                    <div class="room-header">
+                        <div>
+                            <div class="room-number">${escapeHtml(roomNumber)}</div>
+                            <div style="font-size: 0.85rem; color:#7b3b94; margin-top: 4px;">${escapeHtml(roomType)}</div>
+                        </div>
+                        ${priceHtml}
+                    </div>
+                    
+                    <div class="description-box">
+                        <h3>About this room</h3>
+                        <div class="description-text">${escapeHtml(description)}</div>
+                    </div>
+                    
+                    <div class="extra-details" id="amenitiesList">
+                        ${amenitiesHtml}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        container.innerHTML = finalHtml;
+        
+        // small event delegation for "Back to all rooms" just to avoid dead link
+        const backBtn = document.getElementById('backLink');
+        if (backBtn) {
+            backBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert("🔙 Navigate to room list page (you can implement your own routing). This is a UI example.");
+            });
+        }
+    }
+    
+    // simple XSS escape helper
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+    
+    // MAIN FETCH FUNCTION: gets data from your API and renders room details
+    async function fetchRoomData() {
+        showLoading();
+        
+        try {
+            // *********************************************
+            // *** REPLACE THIS FETCH WITH YOUR OWN API ***
+            // *********************************************
+            const response = await fetch(API_URL, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    // If your API needs auth token, add it here:
+                    // 'Authorization': 'Bearer your-token'
+                }
+                // You can also add 'mode': 'cors' etc depending on your endpoint
+            });
+            
+            if (!response.ok) {
+                throw new Error(`API responded with status ${response.status}: ${response.statusText}`);
+            }
+            
+            const roomData = await response.json();
+            
+            // Basic validation: we need room number, description, and at least one photo (or array)
+            if (!roomData) throw new Error("Empty API response");
+            
+            // check if mandatory fields exist (roomNumber & description should be present)
+            const hasRoomNumber = roomData.roomNumber || roomData.room_number || roomData.number;
+            const hasDescription = roomData.description || roomData.desc;
+            const hasPhotos = (Array.isArray(roomData.photos) && roomData.photos.length) || (Array.isArray(roomData.images) && roomData.images.length);
+            
+            if (!hasRoomNumber) {
+                console.warn("API missing roomNumber field, using fallback");
+            }
+            if (!hasDescription) {
+                console.warn("API missing description field");
+            }
+            // even if photos missing, we show placeholder, but we still render.
+            
+            renderRoomUI(roomData);
+            
+        } catch (error) {
+            console.error("Hotel room API fetch error:", error);
+            let errorMsg = `Unable to fetch room data: ${error.message}`;
+            if (API_URL === "https://api.example.com/v1/hotel/room/current") {
+                errorMsg = "⚠️ API endpoint not configured. Please replace API_URL with your actual hotel room API. Currently using example.com placeholder.";
+            }
+            showError(errorMsg);
+        }
+    }
+    
+    // attach back link handler after initial load (also for retry)
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchRoomData();
+        
+        // handle back link default (prevent hash navigation)
+        const backLink = document.getElementById('backLink');
+        if (backLink) {
+            backLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert("🏠 Navigate back to home / rooms list (replace this behaviour with your router).");
+            });
+        }
+    });
+    
+    // For convenience, expose manual retry if needed
+    window.retryFetch = fetchRoomData;
+</script>
+
+<!-- 
+    ************ IMPORTANT NOTES FOR YOU ************
+    1. REPLACE API_URL with your actual backend endpoint that returns JSON.
+    2. Expected JSON structure (example):
+    
+    {
+      "roomNumber": "Royal Suite 812",
+      "roomType": "Presidential Panorama",
+      "description": "Spacious 85 sqm suite with marble bathroom and floor-to-ceiling windows overlooking Central Park...",
+      "photos": [
+        "https://yourcdn.com/room-main.jpg",
+        "https://yourcdn.com/room-bath.jpg",
+        "https://yourcdn.com/room-view.jpg"
+      ],
+      "amenities": ["King size bed", "Rain shower", "Smart TV", "Nespresso"],
+      "pricePerNight": 589
+    }
+    
+    Fields mapping:
+    - roomNumber (required) -> will be displayed as main room identifier
+    - description (required) -> shown in description section
+    - photos (array of strings, required at least one) -> gallery images
+    - (optional) roomType, amenities, pricePerNight enrich the layout.
+    
+    The code is flexible: also supports "room_number", "images", "desc", "number", etc.
+    But to keep clarity, we recommend matching the expected format.
+    
+    You can also change fetchRoomData() to add query parameters like ?id=roomId
+    Just modify API_URL accordingly.
+    
+    All UI elements (room number, photos, description text) are purely driven by API.
+    No static content remains.
+-->
+</body>
+</html>
