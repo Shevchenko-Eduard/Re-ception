@@ -39,12 +39,12 @@
             gap: 0.3rem;
         }
 
-        ::deep .back-link:hover {
+        back-link:hover {
             color: #5e3a1f;
         }
 
         /* main container */
-        ::deep .room-container {
+        .room-container {
             max-width: 1280px;
             padding: 0 1.5rem 3rem;
             background: #FFF6F9;
@@ -220,6 +220,177 @@
             color: #7b3b94;
         }
 
+                /* ========== BOOK BUTTON STYLES ========== */
+        ::deep .book-btn-container {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        ::deep .book-now-btn {
+            background: linear-gradient(135deg, #FFAFCC, #A2D2FF);
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 6px 14px rgba(255, 175, 204, 0.4);
+            font-family: inherit;
+        }
+
+        ::deep .book-now-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(162, 210, 255, 0.5);
+        }
+
+        /* ========== POPUP / MODAL STYLES ========== */
+        ::deep .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        ::deep .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        ::deep .booking-modal {
+            background: white;
+            border-radius: 2rem;
+            max-width: 500px;
+            width: 90%;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 2px solid #FFC8DD;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        ::deep .modal-overlay.active .booking-modal {
+            transform: scale(1);
+        }
+
+        ::deep .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #FFC8DD;
+        }
+
+        ::deep .modal-header h2 {
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #FFAFCC, #A2D2FF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        ::deep .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #b28ba8;
+            transition: 0.2s;
+            line-height: 1;
+        }
+
+        ::deep .close-modal:hover {
+            color: #FFAFCC;
+            transform: scale(1.1);
+        }
+
+        ::deep .room-preview {
+            background: #FFF6F9;
+            padding: 0.8rem 1rem;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #FFC8DD;
+        }
+
+        ::deep .room-preview p {
+            font-size: 0.9rem;
+            color: #b28ba8;
+        }
+
+        ::deep .room-preview strong {
+            color: #FFAFCC;
+        }
+
+        ::deep .form-group {
+            margin-bottom: 1.3rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        ::deep .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #b28ba8;
+            font-size: 0.85rem;
+        }
+
+        ::deep .form-group input,
+        ::deep .form-group select {
+            padding: 0.8rem 1rem;
+            border: 1.5px solid #FFC8DD;
+            border-radius: 1rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            background: white;
+            transition: all 0.2s;
+            outline: none;
+            color: #5a4a5a;
+        }
+
+        ::deep .form-group input:focus,
+        ::deep .form-group select:focus {
+            border-color: #FFAFCC;
+            box-shadow: 0 0 0 3px rgba(255, 175, 204, 0.2);
+        }
+
+        ::deep .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        ::deep .submit-booking {
+            width: 100%;
+            background: linear-gradient(135deg, #FFAFCC, #A2D2FF);
+            border: none;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 700;
+            color: white;
+            border-radius: 2rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: 0.2s;
+        }
+
+        ::deep .submit-booking:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(255, 175, 204, 0.4);
+        }
+
+
         /* responsiveness */
         @media (max-width: 680px) {
             ::deep .room-container {
@@ -233,6 +404,10 @@
             }
             ::deep .image-grid {
                 grid-template-columns: 1fr;
+            }
+            ::deep .form-row {
+            grid-template-columns: 1fr;
+            gap: 0;
             }
         }
 

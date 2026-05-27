@@ -1,0 +1,396 @@
+@page "/room_list"
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Hotel Rooms | Browse & Book</title>
+</head>
+<body>
+
+<main class="rooms-listing-container" id="roomsContainer">
+    <div class="listing-header">
+        <h1>✨ Explore our collection</h1>
+        <p>Luxury rooms across prestigious hotels — each with unique style</p>
+        <span></span>
+    </div>
+
+    <!-- dynamic filter bar (hotel names will be injected from API) -->
+    <div id="filterBar" class="hotel-filters">
+        <!-- filters appear dynamically based on API data -->
+    </div>
+
+    <!-- room grid -->
+    <div id="roomsGrid" class="rooms-grid">
+        <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <p>Fetching luxurious rooms from API...</p>
+        </div>
+    </div>
+</main>
+
+<script>
+    // *************************************************************
+    // HOTEL ROOMS LISTING PAGE - FULLY API DRIVEN
+    // *************************************************************
+    // 
+    // EXPECTED API JSON FORMAT (array of rooms):
+    // [
+    //   {
+    //     "id": "room_101",
+    //     "roomNumber": "204",
+    //     "roomType": "Ocean Deluxe",
+    //     "description": "Stunning ocean view with king bed...",
+    //     "photo": "https://yourcdn.com/room204.jpg",
+    //     "photos": ["https://yourcdn.com/room204_1.jpg", ...],  // (optional, first used as thumbnail)
+    //     "hotel": {
+    //        "id": "hotel_1",
+    //        "name": "Grand Horizon Downtown",
+    //        "city": "Miami"
+    //     },
+    //     "pricePerNight": 320,
+    //     "capacity": 2,
+    //     "sizeSqm": 45,
+    //     "roomPageUrl": "/rooms/ocean-deluxe-204"   // custom URL for room detail page
+    //   },
+    //   ...
+    // ]
+    //
+    // The API should return an array of room objects.
+    // Each room must contain at LEAST: id, roomNumber, description, photo (or photos[0]), hotel.name, and roomPageUrl.
+    // You can adapt field mapping in the code below.
+    //
+    // ************** IMPORTANT **************
+    // REPLACE THIS URL WITH YOUR REAL API ENDPOINT:
+    const API_ROOMS_URL = ".jsontest/test_site_room_list.json";  // <-- CHANGE TO YOUR ACTUAL API
+    
+    // For demo/mock fallback, we provide a sample dataset to show the functionality.
+    // When you set your real API, the mock will be overridden.
+    // ----------------------------------------------
+    
+    let allRoomsData = [];      // store raw room list from API
+    let currentHotelFilter = "all";
+    let uniqueHotels = [];      // list of { id, name }
+    
+    // Helper: escape HTML
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) { return c; });
+    }
+    
+    // get thumbnail URL from room object (supports 'photo' or 'photos[0]')
+    function getThumbnailUrl(room) {
+        if (room.photo && typeof room.photo === 'string') return room.photo;
+        if (Array.isArray(room.photos) && room.photos.length > 0) return room.photos[0];
+        if (room.imageUrl) return room.imageUrl;
+        return "https://placehold.co/600x400/E9DDCF/B87F48?text=Room+Preview";
+    }
+    
+    // render filter bar (hotel tabs)
+    function renderFilters() {
+        const filterContainer = document.getElementById('filterBar');
+        if (!filterContainer) return;
+        
+        if (!uniqueHotels.length) {
+            filterContainer.innerHTML = `<button class="filter-btn active" data-filter="all">All Hotels</button>`;
+            return;
+        }
+        
+        let filtersHtml = `<button class="filter-btn ${currentHotelFilter === 'all' ? 'active' : ''}" data-filter="all">🏨 All Hotels (${allRoomsData.length})</button>`;
+        
+        uniqueHotels.forEach(hotel => {
+            const count = allRoomsData.filter(room => room.hotel && room.hotel.id === hotel.id).length;
+            const isActive = currentHotelFilter === hotel.id;
+            filtersHtml += `<button class="filter-btn ${isActive ? 'active' : ''}" data-filter="${escapeHtml(hotel.id)}">${escapeHtml(hotel.name)} (${count})</button>`;
+        });
+        
+        filterContainer.innerHTML = filtersHtml;
+        
+        // attach event listeners to filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const filterVal = btn.getAttribute('data-filter');
+                if (filterVal) {
+                    currentHotelFilter = filterVal;
+                    renderRoomsGrid();
+                    renderFilters();  // re-render to update active state
+                }
+            });
+        });
+    }
+    
+    // render room cards based on current filter
+    function renderRoomsGrid() {
+        const gridContainer = document.getElementById('roomsGrid');
+        if (!gridContainer) return;
+        
+        let filteredRooms = [];
+        if (currentHotelFilter === 'all') {
+            filteredRooms = [...allRoomsData];
+        } else {
+            filteredRooms = allRoomsData.filter(room => room.hotel && room.hotel.id === currentHotelFilter);
+        }
+        
+        if (filteredRooms.length === 0) {
+            gridContainer.innerHTML = `<div class="empty-state">✨ No rooms available for this hotel. Try another filter.</div>`;
+            return;
+        }
+        
+        let cardsHtml = '';
+        for (const room of filteredRooms) {
+            const roomId = room.id || `room_${Math.random()}`;
+            const roomNumber = room.roomNumber || room.number || "—";
+            const roomType = room.roomType || room.type || "Deluxe Room";
+            const description = room.description || "A beautifully appointed space with premium amenities.";
+            const thumbnail = getThumbnailUrl(room);
+            const hotelName = room.hotel?.name || "Boutique Hotel";
+            const hotelCity = room.hotel?.city || "";
+            const price = room.pricePerNight || room.price || null;
+            const capacity = room.capacity || 2;
+            const size = room.sizeSqm || room.size || null;
+            
+            // URL for individual room page: 
+            // priority: room.roomPageUrl, then construct from /room/{id}
+            let roomDetailUrl = room.roomPageUrl || room.detailUrl || room.url;
+            if (!roomDetailUrl) {
+                // fallback: generate standard path using id or room number
+                roomDetailUrl = `/room/${encodeURIComponent(roomId)}`;
+            }
+            
+            // price display
+            let priceHtml = '';
+            if (price) {
+                priceHtml = `<div class="meta-item">💰 <span class="price">$${price}</span> / night</div>`;
+            } else {
+                priceHtml = `<div class="meta-item">💰 Best rate</div>`;
+            }
+            
+            cardsHtml += `
+                <div class="room-card" data-room-id="${escapeHtml(roomId)}">
+                    <div class="card-img">
+                        <img src="${escapeHtml(thumbnail)}" alt="${escapeHtml(roomType)}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x400/E9DDCF/B87F48?text=Image+Error';">
+                    </div>
+                    <div class="card-content">
+                        <div class="hotel-name">🏨 ${escapeHtml(hotelName)} ${hotelCity ? `· ${escapeHtml(hotelCity)}` : ''}</div>
+                        <div class="room-title">
+                            <span>${escapeHtml(roomType)}</span>
+                            <span class="room-number-badge">#${escapeHtml(roomNumber)}</span>
+                        </div>
+                        <div class="room-description">
+                            ${escapeHtml(description.length > 110 ? description.substring(0, 110) + '…' : description)}
+                        </div>
+                        <div class="room-meta">
+                            <div class="meta-item">👥 Max ${capacity} guests</div>
+                            ${size ? `<div class="meta-item">📐 ${size} m²</div>` : ''}
+                            ${priceHtml}
+                        </div>
+                        <a href="${escapeHtml(roomDetailUrl)}" class="room-link" target="_self" data-room-url="${escapeHtml(roomDetailUrl)}">
+                            View room details →
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+        
+        gridContainer.innerHTML = cardsHtml;
+        
+        // Attach click handler to each room link (optional: you can keep default anchor behavior)
+        // This also ensures if you want to intercept navigation for SPA (Blazor), you can do custom routing.
+        document.querySelectorAll('.room-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const url = link.getAttribute('href');
+                if (url && !url.startsWith('#')) {
+                    // for plain HTML navigation, it works normally.
+                    // For Blazor, you might intercept and use NavigationManager.
+                    console.log(`Navigating to room page: ${url}`);
+                    // allow default behavior (full page navigation)
+                    // if you're in Blazor WASM with routing, uncomment next line and prevent default:
+                    // e.preventDefault();
+                    // window.location.href = url;
+                }
+            });
+        });
+    }
+    
+    // extract unique hotels from rooms array
+    function extractHotels(rooms) {
+        const hotelMap = new Map();
+        for (const room of rooms) {
+            if (room.hotel && room.hotel.id) {
+                if (!hotelMap.has(room.hotel.id)) {
+                    hotelMap.set(room.hotel.id, {
+                        id: room.hotel.id,
+                        name: room.hotel.name || "Hotel",
+                        city: room.hotel.city || ""
+                    });
+                }
+            } else if (room.hotelName) {
+                // fallback if hotel is flat string
+                const fallbackId = `hotel_${room.hotelName.replace(/\s/g, '_')}`;
+                if (!hotelMap.has(fallbackId)) {
+                    hotelMap.set(fallbackId, {
+                        id: fallbackId,
+                        name: room.hotelName,
+                        city: room.hotelCity || ""
+                    });
+                }
+            }
+        }
+        // if no hotel info at all, create default
+        if (hotelMap.size === 0 && rooms.length > 0) {
+            hotelMap.set("default_hotel", { id: "default_hotel", name: "Grand Horizon Hotel", city: "International" });
+            // attach default hotel to each room for consistency
+            rooms.forEach(room => {
+                if (!room.hotel) room.hotel = { id: "default_hotel", name: "Grand Horizon Hotel", city: "International" };
+            });
+        }
+        return Array.from(hotelMap.values());
+    }
+    
+    // show error in grid
+    function showError(message) {
+        const gridContainer = document.getElementById('roomsGrid');
+        if (gridContainer) {
+            gridContainer.innerHTML = `
+                <div class="error-state">
+                    <p style="font-weight: 600; margin-bottom: 8px;">⚠️ ${message}</p>
+                    <p style="font-size: 0.85rem;">Please verify API endpoint or network. Using demo mode? Check console.</p>
+                    <button id="retryRoomsBtn" style="margin-top: 1rem; background: #b47c48; border: none; color: white; padding: 0.5rem 1.2rem; border-radius: 2rem; cursor: pointer;">Retry</button>
+                </div>
+            `;
+            const retryBtn = document.getElementById('retryRoomsBtn');
+            if (retryBtn) retryBtn.addEventListener('click', () => fetchRoomsData());
+        }
+        const filterContainer = document.getElementById('filterBar');
+        if (filterContainer) filterContainer.innerHTML = '';
+    }
+    
+    // show loading inside grid
+    function showLoadingState() {
+        const gridContainer = document.getElementById('roomsGrid');
+        if (gridContainer) {
+            gridContainer.innerHTML = `
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading rooms from API ...</p>
+                </div>
+            `;
+        }
+        const filterContainer = document.getElementById('filterBar');
+        if (filterContainer) filterContainer.innerHTML = `<div style="text-align:center; font-size:0.8rem;">loading hotels...</div>`;
+    }
+    
+    // MOCK DATA for demonstration only (Will be used if API fails or during development)
+    // This ensures you can see the layout even before real API is ready.
+    // When your real API is set, comment or remove this mock fallback.
+    function getMockRoomsData() {
+        return [
+            { id: "room_101", roomNumber: "1204", roomType: "Presidential Ocean Suite", description: "Breathtaking oceanfront terrace, marble bathroom, and butler service. Ultimate luxury experience.", photo: "https://placehold.co/600x400/D4C0A8/B57A48?text=Ocean+Suite", hotel: { id: "gh_downtown", name: "Grand Horizon Downtown", city: "Miami" }, pricePerNight: 890, capacity: 4, sizeSqm: 95, roomPageUrl: "/rooms/presidential-suite-1204" },
+            { id: "room_102", roomNumber: "512", roomType: "Executive King", description: "Modern executive room with city skyline views, work desk, and access to lounge.", photo: "https://placehold.co/600x400/E3D5C4/B27D47?text=Executive+King", hotel: { id: "gh_downtown", name: "Grand Horizon Downtown", city: "Miami" }, pricePerNight: 420, capacity: 2, sizeSqm: 48, roomPageUrl: "/rooms/executive-king-512" },
+            { id: "room_103", roomNumber: "307", roomType: "Family Garden View", description: "Connecting rooms, kid-friendly, garden terrace. Perfect for families.", photo: "https://placehold.co/600x400/DBCBB6/B58753?text=Family+Garden", hotel: { id: "gh_beach", name: "Grand Horizon Beach Resort", city: "Malibu" }, pricePerNight: 560, capacity: 5, sizeSqm: 72, roomPageUrl: "/rooms/family-garden-307" },
+            { id: "room_104", roomNumber: "821", roomType: "Spa Wellness Suite", description: "In-room jacuzzi, aromatherapy, and private wellness kit. Rejuvenating escape.", photo: "https://placehold.co/600x400/DDCFBC/B27D48?text=Spa+Wellness", hotel: { id: "gh_beach", name: "Grand Horizon Beach Resort", city: "Malibu" }, pricePerNight: 640, capacity: 2, sizeSqm: 64, roomPageUrl: "/rooms/spa-wellness-821" },
+            { id: "room_105", roomNumber: "44", roomType: "Heritage Loft", description: "Original architecture, high ceilings, historical district view, vintage style.", photo: "https://placehold.co/600x400/EBDBCB/AD794B?text=Heritage+Loft", hotel: { id: "gh_historic", name: "Grand Horizon Heritage", city: "Savannah" }, pricePerNight: 380, capacity: 2, sizeSqm: 55, roomPageUrl: "/rooms/heritage-loft-44" },
+        ];
+    }
+    
+    // MAIN FETCH FUNCTION: gets rooms from your API
+    async function fetchRoomsData() {
+        showLoadingState();
+        
+        try {
+            // *********************************************
+            // REPLACE WITH YOUR ACTUAL API ENDPOINT
+            // *********************************************
+            let response;
+            let usingMock = false;
+            try {
+                response = await fetch(API_ROOMS_URL, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                const data = await response.json();
+                if (Array.isArray(data)) {
+                    allRoomsData = data;
+                } else if (data.rooms && Array.isArray(data.rooms)) {
+                    allRoomsData = data.rooms;
+                } else if (data.data && Array.isArray(data.data)) {
+                    allRoomsData = data.data;
+                } else {
+                    throw new Error("Invalid API format: expected array of rooms");
+                }
+            } catch (networkErr) {
+                console.warn("API fetch failed, using mock demo data:", networkErr);
+                // MOCK DATA (remove when real API ready)
+                allRoomsData = getMockRoomsData();
+                usingMock = true;
+                if (API_ROOMS_URL === "https://api.example.com/v1/hotels/rooms") {
+                    console.log("ℹ️ You haven't replaced API_ROOMS_URL. Using demo mock data. Replace with your real endpoint.");
+                }
+            }
+            
+            if (!allRoomsData.length) {
+                throw new Error("API returned empty room list");
+            }
+            
+            // normalize: ensure each room has hotel object structure
+            allRoomsData = allRoomsData.map(room => {
+                if (!room.hotel && room.hotelName) {
+                    room.hotel = { id: room.hotelId || `hotel_${room.hotelName}`, name: room.hotelName, city: room.city || "" };
+                } else if (!room.hotel) {
+                    room.hotel = { id: "default_hotel", name: "Grand Horizon Hotel", city: "Luxury Destination" };
+                }
+                if (!room.roomNumber && room.number) room.roomNumber = room.number;
+                if (!room.id && room.roomId) room.id = room.roomId;
+                return room;
+            });
+            
+            uniqueHotels = extractHotels(allRoomsData);
+            currentHotelFilter = "all";
+            renderFilters();
+            renderRoomsGrid();
+            
+            if (usingMock) {
+                const note = document.createElement('div');
+                note.style.textAlign = 'center';
+                note.style.fontSize = '0.7rem';
+                note.style.marginTop = '0.8rem';
+                note.style.color = '#b48c64';
+                note.innerText = '⚠️ Demo mode: using local mock data. Replace API_ROOMS_URL with real endpoint.';
+                const container = document.getElementById('roomsContainer');
+                if (container && !document.querySelector('.mock-note')) {
+                    note.classList.add('mock-note');
+                    container.appendChild(note);
+                }
+            }
+            
+        } catch (error) {
+            console.error("Rooms API Error:", error);
+            showError(`Failed to load rooms: ${error.message}`);
+        }
+    }
+    
+    // initial load
+    fetchRoomsData();
+    
+    // simple home link simulation
+    document.getElementById('homeLink')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        alert("🏠 Home page (you can route to your main page). This is a listing demo.");
+    });
+    document.getElementById('roomsLinkActive')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        fetchRoomsData(); // refresh or just scroll
+    });
+</script>
+</body>
+</html>

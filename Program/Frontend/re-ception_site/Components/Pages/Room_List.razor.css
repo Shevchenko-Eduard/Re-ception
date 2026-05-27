@@ -1,0 +1,343 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            color: #5a4a5a;
+            line-height: 1.5;
+        }
+
+        /* navigation header */
+        ::deep .hotel-nav {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(8px);
+            padding: 1rem 2rem;
+            border-bottom: 2px solid #FFC8DD;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(255, 175, 204, 0.15);
+        }
+
+        ::deep .logo-area {
+            font-weight: 800;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #FFAFCC, #A2D2FF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        ::deep .logo-area small {
+            font-size: 0.7rem;
+            display: block;
+            color: #FFAFCC;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        ::deep .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            list-style: none;
+        }
+
+        ::deep .nav-links a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #b28ba8;
+            transition: 0.2s;
+        }
+
+        ::deep .nav-links a:hover {
+            color: #FFAFCC;
+        }
+
+        /* main container */
+        ::deep .rooms-listing-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem 3rem;
+            background-color: #FFF6F9;
+            border: solid #FFF0F5;
+            border-radius: 1rem;
+            border-width: 1rem;
+        }
+
+        /* hero / header */
+        ::deep .listing-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        ::deep .listing-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(125deg, #FFAFCC, #A2D2FF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        ::deep .listing-header p {
+            color: #b8a0b0;
+            margin-top: 0.5rem;
+            font-size: 1rem;
+        }
+
+        ::deep .listing-header span {
+            display: inline-block;
+            width: 70px;
+            height: 3px;
+            background: linear-gradient(90deg, #FFC8DD, #A2D2FF);
+            margin-top: 1rem;
+            border-radius: 4px;
+        }
+
+        /* filters / hotel tabs */
+        ::deep .hotel-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+            border-bottom: 2px solid #FFC8DD;
+            padding-bottom: 1rem;
+        }
+
+        ::deep .filter-btn {
+            background: transparent;
+            border: 2px solid #FFC8DD;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #b28ba8;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        ::deep .filter-btn.active {
+            background: linear-gradient(135deg, #FFAFCC, #A2D2FF);
+            border-color: #FFAFCC;
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 175, 204, 0.3);
+        }
+
+        ::deep .filter-btn:hover:not(.active) {
+            background: #FFF0F5;
+            border-color: #FFAFCC;
+            color: #FF8FB3;
+        }
+
+        /* ROOM GRID (cards) */
+        ::deep .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        ::deep .room-card {
+            background: white;
+            border-radius: 1.8rem;
+            overflow: hidden;
+            box-shadow: 0 12px 28px -8px rgba(255, 175, 204, 0.2);
+            transition: all 0.3s ease;
+            border: 1px solid #FFC8DD;
+            display: flex;
+            flex-direction: column;
+        }
+
+        ::deep .room-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px -10px rgba(162, 210, 255, 0.3);
+            border-color: #A2D2FF;
+        }
+
+        ::deep .card-img {
+            width: 100%;
+            height: 220px;
+            background: #FFF0F5;
+            overflow: hidden;
+        }
+
+        ::deep .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        ::deep .room-card:hover .card-img img {
+            transform: scale(1.02);
+        }
+
+        ::deep .card-content {
+            padding: 1.4rem 1.5rem 1.6rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+
+        ::deep .hotel-name {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 800;
+            color: #FFAFCC;
+            margin-bottom: 0.5rem;
+        }
+
+        ::deep .room-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(125deg, #FFAFCC, #A2D2FF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        ::deep .room-number-badge {
+            background: #FFF6F9;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #FFAFCC;
+            border: 1px solid #FFC8DD;
+        }
+
+        ::deep .room-description {
+            color: #8b7a8b;
+            font-size: 0.9rem;
+            margin: 0.8rem 0 1rem;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        ::deep .room-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            font-size: 0.8rem;
+            color: #b8a0b0;
+            border-top: 1px solid #FFC8DD;
+            padding-top: 0.8rem;
+        }
+
+        ::deep .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        ::deep .price {
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFAFCC, #A2D2FF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            font-size: 1.1rem;
+        }
+
+        ::deep .room-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFAFCC, #A2D2FF);
+            color: white;
+            text-decoration: none;
+            padding: 0.7rem 1rem;
+            border-radius: 2rem;
+            text-align: center;
+            font-weight: 700;
+            transition: all 0.25s;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 6px rgba(255, 175, 204, 0.3);
+        }
+
+        ::deep .room-link:hover {
+            background: linear-gradient(135deg, #FFB8D0, #B8DFFF);
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(162, 210, 255, 0.4);
+        }
+
+        /* loading & error states */
+        ::deep .loading-state, .error-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 8px 20px rgba(255, 175, 204, 0.1);
+            border: 1px solid #FFC8DD;
+        }
+
+        ::deep .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid #FFF0F5;
+            border-top: 4px solid #FFAFCC;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        ::deep .error-state {
+            color: #FF8FB3;
+            border-left: 5px solid #FFAFCC;
+            background: #FFF6F9;
+        }
+
+        ::deep .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: #FFF6F9;
+            border-radius: 2rem;
+            color: #b8a0b0;
+            border: 1px solid #FFC8DD;
+        }
+
+        ::deep .footer-note {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.75rem;
+            color: #b8a0b0;
+            border-top: 2px solid #FFC8DD;
+            padding-top: 2rem;
+        }
+
+        @media (max-width: 680px) {
+            ::deep .rooms-listing-container {
+                padding: 0 1rem 2rem;
+            }
+            ::deep .rooms-grid {
+                grid-template-columns: 1fr;
+            }
+            ::deep .listing-header h1 {
+                font-size: 1.8rem;
+            }
+        }

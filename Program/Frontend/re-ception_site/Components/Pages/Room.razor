@@ -1,16 +1,7 @@
 @page "/Room"
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Hotel Room | Dynamic Suite View</title>
-
-</head>
-<body>
+@inject IJSRuntime JS
 
 <main class="room-container" id="roomContainer">
-    <!-- dynamic content will be injected via JavaScript + API -->
     <div class="loading-state" id="loadingPlaceholder">
         <div class="loading-spinner"></div>
         <p>Fetching luxurious room details...</p>
@@ -19,40 +10,15 @@
 
 <script>
     // *************************************************************
-    // HOTEL ROOM PAGE - FULLY API DRIVEN (room number, photos, description)
+    // HOTEL ROOM PAGE - FULLY API DRIVEN
     // *************************************************************
-    // INSTRUCTIONS: 
-    // Replace API_URL with your actual endpoint that returns JSON data.
-    // Expected JSON format example:
-    // {
-    //   "roomNumber": "504",
-    //   "roomType": "Presidential Ocean Suite",
-    //   "description": "Spacious suite with balcony...",
-    //   "photos": [
-    //     "https://your-image-host.com/room1.jpg",
-    //     "https://your-image-host.com/room2.jpg"
-    //   ],
-    //   "amenities": ["King Bed", "Sea View", "Jacuzzi", "Mini Bar"],
-    //   "pricePerNight": 450
-    // }
-    // 
-    // You can also include extra fields like "size", "beds", etc. 
-    // The script below handles photos array, room number, description, and optional amenities.
-    // -----------------------------------------------------------------
     
-    // ****** 👇 PUT YOUR REAL API ENDPOINT HERE ******
-    const API_URL = ".jsontest/test_site.json";  // <-- REPLACE WITH YOUR ACTUAL API CALL
-    
-    // For DEMO / fallback purposes only – will be overridden by real API data.
-    // The demo data shows structure but you should replace the endpoint.
-    // To avoid confusion, the script will FIRST try to fetch from your API.
-    // If the API fails (network error or demo endpoint), we show a helpful error.
-    // If you want to test with mock data temporarily, you can uncomment the "mock fallback".
-    
-    // Helper: DOM element selector
+    const API_URL = ".jsontest/test_site.json";
     const container = document.getElementById('roomContainer');
     
-    // Show loading state
+    // Store current room data for JavaScript access
+    let currentJsRoomData = null;
+    
     function showLoading() {
         container.innerHTML = `
             <div class="loading-state">
@@ -62,7 +28,6 @@
         `;
     }
     
-    // Show error message with retry option
     function showError(message) {
         container.innerHTML = `
             <div class="error-state">
@@ -73,15 +38,163 @@
         `;
         const retryBtn = document.getElementById('retryBtn');
         if (retryBtn) {
-            retryBtn.addEventListener('click', () => {
-                fetchRoomData();
-            });
+            retryBtn.addEventListener('click', () => fetchRoomData());
         }
     }
     
-    // Render room UI from API data
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    // OPEN BOOKING POPUP
+    function openBookingPopup(roomData) {
+        console.log("openBookingPopup called with:", roomData);
+        
+        const existingModal = document.getElementById('bookingModalOverlay');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        
+        const modalHTML = `
+            <div id="bookingModalOverlay" class="modal-overlay">
+                <div class="booking-modal">
+                    <div class="modal-header">
+                        <h2>🌸 Book Your Stay</h2>
+                        <button class="close-modal" id="closeModalBtn">&times;</button>
+                    </div>
+                    <div class="room-preview">
+                        <p><strong>${escapeHtml(roomData.roomNumber || roomData.number || 'Selected Room')}</strong> · ${escapeHtml(roomData.roomType || roomData.type || 'Deluxe Suite')}</p>
+                        <p style="font-size:0.8rem; margin-top:0.3rem;">✨ Price: $${roomData.pricePerNight || roomData.price || 299}/night</p>
+                    </div>
+                    <form id="bookingForm">
+                        <div class="form-group">
+                            <label>👥 Number of guests</label>
+                            <select id="guestCount" required>
+                                <option value="1">1 guest</option>
+                                <option value="2" selected>2 guests</option>
+                                <option value="3">3 guests</option>
+                                <option value="4">4 guests</option>
+                                <option value="5">5 guests</option>
+                                <option value="6">6 guests</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>📅 Date from (check-in)</label>
+                                <input type="date" id="dateFrom" required>
+                            </div>
+                            <div class="form-group">
+                                <label>📅 Date to (check-out)</label>
+                                <input type="date" id="dateTo" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-booking">✨ Confirm Booking</button>
+                    </form>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        
+        const modalOverlay = document.getElementById('bookingModalOverlay');
+        const closeBtn = document.getElementById('closeModalBtn');
+        const bookingForm = document.getElementById('bookingForm');
+        
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        
+        const dateFromInput = document.getElementById('dateFrom');
+        const dateToInput = document.getElementById('dateTo');
+        
+        if (dateFromInput) {
+            dateFromInput.value = today.toISOString().split('T')[0];
+            dateFromInput.min = today.toISOString().split('T')[0];
+        }
+        if (dateToInput) {
+            dateToInput.value = tomorrow.toISOString().split('T')[0];
+            dateToInput.min = tomorrow.toISOString().split('T')[0];
+        }
+        
+        if (dateFromInput && dateToInput) {
+            dateFromInput.addEventListener('change', function() {
+                const newMinDate = new Date(dateFromInput.value);
+                newMinDate.setDate(newMinDate.getDate() + 1);
+                dateToInput.min = newMinDate.toISOString().split('T')[0];
+                if (dateToInput.value < dateToInput.min) {
+                    dateToInput.value = dateToInput.min;
+                }
+            });
+        }
+        
+        setTimeout(() => {
+            modalOverlay.classList.add('active');
+        }, 10);
+        
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            setTimeout(() => {
+                modalOverlay.remove();
+            }, 300);
+        }
+        
+        closeBtn.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+        
+        bookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const guests = document.getElementById('guestCount').value;
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            
+            if (!dateFrom || !dateTo) {
+                alert('🌸 Please select both check-in and check-out dates.');
+                return;
+            }
+            
+            const checkInDate = new Date(dateFrom);
+            const checkOutDate = new Date(dateTo);
+            
+            if (checkOutDate <= checkInDate) {
+                alert('📅 Check-out date must be after check-in date.');
+                return;
+            }
+            
+            const nights = Math.round((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+            const pricePerNight = roomData.pricePerNight || roomData.price || 299;
+            const totalPrice = nights * pricePerNight;
+            const roomName = roomData.roomNumber || roomData.number || 'Selected Room';
+            const roomTypeName = roomData.roomType || roomData.type || 'Suite';
+            
+            const confirmationMessage = `🎉 Booking Confirmed! 🎉\n━━━━━━━━━━━━━━━━━━━━━\n🏨 Room: ${roomName} (${roomTypeName})\n👥 Guests: ${guests}\n📅 Check-in: ${dateFrom}\n📅 Check-out: ${dateTo}\n⏱️ Stay duration: ${nights} night(s)\n💰 Total: $${totalPrice} ($${pricePerNight}/night)\n━━━━━━━━━━━━━━━━━━━━━\n✨ Thank you for booking with Grand Horizon!`;
+            
+            alert(confirmationMessage);
+            
+            console.log('Booking details:', {
+                roomNumber: roomData.roomNumber,
+                guests: guests,
+                dateFrom: dateFrom,
+                dateTo: dateTo,
+                nights: nights,
+                totalPrice: totalPrice
+            });
+            
+            closeModal();
+        });
+    }
+    
     function renderRoomUI(data) {
-        // Validate required fields: roomNumber, description, photos (at least array)
+        currentJsRoomData = data;
+        
         const roomNumber = data.roomNumber || data.room_number || data.number || "Not specified";
         const description = data.description || data.desc || "No description provided.";
         let photosArray = [];
@@ -95,7 +208,6 @@
         } else if (typeof data.image === 'string') {
             photosArray = [data.image];
         } else {
-            // fallback placeholder image (we'll show a gentle placeholder)
             photosArray = ["https://placehold.co/800x600/F2E5D8/AF7A48?text=Room+Photo+Placeholder"];
         }
         
@@ -103,10 +215,8 @@
         const amenities = Array.isArray(data.amenities) ? data.amenities : (data.amenities_list ? data.amenities_list : []);
         const pricePerNight = data.pricePerNight || data.price || null;
         
-        // Build photos grid HTML
         let photosHtml = '';
         photosArray.forEach((photoUrl, idx) => {
-            // make sure photoUrl is valid string
             const imgSrc = (photoUrl && typeof photoUrl === 'string') ? photoUrl : 'https://placehold.co/600x400/E9DDCF/B87F48?text=Image+Unavailable';
             photosHtml += `
                 <div class="room-photo">
@@ -115,7 +225,6 @@
             `;
         });
         
-        // amenities chips
         let amenitiesHtml = '';
         if (amenities.length) {
             amenities.forEach(amenity => {
@@ -127,7 +236,6 @@
                              <span class="detail-chip">24h room service</span>`;
         }
         
-        // optional price display
         let priceHtml = '';
         if (pricePerNight) {
             priceHtml = `<div class="room-badge" style="background:#A2D2FF;">$${pricePerNight} / night</div>`;
@@ -137,7 +245,7 @@
         
         const finalHtml = `
             <div class="top-bar">
-            <div class="logo">Re:Ception ROOM SUITE</div>
+                <div class="logo">Re:Ception ROOM SUITE</div>
                 <a href="#" class="back-link" id="backLink">← Back to all rooms</a>
             </div>
             <div class="room-card">
@@ -164,51 +272,46 @@
                     <div class="extra-details" id="amenitiesList">
                         ${amenitiesHtml}
                     </div>
+                    <div class="book-btn-container">
+                        <button class="book-now-btn" id="bookNowButton">📅 Book this room →</button>
+                    </div>
                 </div>
             </div>
         `;
         
         container.innerHTML = finalHtml;
         
-        // small event delegation for "Back to all rooms" just to avoid dead link
+        // Attach book button listener AFTER rendering
+        const bookBtn = document.getElementById('bookNowButton');
+        if (bookBtn) {
+            const newBtn = bookBtn.cloneNode(true);
+            bookBtn.parentNode.replaceChild(newBtn, bookBtn);
+            
+            newBtn.addEventListener('click', function() {
+                console.log("Book button clicked! Opening popup with:", currentJsRoomData);
+                openBookingPopup(currentJsRoomData);
+            });
+            console.log("Book button listener attached successfully");
+        } else {
+            console.error("Book button not found in DOM after render");
+        }
+        
         const backBtn = document.getElementById('backLink');
         if (backBtn) {
             backBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                alert("🔙 Navigate to room list page (you can implement your own routing). This is a UI example.");
+                alert("🔙 Navigate to room list page");
             });
         }
     }
     
-    // simple XSS escape helper
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-            return c;
-        });
-    }
-    
-    // MAIN FETCH FUNCTION: gets data from your API and renders room details
     async function fetchRoomData() {
         showLoading();
         
         try {
-            // *********************************************
-            // *** REPLACE THIS FETCH WITH YOUR OWN API ***
-            // *********************************************
             const response = await fetch(API_URL, {
                 method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    // If your API needs auth token, add it here:
-                    // 'Authorization': 'Bearer your-token'
-                }
-                // You can also add 'mode': 'cors' etc depending on your endpoint
+                headers: { 'Accept': 'application/json' }
             });
             
             if (!response.ok) {
@@ -217,84 +320,17 @@
             
             const roomData = await response.json();
             
-            // Basic validation: we need room number, description, and at least one photo (or array)
             if (!roomData) throw new Error("Empty API response");
-            
-            // check if mandatory fields exist (roomNumber & description should be present)
-            const hasRoomNumber = roomData.roomNumber || roomData.room_number || roomData.number;
-            const hasDescription = roomData.description || roomData.desc;
-            const hasPhotos = (Array.isArray(roomData.photos) && roomData.photos.length) || (Array.isArray(roomData.images) && roomData.images.length);
-            
-            if (!hasRoomNumber) {
-                console.warn("API missing roomNumber field, using fallback");
-            }
-            if (!hasDescription) {
-                console.warn("API missing description field");
-            }
-            // even if photos missing, we show placeholder, but we still render.
             
             renderRoomUI(roomData);
             
         } catch (error) {
             console.error("Hotel room API fetch error:", error);
             let errorMsg = `Unable to fetch room data: ${error.message}`;
-            if (API_URL === "https://api.example.com/v1/hotel/room/current") {
-                errorMsg = "⚠️ API endpoint not configured. Please replace API_URL with your actual hotel room API. Currently using example.com placeholder.";
-            }
             showError(errorMsg);
         }
     }
     
-    // attach back link handler after initial load (also for retry)
-    document.addEventListener('DOMContentLoaded', () => {
-        fetchRoomData();
-        
-        // handle back link default (prevent hash navigation)
-        const backLink = document.getElementById('backLink');
-        if (backLink) {
-            backLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                alert("🏠 Navigate back to home / rooms list (replace this behaviour with your router).");
-            });
-        }
-    });
-    
-    // For convenience, expose manual retry if needed
-    window.retryFetch = fetchRoomData;
+    // Start the page
+    fetchRoomData();
 </script>
-
-<!-- 
-    ************ IMPORTANT NOTES FOR YOU ************
-    1. REPLACE API_URL with your actual backend endpoint that returns JSON.
-    2. Expected JSON structure (example):
-    
-    {
-      "roomNumber": "Royal Suite 812",
-      "roomType": "Presidential Panorama",
-      "description": "Spacious 85 sqm suite with marble bathroom and floor-to-ceiling windows overlooking Central Park...",
-      "photos": [
-        "https://yourcdn.com/room-main.jpg",
-        "https://yourcdn.com/room-bath.jpg",
-        "https://yourcdn.com/room-view.jpg"
-      ],
-      "amenities": ["King size bed", "Rain shower", "Smart TV", "Nespresso"],
-      "pricePerNight": 589
-    }
-    
-    Fields mapping:
-    - roomNumber (required) -> will be displayed as main room identifier
-    - description (required) -> shown in description section
-    - photos (array of strings, required at least one) -> gallery images
-    - (optional) roomType, amenities, pricePerNight enrich the layout.
-    
-    The code is flexible: also supports "room_number", "images", "desc", "number", etc.
-    But to keep clarity, we recommend matching the expected format.
-    
-    You can also change fetchRoomData() to add query parameters like ?id=roomId
-    Just modify API_URL accordingly.
-    
-    All UI elements (room number, photos, description text) are purely driven by API.
-    No static content remains.
--->
-</body>
-</html>
