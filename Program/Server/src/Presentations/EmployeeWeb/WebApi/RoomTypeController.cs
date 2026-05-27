@@ -17,7 +17,7 @@ public class RoomTypeController(
     private readonly IRoomTypeRepository _roomTypeRepository = roomTypeRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    [HttpPost]
+    [HttpPost(Name = "RoomTypeCreate")]
     [Authorize(Roles = "RoomType-Create")]
     public async Task<IActionResult> Create([FromBody] RoomTypeDTOs.Create request)
     {
@@ -26,7 +26,7 @@ public class RoomTypeController(
         return Ok(roomType);
     }
 
-    [HttpPut]
+    [HttpPut(Name = "RoomTypeUpdate")]
     [Authorize(Roles = "RoomType-Update")]
     public async Task<IActionResult> Update([FromBody] RoomTypeDTOs.Update request)
     {
@@ -35,7 +35,7 @@ public class RoomTypeController(
         return Ok(roomType);
     }
 
-    [HttpDelete]
+    [HttpDelete(Name = "RoomTypeDelete")]
     [Authorize(Roles = "RoomType-Delete")]
     public async Task<IActionResult> Delete(RoomTypeDTOs.Delete request)
     {

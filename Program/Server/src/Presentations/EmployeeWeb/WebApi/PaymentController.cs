@@ -17,7 +17,7 @@ public class PaymentController(
     private readonly IPaymentRepository _paymentRepository = paymentRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    [HttpPost]
+    [HttpPost(Name = "PaymentCreate")]
     [Authorize(Roles = "Payment-Create")]
     public async Task<IActionResult> Create([FromBody] PaymentDTOs.Create request)
     {
@@ -26,7 +26,7 @@ public class PaymentController(
         return Ok(payment);
     }
 
-    [HttpDelete]
+    [HttpDelete(Name = "PaymentDelete")]
     [Authorize(Roles = "Payment-Delete")]
     public async Task<IActionResult> Delete(PaymentDTOs.Delete request)
     {

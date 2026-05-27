@@ -18,7 +18,7 @@ public class RoomImageController(
     private readonly IS3RoomImageRepository _s3RoomImageRepository = s3RoomImageRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    [HttpPost]
+    [HttpPost(Name = "RoomImageCreate")]
     [Authorize(Roles = "RoomImage-Create")]
     public async Task<IActionResult> Create(IFormFile file, [FromForm] RoomImageDTOs.Request.Create request)
     {
@@ -43,7 +43,7 @@ public class RoomImageController(
         return Ok(image);
     }
 
-    [HttpPut]
+    [HttpPut(Name = "RoomImageUpdate")]
     [Authorize(Roles = "RoomImage-Update")]
     public async Task<IActionResult> Update(IFormFile file, [FromForm] RoomImageDTOs.Request.Update request)
     {
@@ -68,7 +68,7 @@ public class RoomImageController(
         return NoContent();
     }
 
-    [HttpDelete]
+    [HttpDelete(Name = "RoomImageDelete")]
     [Authorize(Roles = "RoomImage-Delete")]
     public async Task<IActionResult> Delete(RoomImageDTOs.Request.Delete request)
     {
@@ -81,7 +81,7 @@ public class RoomImageController(
         return NoContent();
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = "RoomImageRead")]
     public async Task<IActionResult> Read(int id)
     {
         RoomImageDTOs.Request.Read request = new(Id: id);

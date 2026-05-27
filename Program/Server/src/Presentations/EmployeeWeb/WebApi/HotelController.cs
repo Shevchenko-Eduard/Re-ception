@@ -17,7 +17,7 @@ public class HotelController(
     private readonly IHotelRepository _hotelRepository = hotelRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    [HttpPost]
+    [HttpPost(Name = "HotelCreate")]
     [Authorize(Roles = "Hotel-Create")]
     public async Task<IActionResult> Create([FromBody] HotelDTOs.Create request)
     {
@@ -26,7 +26,7 @@ public class HotelController(
         return Ok(hotel);
     }
 
-    [HttpPut]
+    [HttpPut(Name = "HotelUpdate")]
     [Authorize(Roles = "Hotel-Update")]
     public async Task<IActionResult> Update([FromBody] HotelDTOs.Update request)
     {
@@ -35,7 +35,7 @@ public class HotelController(
         return Ok(hotel);
     }
 
-    [HttpDelete]
+    [HttpDelete(Name = "HotelDelete")]
     [Authorize(Roles = "Hotel-Delete")]
     public async Task<IActionResult> Delete(HotelDTOs.Delete request)
     {

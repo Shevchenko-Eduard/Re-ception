@@ -50,25 +50,25 @@ public class KeycloakSchema(IConfiguration configuration)
         using HttpClient httpClient = new(handler);
 
         for (int attempt = 1; attempt <= 3; attempt++)
-    {
-        try
         {
-            using HttpResponseMessage response = await httpClient.GetAsync(MetadataAddress);
-            response.EnsureSuccessStatusCode();
-            
-            string jsonString = await response.Content.ReadAsStringAsync();
-            var dict = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString)
-                ?? throw new Exception("Failed to deserialize OIDC configuration");
-            
-            _oidcConfig = dict;
-            return dict;
+            try
+            {
+                using HttpResponseMessage response = await httpClient.GetAsync(MetadataAddress);
+                response.EnsureSuccessStatusCode();
+
+                string jsonString = await response.Content.ReadAsStringAsync();
+                var dict = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonString)
+                    ?? throw new Exception("Failed to deserialize OIDC configuration");
+
+                _oidcConfig = dict;
+                return dict;
+            }
+            catch (HttpRequestException) when (attempt < 3)
+            {
+                await Task.Delay(1000 * attempt);
+            }
         }
-        catch (HttpRequestException) when (attempt < 3)
-        {
-            await Task.Delay(1000 * attempt);
-        }
-    }
-    
-    throw new Exception("Failed to fetch OIDC configuration after 3 attempts");
+
+        throw new Exception("Failed to fetch OIDC configuration after 3 attempts");
     }
 }

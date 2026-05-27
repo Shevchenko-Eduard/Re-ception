@@ -17,7 +17,7 @@ public class HotelTagController(
     private readonly IHotelTagRepository _hotelTagRepository = hotelTagRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    [HttpPost]
+    [HttpPost(Name = "HotelTagCreate")]
     [Authorize(Roles = "HotelTag-Create")]
     public async Task<IActionResult> Create([FromBody] HotelTagDTOs.Create request)
     {
@@ -26,7 +26,7 @@ public class HotelTagController(
         return Ok(tag);
     }
 
-    [HttpPut]
+    [HttpPut(Name = "HotelTagUpdate")]
     [Authorize(Roles = "HotelTag-Update")]
     public async Task<IActionResult> Update([FromBody] HotelTagDTOs.Update request)
     {
@@ -35,7 +35,7 @@ public class HotelTagController(
         return Ok(tag);
     }
 
-    [HttpDelete]
+    [HttpDelete(Name = "HotelTagDelete")]
     [Authorize(Roles = "HotelTag-Delete")]
     public async Task<IActionResult> Delete(HotelTagDTOs.Delete request)
     {

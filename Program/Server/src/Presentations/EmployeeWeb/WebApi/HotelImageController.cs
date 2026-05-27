@@ -19,7 +19,7 @@ public class HotelImageController(
     private readonly IS3HotelImageRepository _s3HotelImageRepository = s3HotelImageRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    [HttpPost]
+    [HttpPost(Name = "HotelImageCreate")]
     [Authorize(Roles = "HotelImage-Create")]
     public async Task<IActionResult> Create(IFormFile file, [FromForm] HotelImageDTOs.Request.Create request)
     {
@@ -44,7 +44,7 @@ public class HotelImageController(
         return Ok(image);
     }
 
-    [HttpPut]
+    [HttpPut(Name = "HotelImageUpdate")]
     [Authorize(Roles = "HotelImage-Update")]
     public async Task<IActionResult> Update(IFormFile file, [FromForm] HotelImageDTOs.Request.Update request)
     {
@@ -68,7 +68,7 @@ public class HotelImageController(
         return NoContent();
     }
 
-    [HttpDelete]
+    [HttpDelete( Name = "HotelImageDelete")]
     [Authorize(Roles = "HotelImage-Delete")]
     public async Task<IActionResult> Delete(HotelImageDTOs.Request.Delete request)
     {
@@ -81,7 +81,7 @@ public class HotelImageController(
         return NoContent();
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = "HotelImageRead")]
     public async Task<IActionResult> Read(int id)
     {
         HotelImageDTOs.Request.Read request = new(Id: id);

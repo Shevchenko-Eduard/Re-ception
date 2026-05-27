@@ -17,7 +17,7 @@ public class RoomTagController(
     private readonly IRoomTagRepository _roomTagRepository = roomTagRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    [HttpPost]
+    [HttpPost(Name = "RoomTagCreate")]
     [Authorize(Roles = "RoomTag-Create")]
     public async Task<IActionResult> Create([FromBody] RoomTagDTOs.Create request)
     {
@@ -26,7 +26,7 @@ public class RoomTagController(
         return Ok(tag);
     }
 
-    [HttpPut]
+    [HttpPut(Name = "RoomTagUpdate")]
     [Authorize(Roles = "RoomTag-Update")]
     public async Task<IActionResult> Update([FromBody] RoomTagDTOs.Update request)
     {
@@ -35,7 +35,7 @@ public class RoomTagController(
         return Ok(tag);
     }
 
-    [HttpDelete]
+    [HttpDelete(Name = "RoomTagDelete")]
     [Authorize(Roles = "RoomTag-Delete")]
     public async Task<IActionResult> Delete(RoomTagDTOs.Delete request)
     {

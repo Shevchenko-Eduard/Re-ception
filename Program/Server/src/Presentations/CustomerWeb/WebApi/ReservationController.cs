@@ -24,7 +24,7 @@ public class ReservationController(
     private readonly ICurrentUser _currentUser = currentUser;
     private readonly IRoomRepository _roomRepository = roomRepository;
 
-    [HttpPost]
+    [HttpPost(Name = "ReservationCreate")]
     [Authorize]
     public async Task<IActionResult> Create([FromBody] ReservationDTOs.Create request)
     {
@@ -38,7 +38,7 @@ public class ReservationController(
         return Ok(reservation);
     }
 
-    [HttpPut]
+    [HttpPut(Name = "ReservationUpdate")]
     [Authorize]
     public async Task<IActionResult> Update([FromBody] ReservationDTOs.Update request)
     {
@@ -47,7 +47,7 @@ public class ReservationController(
         return Ok(reservation);
     }
 
-    [HttpDelete]
+    [HttpDelete(Name = "ReservationDelete")]
     [Authorize]
     public async Task<IActionResult> Delete(ReservationDTOs.Delete request)
     {
