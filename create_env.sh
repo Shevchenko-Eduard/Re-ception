@@ -1,9 +1,9 @@
 #!/bin/bash
 
 touch ./Program/.env
-ln -s ../../Program/.env ./Program/Server/.env
-ln -s ../../Program/.env ./Program/Nginx/.env
-ln -s ../../Program/.env ./Program/Keycloak/.env
+ln -s ../.env ./Program/Backend/.env
+ln -s ../.env ./Program/Nginx/.env
+ln -s ../.env ./Program/Keycloak/.env
 
 cat << EOF > ./Program/.env
 SERVER_HOSTNAME="docker.local"

@@ -419,7 +419,7 @@ FodyWeavers.xsd
 
 bin/
 .obsidian/
-.xdp-*
+*.$*
 
 **/.obsidian/
 **/.vscode/
@@ -439,3 +439,6 @@ bash/
 terraform.rc
 
 **/Frontend/
+
+cert.pem
+key.pem
